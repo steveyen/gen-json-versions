@@ -511,3 +511,46 @@ should warn me if a schedule exceeds the budget."
   ]
 }
 ```
+
+## Phase 6: Schema Refinements & Field Standardization
+
+As The Sweet Spot continues to grow and evolve, some field names need to be
+updated to better reflect their purpose and accommodate future flexibility.
+
+### Feature Ask 6.1: Hourly Rate Field Renaming
+
+"We need to rename the hourlyRate field to maxHourlyRate to better reflect
+that this is the maximum rate an employee can earn in this role. This will
+help us prepare for future features where we might want to implement
+different rates based on experience level or performance."
+
+### JSON Data Schema Changes (Version 1.8)
+
+- Rename `hourlyRate` to `maxHourlyRate` in the employee roles array
+- Update all references to use the new field name
+
+#### Example Snippet (Illustrating Changes):
+
+```json {
+  "emp": [
+    {
+      "id": "emp-0001",
+      "fullName": "Alice Wonderland",
+      "contactNumber": "555-1234",
+      "roles": [
+        {
+          "name": "Baker",
+          "maxHourlyRate": 25.50, // Renamed from hourlyRate
+          "effectiveDate": "2025-01-01"
+        },
+        {
+          "name": "Cake Decorator",
+          "maxHourlyRate": 28.75, // Renamed from hourlyRate
+          "effectiveDate": "2025-01-01"
+        }
+      ]
+    }
+  ]
+  // ... rest of the schema remains unchanged
+}
+```
