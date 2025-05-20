@@ -26,8 +26,9 @@ link an `employeeName` to a `shift`.
 
 ```json
 {
-  "schedules": [
+  "sched": [
     {
+      "id": "sched-000001",
       "date": "2025-05-19",
       "assignments": [
         {
@@ -41,6 +42,7 @@ link an `employeeName` to a `shift`.
       ]
     },
     {
+      "id": "sched-000002",
       "date": "2025-05-20",
       "assignments": [
         {
@@ -76,39 +78,41 @@ these employees by their ID."
 
 - Introduce employee JSON records.
 
-Each employee will have an `employeeId` (a unique identifier,
+Each employee will have an `empId` (a unique identifier,
 perhaps a number or a short string like "emp001")
 and a `fullName`.
 
-- From now on, a schedule will refer to `employeeId` instead of `employeeName`.
+- From now on, a schedule will refer to `empId`
+  instead of `employeeName`.
 
 #### Example Snippet (Illustrating Changes):
 
 ```json {
-  "employees": [
+  "emp": [
     {
-      "employeeId": "emp001",
+      "id": "emp-0001",
       "fullName": "Alice Wonderland",
       "contactNumber": "555-1234" // Added for more complete employee info
     }, {
-      "employeeId": "emp002",
+      "id": "emp-0002",
       "fullName": "Bob The Baker",
       "contactNumber": "555-5678"
     }, {
-      "employeeId": "emp003",
+      "id": "emp-0003",
       "fullName": "Charlie Chocolatier",
       "contactNumber": "555-8765"
     }
   ],
-  "schedules": [
+  "sched": [
     {
+      "id": "sched-000003",
       "date": "2025-07-21",
       "assignments": [
         {
-          "employeeId": "emp001", // Changed from employeeName
+          "empId": "emp001", // Changed from employeeName
           "shift": "Morning Bake (6 AM - 2 PM)"
         }, {
-          "employeeId": "emp002",
+          "empId": "emp002",
           "shift": "Afternoon Cashier (12 PM - 8 PM)"
         }
       ]
@@ -127,8 +131,8 @@ and then assign employees to these predefined shifts."
 
 - Introduce another new top-level array called `definedShifts`.
 
-Each object in this array will have a `shiftId` (unique identifier,
-e.g., "shift01"), a `shiftName` (e.g., "Morning Baker"),
+Each object in this array will have a `id` (unique identifier,
+e.g., "shift-ms001"), a `name` (e.g., "Morning Baker"),
 `startTime` (e.g., "06:00"), and `endTime` (e.g., "14:00").
 
 - In the `assignments` of a daily `schedule`, instead of a
@@ -143,20 +147,20 @@ link to the new `definedShifts` array.
   ],
   "definedShifts": [
     {
-      "shiftId": "ms001",
-      "shiftName": "Morning Baker",
+      "id": "shift-ms001",
+      "name": "Morning Baker",
       "startTime": "06:00",
       "endTime": "14:00",
       "description": "Primary baking shift for breads and morning pastries."
     }, {
-      "shiftId": "ac001",
-      "shiftName": "Afternoon Cashier",
+      "id": "shift-ac001",
+      "name": "Afternoon Cashier",
       "startTime": "12:00",
       "endTime": "20:00",
       "description": "Customer service and sales at the counter."
     }, {
-      "shiftId": "ep001",
-      "shiftName": "Evening Prep",
+      "id": "shift-ep001",
+      "name": "Evening Prep",
       "startTime": "16:00",
       "endTime": "22:00",
       "description": "Preparing ingredients and doughs for the next day."
@@ -164,14 +168,15 @@ link to the new `definedShifts` array.
   ],
   "schedules": [
 	  {
+      "sched-000004",
 	    "date": "2025-09-15",
       "assignments": [
         {
-          "employeeId": "emp001",
-          "shiftId": "ms001" // Changed from free-text shift
+          "empd": "emp-0001",
+          "shiftId": "shift-ms001" // Changed from free-text shift
         }, {
-          "employeeId": "emp002",
-          "shiftId": "ac001"
+          "empId": "emp-0002",
+          "shiftId": "shift-ac001"
         }
       ]
     } // ...
@@ -204,17 +209,17 @@ assigned to this shift.
 ```json {
   "employees": [
     {
-      "employeeId": "emp001",
+      "id": "emp-0001",
       "fullName": "Alice Wonderland",
       "contactNumber": "555-1234",
       "roles": ["Baker", "Cake Decorator"] // New field
     }, {
-      "employeeId": "emp002",
+      "id": "emp-0002",
       "fullName": "Bob The Baker",
       "contactNumber": "555-5678",
       "roles": ["Baker"] // New field
     }, {
-      "employeeId": "emp004", // New employee
+      "id": "emp-0004", // New employee
       "fullName": "Diana Dishwasher",
       "contactNumber": "555-1122",
       "roles": ["Cashier", "Utility"] // New field
@@ -222,14 +227,14 @@ assigned to this shift.
   ],
   "definedShifts": [
     {
-      "shiftId": "ms001",
-      "shiftName": "Morning Baker",
+      "id": "shift-ms001",
+      "name": "Morning Baker",
       "startTime": "06:00",
       "endTime": "14:00",
       "description": "Primary baking shift for breads and morning pastries.", "eligibleRoles": ["Baker", "Lead Baker"] // New field
     }, {
-      "shiftId": "ac001",
-      "shiftName": "Afternoon Cashier",
+      "id": "shift-ac001",
+      "name": "Afternoon Cashier",
       "startTime": "12:00",
       "endTime": "20:00",
       "description": "Customer service and sales at the counter.", "eligibleRoles": ["Cashier"] // New field
@@ -260,7 +265,7 @@ and `status` (e.g., "Requested", "Approved", "Denied").
 ```json {
   "employees": [
     {
-      "employeeId": "emp001",
+      "id": "emp-0001",
       "fullName": "Alice Wonderland",
       "contactNumber": "555-1234",
       "roles": ["Baker", "Cake Decorator"],
@@ -275,7 +280,9 @@ and `status` (e.g., "Requested", "Approved", "Denied").
         }, {
           "requestId": "ru001",
           "type": "Recurring Unavailability",
-          "dayOfWeek": "Tuesday", // For recurring "startTime": "09:00", "endTime": "12:00",
+          "dayOfWeek": "Tuesday", // For recurring
+          "startTime": "09:00",
+          "endTime": "12:00",
           "reason": "Class",
           "status": "Approved"
         }
@@ -318,27 +325,27 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
   ],
   "locations": [ // New top-level entity
     {
-      "locationId": "loc001",
-      "locationName": "Main Bakery",
+      "id": "loc-0001",
+      "name": "Main Bakery",
       "address": "123 Main St"
     }, {
-      "locationId": "loc002",
-      "locationName": "Farmer's Market Kiosk",
+      "id": "loc-0002",
+      "name": "Farmer's Market Kiosk",
       "address": "Green Park, Stall 15"
     }
   ],
   "definedShifts": [
     {
-      "shiftId": "msb001", // More specific ID
-      "locationId": "loc001", // New field
+      "id": "shift-msb001", // More specific ID
+      "locationId": "loc-0001", // New field
       "shiftName": "Morning Baker - Main",
       "startTime": "06:00",
       "endTime": "14:00",
       "description": "Primary baking shift for breads and morning pastries at the main bakery.",
       "eligibleRoles": ["Baker", "Lead Baker"]
     }, {
-      "shiftId": "mkm001", // More specific ID
-      "locationId": "loc002", // New field
+      "id": "shift-mkm001", // More specific ID
+      "locationId": "loc-0002", // New field
       "shiftName": "Morning Kiosk Seller",
       "startTime": "08:00",
       "endTime": "13:00",
@@ -350,10 +357,10 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
       "date": "2025-12-01",
       "assignments": [
         {
-          "employeeId": "emp001",
+          "employeeId": "emp-0001",
           "shiftId": "msb001" // This shift is for the main bakery
         }, {
-          "employeeId": "emp004",
+          "employeeId": "emp-0004",
           "shiftId": "mkm001" // This shift is for the kiosk
         }
       ]
@@ -388,14 +395,16 @@ for the assignment)."
 
   "schedules": [
     {
-      "date": "2026-02-02", "assignments": [
+      "id": "sched-000005",
+      "date": "2026-02-02",
+      "assignments": [
         {
           // Adding an ID to the assignment itself for easier reference
           "assignmentId": "asgn001",
           // Currently assigned employee
-          "employeeId": "emp002",
+          "employeeId": "emp-0002",
           // Who was originally scheduled
-          "originalEmployeeId": "emp001",
+          "originalEmployeeId": "emp-0001",
           "shiftId": "msb001",
           // New field
           "assignmentStatus": "CoverApproved",
@@ -404,22 +413,22 @@ for the assignment)."
             {
               "timestamp": "2026-01-28T10:00:00Z",
               "action": "Initial Assignment",
-              "employeeId": "emp001", // Employee assigned
+              "employeeId": "emp-0001", // Employee assigned
               "changedBy": "schedulerBot" // Or manager's ID
             }, {
               "timestamp": "2026-01-30T14:30:00Z",
               "action": "Cover Requested",
-              "requestingEmployeeId": "emp001",
+              "requestingEmployeeId": "emp-0001",
               "notes": "Feeling unwell."
             }, {
               "timestamp": "2026-01-30T17:00:00Z",
               "action": "Cover Offered",
-              "offeringEmployeeId": "emp002"
+              "offeringEmployeeId": "emp-0002"
             }, {
               "timestamp": "2026-01-31T09:00:00Z",
               "action": "Cover Approved by Manager",
-              "approvingManagerId": "mgr001", // Assuming a manager role/ID
-              "previousEmployeeId": "emp001",
+              "approvingManagerId": "emp-0001", // Assuming a manager role/ID
+              "previousEmployeeId": "emp-0001",
               "newEmployeeId": "emp002"
             }
 	        ]
