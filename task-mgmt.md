@@ -1,10 +1,9 @@
-# The Sweet Spot: Evolving a Bakery Scheduling App
+# The Sweet Spot: Evolving a Bakery Employee Scheduling App
 
-Okay, students, welcome to your next homework assignment! This project will
-simulate a real-world scenario where a small bakery, "The Sweet Spot," gradually
-expands its operations. As their business grows, so do the needs of their team
-scheduling application. Your task will be to adapt the application's data schema
-to accommodate these new requirements.
+Let's simulate a real-world scenario where a small bakery,
+"The Sweet Spot," gradually expands its operations. As their business
+grows, so do the needs of their team scheduling application. Your task
+will be to adapt the application's data schema to accommodate these new requirements.
 
 We'll be working with JSON data schemas throughout this project. Pay close
 attention to how each feature request impacts the existing schema and how you
@@ -12,9 +11,9 @@ can evolve it gracefully.
 
 ## Phase 1: The Bare Bones Schedule
 
-### Feature Ask As the bakery owner, I need a simple way to create a weekly
-schedule that lists which employee is working on which day and their assigned
-shift (e.g., "Morning Bake," "Afternoon Counter").
+### Feature Ask 1.0: As the bakery owner, I need a simple way to create
+a weekly schedule that lists which employee is working on which day
+and their assigned shift (e.g., "Morning Bake," "Afternoon Counter").
 
 ### Initial JSON Data Schema (Version 1.0)
 
@@ -75,11 +74,6 @@ number or a short string like "emp001") and `fullName`.  - Modify the
 `assignments` in `dailySchedules`. Instead of `employeeName`, use `employeeId`
 to link to the new `employees` array.
 
-*Self-Correction during thought process: Initially, I just thought of adding
-employeeId. However, to make it more realistic for lookups and to keep employee
-information distinct from the schedule, a separate top-level `employees` array
-is better.*
-
 #### Example Snippet (Illustrating Changes):
 
 ```json {
@@ -117,8 +111,8 @@ is better.*
 
 "Typing out shift details like 'Morning Bake (6 AM - 2 PM)' every time is
 tedious and error-prone. We need to define standard shifts (e.g., 'Morning
-Baker', 'Afternoon Cashier', 'Evening Prep') with set start and end times, and
-then assign employees to these predefined shifts."
+Baker', 'Afternoon Cashier', 'Evening Prep') with set start and end times,
+and then assign employees to these predefined shifts."
 
 ### JSON Data Schema Changes (Version 1.2)
 
@@ -154,10 +148,11 @@ array.
 	{
 	  "date": "2025-09-15", "assignments": [
 	    {
-	      "employeeId": "emp001", "shiftId": "ms001" // Changed from
-	      free-text shift
+	      "employeeId": "emp001",
+        "shiftId": "ms001" // Changed from free-text shift
 	    }, {
-	      "employeeId": "emp002", "shiftId": "ac001"
+	      "employeeId": "emp002",
+        "shiftId": "ac001"
 	    }
 	  ]
 	} // ...
@@ -168,8 +163,8 @@ array.
 
 ## Phase 3: Specialization and Availability
 
-The Sweet Spot is now a bustling local favorite! They have specialized roles and
-staff have different availability constraints.
+The Sweet Spot is now a bustling local favorite! They have specialized
+roles and staff have different availability constraints.
 
 ### Feature Ask 3.1: Employee Roles & Shift Suitability
 
@@ -198,7 +193,8 @@ assigned to this shift.
       "employeeId": "emp002", "fullName": "Bob The Baker", "contactNumber":
       "555-5678", "roles": ["Baker"] // New field
     }, {
-      "employeeId": "emp004", // New employee "fullName": "Diana Dishwasher",
+      "employeeId": "emp004", // New employee
+      "fullName": "Diana Dishwasher",
       "contactNumber": "555-1122", "roles": ["Cashier", "Utility"] // New field
     }
   ], "definedShifts": [
@@ -265,8 +261,8 @@ demonstrating schema change directly on the employee record.
 
 ## Phase 4: Workflow Enhancements & Reporting
 
-The Sweet Spot is thriving and opening a second, smaller kiosk location! They
-need more robust scheduling features.
+The Sweet Spot is thriving and opening a second, smaller kiosk location!
+They need more robust scheduling features.
 
 ### Feature Ask 4.1: Multiple Locations
 
@@ -277,26 +273,10 @@ at specific locations."
 ### JSON Data Schema Changes (Version 1.5)
 
 - Introduce a new top-level array `locations`. Each object will have
-`locationId` (e.g., "loc01") and `locationName` (e.g., "Main Bakery").  - Add
-`locationId` to each `definedShift` object. This means a shift definition is now
+`locationId` (e.g., "loc01") and `locationName` (e.g., "Main Bakery").
+- Add `locationId` to each `definedShift` object. This means a shift definition is now
 tied to a location (e.g., "Morning Baker at Main Bakery" is different from
 "Morning Kiosk Seller at Market Kiosk").
-    - *Self-correction: Alternatively, `locationId` could be added to the
-    `assignment` object within the schedule. This would allow a generic shift
-    (like "Cashier") to be assigned at different locations. Let's go with adding
-    `locationId` to the assignment for more flexibility, as a "Cashier" shift
-    might exist at both locations but with different employees.*
-- Therefore, add `locationId` to each `assignment` object within
-`dailySchedules`.  - Modify `definedShifts`: it might be better to keep
-`definedShifts` generic (e.g. "Baker shift", "Cashier shift") and then when an
-*instance* of that shift is scheduled, it gets a location. Or, if shifts are
-truly different per location (e.g. different hours, different roles needed),
-then `locationId` in `definedShifts` makes sense. Let's assume for now that the
-*nature* of the shift (its tasks and eligible roles) can be location-specific.
-So, `locationId` in `definedShifts` is appropriate. This might mean some shifts
-are duplicated if they are identical but at different locations, or you might
-create very specific shifts like "Main Bakery - Morning Bake". Let's stick to
-`locationId` in `definedShifts` for this iteration to explore that path.
 
 #### Example Snippet (Illustrating Changes):
 
@@ -359,9 +339,9 @@ assignment)."
 - Modify the `assignment` object within `dailySchedules`.
     - Add an `originalEmployeeId` (if different from the current `employeeId`
     due to a swap/cover).  - Add an `assignmentStatus` (e.g., "Scheduled",
-    "SwapRequested", "CoverRequested", "SwapApproved", "CoverApproved").  - Add
-    a `changeHistory` array. Each item in this array could be an object with
-    `timestamp`, `changedByEmployeeId` (who initiated/approved),
+    "SwapRequested", "CoverRequested", "SwapApproved", "CoverApproved").
+    - Add a `changeHistory` array. Each item in this array could be
+    an object with `timestamp`, `changedByEmployeeId` (who initiated/approved),
     `previousEmployeeId`, `newEmployeeId`, `action` (e.g., "Swap Request",
     "Cover Approved by Manager"), and `notes`.
 - (Optional: A separate top-level `shiftChangeRequests` collection could be
@@ -410,35 +390,5 @@ cumbersome). For this exercise, let's enhance the `assignment` object.
   ]
 } ```
 
-## Your Tasks for this Homework
 
-1. **Understand the Evolution:** For each Phase (1 through 4), carefully review
-the feature asks and the corresponding JSON data schema changes.
-
-2. **Identify Migration Challenges (Conceptual):** For each transition (e.g.,
-from v1.0 to v1.1, then v1.1 to v1.2, etc.), briefly describe:
-    - What are the main challenges in migrating existing data from the OLD
-    schema to the NEW schema?  - Will any new fields require default values?  -
-    Are there any fields being removed or restructured where data might be lost
-    if not handled carefully?  - How would you ensure data integrity during the
-    migration? (e.g., if `employeeName` is replaced by `employeeId`, how do you
-    map existing names to new IDs?)
-
-3. **Write Migration Logic (Pseudocode/High-Level Steps):** For TWO of the
-schema transitions of your choice (e.g., v1.1 to v1.2 AND v1.3 to v1.4), write
-down the high-level steps or pseudocode for a script that would migrate data
-from the old schema version to the new one.
-
-    *Example for v1.0 to v1.1 (if you were to choose this one):* - Create a new
-    empty `employees` array.  - Iterate through all `schedules`,
-    `dailySchedules`, and `assignments` in the v1.0 data.  - For each unique
-    `employeeName` found:
-	- Generate a new unique `employeeId`.  - Add an object `{ "employeeId":
-	newId, "fullName": employeeName, "contactNumber": null }` to the
-	`employees` array.  - Store a mapping of `employeeName` to `newId`.
-    - Create the new v1.1 schedule structure.  - Iterate through the old
-    `schedules` data again.  - For each `assignment`, replace `employeeName`
-    with its corresponding `employeeId` from the mapping.  - Populate the new
-    `schedules` array with the transformed data.  - The final output contains
-    the new `employees` array and the transformed `schedules` array.
 
