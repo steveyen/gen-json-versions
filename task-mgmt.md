@@ -440,5 +440,74 @@ for the assignment)."
 	]
 } ```
 
+## Phase 5: Advanced Business Operations & Analytics
 
+The Sweet Spot has grown into a successful multi-location
+business and needs more sophisticated features to manage
+operations and analyze performance.
 
+### Feature Ask 5.1: Labor Cost Tracking & Budget Management
+
+"As we've grown, I need to track labor costs more precisely.
+Each role should have an associated hourly rate, and I want to
+be able to set weekly labor budgets per location. The system
+should warn me if a schedule exceeds the budget."
+
+### JSON Data Schema Changes (Version 1.7)
+
+- Add `hourlyRate` to each `role` in the `roles` array
+- Add `laborBudget` to each `location` object
+- Add `actualCost` to each `schedule` object
+- Modify `assignment` to include `hoursWorked` and `calculatedCost`
+
+#### Example Snippet (Illustrating Changes):
+
+```json {
+  "emp": [
+    {
+      "id": "emp-0001",
+      "fullName": "Alice Wonderland",
+      "contactNumber": "555-1234",
+      "roles": [
+        {
+          "name": "Baker",
+          "hourlyRate": 25.50,
+          "effectiveDate": "2025-01-01"
+        },
+        {
+          "name": "Cake Decorator",
+          "hourlyRate": 28.75,
+          "effectiveDate": "2025-01-01"
+        }
+      ]
+    }
+  ],
+  "loc": [
+    {
+      "id": "loc-0001",
+      "name": "Main Bakery",
+      "address": "123 Main St",
+      "laborBudget": {
+        "weekly": 5000.00,
+        "effectiveDate": "2025-01-01"
+      }
+    }
+  ],
+  "sched": [
+    {
+      "id": "sched-000007",
+      "date": "2026-03-01",
+      "actualCost": 1250.75,
+      "assignments": [
+        {
+          "empId": "emp-0001",
+          "shiftId": "shift-msb001",
+          "hoursWorked": 8.0,
+          "calculatedCost": 204.00,
+          "status": "Completed"
+        }
+      ]
+    }
+  ]
+}
+```
