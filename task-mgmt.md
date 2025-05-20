@@ -112,7 +112,7 @@ and a `fullName`.
           "empId": "emp-0001", // Changed from employeeName
           "shift": "Morning Bake (6 AM - 2 PM)"
         }, {
-          "empId": "emp002",
+          "empId": "emp-0002",
           "shift": "Afternoon Cashier (12 PM - 8 PM)"
         }
       ]
@@ -341,7 +341,7 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
     {
       "id": "shift-msb001", // More specific ID
       "locationId": "loc-0001", // New field
-      "shiftName": "Morning Baker - Main",
+      "name": "Morning Baker - Main",
       "startTime": "06:00",
       "endTime": "14:00",
       "description": "Primary baking shift for breads and morning pastries at the main bakery.",
@@ -349,7 +349,7 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
     }, {
       "id": "shift-mkm001", // More specific ID
       "locationId": "loc-0002", // New field
-      "shiftName": "Morning Kiosk Seller",
+      "name": "Morning Kiosk Seller",
       "startTime": "08:00",
       "endTime": "13:00",
       "description": "Selling pastries and coffee at the market kiosk.",
@@ -417,7 +417,7 @@ for the assignment)."
               "timestamp": "2026-01-28T10:00:00Z",
               "action": "Initial Assignment",
               "empId": "emp-0001", // Employee assigned
-              "changedBy": "schedulerBot" // Or manager's ID
+              "changedByEmpId": "schedulerBot" // Or manager's ID
             }, {
               "timestamp": "2026-01-30T14:30:00Z",
               "action": "Cover Requested",
@@ -432,7 +432,7 @@ for the assignment)."
               "action": "Cover Approved by Manager",
               "approvingManagerId": "emp-0001", // Assuming a manager role/ID
               "previousEmpId": "emp-0001",
-              "newEmpId": "emp-002"
+              "newEmpId": "emp-0002"
             }
 	        ]
 	      } // ... more assignments
