@@ -109,7 +109,7 @@ and a `fullName`.
       "date": "2025-07-21",
       "assignments": [
         {
-          "empId": "emp001", // Changed from employeeName
+          "empId": "emp-0001", // Changed from employeeName
           "shift": "Morning Bake (6 AM - 2 PM)"
         }, {
           "empId": "emp002",
@@ -168,7 +168,7 @@ link to the new `definedShifts` array.
   ],
   "sched": [
 	  {
-      "sched-000004",
+      "id": "sched-000004",
 	    "date": "2025-09-15",
       "assignments": [
         {
@@ -358,6 +358,7 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
   ],
   "sched": [
     {
+      "id": "sched-000006",
       "date": "2025-12-01",
       "assignments": [
         {
@@ -415,7 +416,7 @@ for the assignment)."
             {
               "timestamp": "2026-01-28T10:00:00Z",
               "action": "Initial Assignment",
-              "emplId": "emp-0001", // Employee assigned
+              "empId": "emp-0001", // Employee assigned
               "changedBy": "schedulerBot" // Or manager's ID
             }, {
               "timestamp": "2026-01-30T14:30:00Z",
