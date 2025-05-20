@@ -79,7 +79,7 @@ these employees by their ID."
 - Introduce employee JSON records.
 
 Each employee will have an `empId` (a unique identifier,
-perhaps a number or a short string like "emp001")
+perhaps a number or a short string like "emp-0001")
 and a `fullName`.
 
 - From now on, a schedule will refer to `empId`
@@ -142,7 +142,7 @@ link to the new `definedShifts` array.
 #### Example Snippet (Illustrating Changes):
 
 ```json {
-  "employees": [
+  "emp": [
     // ... (as in v1.1)
   ],
   "definedShifts": [
@@ -166,13 +166,13 @@ link to the new `definedShifts` array.
       "description": "Preparing ingredients and doughs for the next day."
     }
   ],
-  "schedules": [
+  "sched": [
 	  {
       "sched-000004",
 	    "date": "2025-09-15",
       "assignments": [
         {
-          "empd": "emp-0001",
+          "empId": "emp-0001",
           "shiftId": "shift-ms001" // Changed from free-text shift
         }, {
           "empId": "emp-0002",
@@ -207,7 +207,7 @@ assigned to this shift.
 #### Example Snippet (Illustrating Changes):
 
 ```json {
-  "employees": [
+  "emp": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -239,7 +239,8 @@ assigned to this shift.
       "endTime": "20:00",
       "description": "Customer service and sales at the counter.", "eligibleRoles": ["Cashier"] // New field
     } // ...
-  ], "schedules": [
+  ],
+  "sched": [
     // ... (structure remains the same, but assignments now implicitly link to
     employees with roles and shifts with eligible roles)
   ]
@@ -263,7 +264,7 @@ and `status` (e.g., "Requested", "Approved", "Denied").
 #### Example Snippet (Illustrating Changes):
 
 ```json {
-  "employees": [
+  "emp": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -288,9 +289,11 @@ and `status` (e.g., "Requested", "Approved", "Denied").
         }
       ]
     } // ...
-  ], "definedShifts": [
+  ],
+  "definedShifts": [
     // ... (as in v1.3)
-  ], "schedules": [
+  ],
+  "sched": [
     // ... (structure remains the same,
     //      but scheduling logic now needs to check unavailability)
   ]
@@ -320,10 +323,10 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
 #### Example Snippet (Illustrating Changes):
 
 ```json {
-  "employees": [
+  "emp": [
     // ... (as in v1.4)
   ],
-  "locations": [ // New top-level entity
+  "loc": [ // New top-level entity
     {
       "id": "loc-0001",
       "name": "Main Bakery",
@@ -352,16 +355,17 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
       "description": "Selling pastries and coffee at the market kiosk.",
       "eligibleRoles": ["Cashier", "Barista"]
     } // ...
-  ], "schedules": [
+  ],
+  "sched": [
     {
       "date": "2025-12-01",
       "assignments": [
         {
-          "employeeId": "emp-0001",
-          "shiftId": "msb001" // This shift is for the main bakery
+          "empId": "emp-0001",
+          "shiftId": "shift-msb001" // This shift is for the main bakery
         }, {
-          "employeeId": "emp-0004",
-          "shiftId": "mkm001" // This shift is for the kiosk
+          "empId": "emp-0004",
+          "shiftId": "shift-mkm001" // This shift is for the kiosk
         }
       ]
     }
@@ -379,57 +383,55 @@ for the assignment)."
 ### JSON Data Schema Changes (Version 1.6)
 
 - We'll modify the `assignment` object within a daily `schedule`.
-  - Add an `originalEmployeeId` (if different from the current `employeeId`
+  - Add an `originalEmpId` (if different from the current `employeeId`
     due to a swap/cover).
-  - Add an `assignmentStatus` (e.g., "Scheduled",
+  - Add an `status` (e.g., "Scheduled",
     "SwapRequested", "CoverRequested", "SwapApproved", "CoverApproved").
   - Add a `changeHistory` array. Each item in this array could be
-    an object with `timestamp`, `changedByEmployeeId` (who initiated/approved),
-    `previousEmployeeId`, `newEmployeeId`, `action` (e.g., "Swap Request",
+    an object with `timestamp`, `changedByEmpId` (who initiated/approved),
+    `previousEmpId`, `newEmpId`, `action` (e.g., "Swap Request",
     "Cover Approved by Manager"), and `notes`.
 
 #### Example Snippet (Illustrating Changes):
 
 ```json {
-  // ... employees, locations, definedShifts as in v1.5
+  // ... emp, loc, definedShifts as in v1.5
 
-  "schedules": [
+  "sched": [
     {
       "id": "sched-000005",
       "date": "2026-02-02",
       "assignments": [
         {
-          // Adding an ID to the assignment itself for easier reference
-          "assignmentId": "asgn001",
           // Currently assigned employee
-          "employeeId": "emp-0002",
+          "empId": "emp-0002",
           // Who was originally scheduled
-          "originalEmployeeId": "emp-0001",
-          "shiftId": "msb001",
+          "originalEmpId": "emp-0001",
+          "shiftId": "shift-msb001",
           // New field
-          "assignmentStatus": "CoverApproved",
+          "status": "CoverApproved",
           // New field
           "changeHistory": [
             {
               "timestamp": "2026-01-28T10:00:00Z",
               "action": "Initial Assignment",
-              "employeeId": "emp-0001", // Employee assigned
+              "emplId": "emp-0001", // Employee assigned
               "changedBy": "schedulerBot" // Or manager's ID
             }, {
               "timestamp": "2026-01-30T14:30:00Z",
               "action": "Cover Requested",
-              "requestingEmployeeId": "emp-0001",
+              "requestingEmpId": "emp-0001",
               "notes": "Feeling unwell."
             }, {
               "timestamp": "2026-01-30T17:00:00Z",
               "action": "Cover Offered",
-              "offeringEmployeeId": "emp-0002"
+              "offeringEmpId": "emp-0002"
             }, {
               "timestamp": "2026-01-31T09:00:00Z",
               "action": "Cover Approved by Manager",
               "approvingManagerId": "emp-0001", // Assuming a manager role/ID
-              "previousEmployeeId": "emp-0001",
-              "newEmployeeId": "emp002"
+              "previousEmpId": "emp-0001",
+              "newEmpId": "emp-002"
             }
 	        ]
 	      } // ... more assignments
