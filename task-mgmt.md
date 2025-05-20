@@ -554,3 +554,202 @@ different rates based on experience level or performance."
   // ... rest of the schema remains unchanged
 }
 ```
+
+## Phase 7: Naming Convention Standardization
+
+As The Sweet Spot grows, they hear that a best practice is
+to use snake_case for naming fields.
+
+### Feature Ask 7.1: Consistent Snake Case Field Names
+
+"Our boss heard that systems often use snake_case as their standard.
+To maintain consistency and reduce confusion, we need to convert all
+our JSON field names to use snake_case instead of camelCase."
+
+### JSON Data Schema Changes (Version 1.9)
+
+- Convert all field names to lowercase snake_case format
+- Maintain the same data structure and relationships
+- Update all references to use the new field names
+
+#### Example Snippet (Illustrating Changes):
+
+```json {
+  "emp": [
+    {
+      "id": "emp-0001",
+      "full_name": "Alice Wonderland",
+      "contact_number": "555-1234",
+      "roles": [
+        {
+          "name": "Baker",
+          "max_hourly_rate": 25.50,
+          "effective_date": "2025-01-01"
+        },
+        {
+          "name": "Cake Decorator",
+          "max_hourly_rate": 28.75,
+          "effective_date": "2025-01-01"
+        }
+      ]
+    }
+  ],
+  "loc": [
+    {
+      "id": "loc-0001",
+      "name": "Main Bakery",
+      "address": "123 Main St",
+      "labor_budget": {
+        "weekly": 5000.00,
+        "effective_date": "2025-01-01"
+      }
+    }
+  ],
+  "defined_shifts": [
+    {
+      "id": "shift-msb001",
+      "location_id": "loc-0001",
+      "name": "Morning Baker - Main",
+      "start_time": "06:00",
+      "end_time": "14:00",
+      "description": "Primary baking shift for breads and morning pastries at the main bakery.",
+      "eligible_roles": ["Baker", "Lead Baker"]
+    }
+  ],
+  "sched": [
+    {
+      "id": "sched-000007",
+      "date": "2026-03-01",
+      "actual_cost": 1250.75,
+      "assignments": [
+        {
+          "emp_id": "emp-0001",
+          "shift_id": "shift-msb001",
+          "hours_worked": 8.0,
+          "calculated_cost": 204.00,
+          "status": "Completed",
+          "original_emp_id": "emp-0001",
+          "change_history": [
+            {
+              "timestamp": "2026-01-28T10:00:00Z",
+              "action": "Initial Assignment",
+              "emp_id": "emp-0001",
+              "changed_by_emp_id": "schedulerBot"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+This standardization makes the schema more consistent with
+common database naming conventions and reduces the cognitive
+overhead of switching between different naming styles when
+working with various systems. It also makes the schema more
+maintainable as new team members join the project.
+
+## Phase 8: International Expansion & Multi-Currency Support
+
+The Sweet Spot has expanded internationally! Well, they've opened a location
+in Canada, right across the border. This brings new challenges in managing
+costs and budgets across different currencies.
+
+### Feature Ask 8.1: Multi-Currency Support
+
+"With our new Canadian location, we need to track costs in both USD and CAD.
+Some of our reports need to show costs in the local currency, while others
+need to show everything converted to USD for company-wide analysis. We also
+need to handle currency conversion rates that change over time."
+
+### JSON Data Schema Changes (Version 2.0)
+
+- Add `currency` field to `location` objects
+- Add `exchange_rates` as a new top-level array to track historical rates
+- Modify cost-related fields to include both local and converted amounts
+- Add currency conversion tracking to cost calculations
+
+#### Example Snippet (Illustrating Changes):
+
+```json {
+  "loc": [
+    {
+      "id": "loc-0001",
+      "name": "Main Bakery",
+      "address": "123 Main St",
+      "currency": "USD",
+      "labor_budget": {
+        "weekly": 5000.00,
+        "effective_date": "2025-01-01"
+      }
+    },
+    {
+      "id": "loc-0003",
+      "name": "Canadian Bakery",
+      "address": "456 Maple Street, Vancouver",
+      "currency": "CAD",
+      "labor_budget": {
+        "weekly": 6500.00,
+        "effective_date": "2025-01-01"
+      }
+    }
+  ],
+  "exchange_rates": [
+    {
+      "from_currency": "CAD",
+      "to_currency": "USD",
+      "rate": 0.75,
+      "effective_date": "2025-01-01",
+      "end_date": "2025-03-31"
+    },
+    {
+      "from_currency": "CAD",
+      "to_currency": "USD",
+      "rate": 0.73,
+      "effective_date": "2025-04-01",
+      "end_date": null
+    }
+  ],
+  "sched": [
+    {
+      "id": "sched-000008",
+      "date": "2026-04-01",
+      "location_id": "loc-0003",
+      "actual_cost": {
+        "local_amount": 1500.00,
+        "local_currency": "CAD",
+        "converted_amount": 1095.00,
+        "converted_currency": "USD",
+        "exchange_rate": 0.73,
+        "exchange_rate_date": "2026-04-01"
+      },
+      "assignments": [
+        {
+          "emp_id": "emp-0005",
+          "shift_id": "shift-cab001",
+          "hours_worked": 8.0,
+          "calculated_cost": {
+            "local_amount": 204.00,
+            "local_currency": "CAD",
+            "converted_amount": 148.92,
+            "converted_currency": "USD",
+            "exchange_rate": 0.73,
+            "exchange_rate_date": "2026-04-01"
+          },
+          "status": "Completed"
+        }
+      ]
+    }
+  ]
+}
+```
+
+This enhancement allows The Sweet Spot to:
+- Track costs in local currencies for each location
+- Maintain historical exchange rates for accurate reporting
+- Convert costs to a standard currency (USD) for company-wide analysis
+- Generate reports in either local or converted currencies
+- Handle currency fluctuations over time while maintaining historical accuracy
+
+The system can now support future international expansion by simply adding new locations with their respective currencies and exchange rates.
