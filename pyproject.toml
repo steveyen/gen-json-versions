@@ -1,7 +1,0 @@
-[project]
-name = "a-team"
-version = "0.0.1"
-description = "A-Team: AI / Agentic task management for teams"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
