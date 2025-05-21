@@ -1,6 +1,6 @@
-# A-Team CLI
+# A-Team
 
-A TypeScript-based command-line tool.
+AI / Agentic task management for teams.
 
 ## Installation
 
@@ -26,9 +26,9 @@ npm run build
 
 ## Usage
 
-The CLI provides the following commands:
+The CLI provides the following sub-commands:
 
-### Hello Command
+### hello Command
 
 Say hello to someone:
 
@@ -40,7 +40,7 @@ npm run dev hello John
 npm run dev hello John --capitalize
 ```
 
-## Available Commands
+## Available Sub-Commands
 
 - `hello <name>` - Say hello to someone
   - Options:
