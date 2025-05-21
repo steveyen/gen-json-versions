@@ -843,3 +843,100 @@ This enhancement provides several benefits:
 
 The system can now support more sophisticated scheduling workflows while
 maintaining backward compatibility with existing features.
+
+## Phase 10: Status Clarification
+
+The `status` field has confused folks. When an employee requests
+an assignment swap or cover, they think they're done as the `status`
+has changed from "Scheduled". Let's rationalize this by keeping
+the main `status` as "Scheduled", but track the proposed changes
+in other ways. Perhaps the change history already tells us the
+proposal status?
+
+### Feature Ask 10.1: Simplified Status Management
+
+"We need to simplify how we track assignment status. Currently, when someone
+requests a swap or cover, the status changes from 'Scheduled' to something
+like 'SwapRequested', which confuses employees. They think their shift is
+no longer scheduled. We should keep the main status as 'Scheduled' and use
+the change history to track any pending changes or requests."
+
+### JSON Data Schema Changes (Version 2.2)
+
+- Simplify the `status` field in assignments to only use "Scheduled" or "Completed"
+- Add a `pending_changes` object to track any active requests or proposed changes
+- Enhance the `change_history` to better reflect the current state of requests
+
+#### Example Snippet (Illustrating Changes):
+
+```json
+{
+  "sched": [
+    {
+      "id": "sched-000010",
+      "date": "2026-05-01",
+      "version": 1,
+      "status": "Published",
+      "published_at": "2026-04-15T14:30:00Z",
+      "confirmed_at": null,
+      "location_id": "loc-0001",
+      "assignments": [
+        {
+          "emp_id": "emp-0001",
+          "shift_id": "shift-msb001",
+          "hours_worked": 8.0,
+          "calculated_cost": {
+            "local_amount": 204.00,
+            "local_currency": "USD",
+            "converted_amount": 204.00,
+            "converted_currency": "USD",
+            "exchange_rate": 1.0,
+            "exchange_rate_date": "2026-05-01"
+          },
+          "status": "Scheduled", // Simplified status
+          "pending_changes": { // New field to track active requests
+            "type": "SwapRequest",
+            "requested_by": "emp-0001",
+            "requested_at": "2026-04-20T10:00:00Z",
+            "proposed_swap_with": "emp-0002",
+            "status": "PendingApproval"
+          },
+          "original_emp_id": "emp-0001",
+          "change_history": [
+            {
+              "timestamp": "2026-04-15T14:30:00Z",
+              "action": "Initial Assignment",
+              "emp_id": "emp-0001",
+              "changed_by_emp_id": "schedulerBot",
+              "version": 1
+            },
+            {
+              "timestamp": "2026-04-20T10:00:00Z",
+              "action": "Swap Request Initiated",
+              "emp_id": "emp-0001",
+              "changed_by_emp_id": "emp-0001",
+              "request_details": {
+                "type": "SwapRequest",
+                "proposed_swap_with": "emp-0002",
+                "reason": "Personal appointment"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+This enhancement provides several benefits:
+- Clearer status indication for employees (they're still scheduled until changes are approved)
+- Better tracking of pending changes through a dedicated object
+- Maintained history of all changes and requests
+- Simplified status values that are easier to understand
+- Clear separation between the current state and proposed changes
+- Support for multiple types of pending changes (swaps, covers, etc.)
+- Better visibility into the approval process
+
+The system now provides a more intuitive way to handle assignment changes
+while maintaining a clear record of the current state and any pending modifications.
