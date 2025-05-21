@@ -1,7 +1,7 @@
 {
   "name": "a-team",
   "version": "0.0.1",
-  "description": "A-Team for AI / Agentic task management for teams",
+  "description": "A-Team: AI / Agentic task management for teams",
   "main": "dist/index.js",
   "bin": {
     "a-team": "./dist/index.js"
