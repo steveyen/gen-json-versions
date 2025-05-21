@@ -753,3 +753,93 @@ This enhancement allows The Sweet Spot to:
 - Handle currency fluctuations over time while maintaining historical accuracy
 
 The system can now support future international expansion by simply adding new locations with their respective currencies and exchange rates.
+
+## Phase 9: Planning Enhancement
+
+Planning just one week at a time isn't cutting it anymore,
+and they need better control over the schedule
+publication process.
+
+### Feature Ask 9.1: Schedule Status & Extended Planning
+
+"We need to plan schedules further in advance and have better control
+over when schedules are visible to staff. Sometimes we need to make
+draft schedules that aren't ready for staff to see, and we need a way
+to confirm when shifts are actually worked. Also, we want to plan
+schedules for longer periods, not just week by week."
+
+### JSON Data Schema Changes (Version 2.1)
+
+- Add `status` field to each schedule object
+- Add `published_at` and `confirmed_at` timestamps
+- Add `version` tracking for schedule revisions
+
+#### Example Snippet (Illustrating Changes):
+
+```json {
+  "sched": [
+    {
+      "id": "sched-000009",
+      "date": "2025-04-01",
+      "version": 2,
+      "status": "Published", // "Draft", "Published", "Confirmed"
+      "published_at": "2025-03-15T14:30:00Z",
+      "confirmed_at": null,
+      "location_id": "loc-0001",
+      "actual_cost": {
+        "local_amount": 1500.00,
+        "local_currency": "USD",
+        "converted_amount": 1500.00,
+        "converted_currency": "USD",
+        "exchange_rate": 1.0,
+        "exchange_rate_date": "2025-04-01"
+      },
+      "assignments": [
+        {
+          "emp_id": "emp-0001",
+          "shift_id": "shift-msb001",
+          "hours_worked": 8.0,
+          "calculated_cost": {
+            "local_amount": 204.00,
+            "local_currency": "USD",
+            "converted_amount": 204.00,
+            "converted_currency": "USD",
+            "exchange_rate": 1.0,
+            "exchange_rate_date": "2025-04-01"
+          },
+          "status": "Scheduled",
+          "original_emp_id": "emp-0001",
+          "change_history": [
+            {
+              "timestamp": "2025-03-01T10:00:00Z",
+              "action": "Initial Draft",
+              "emp_id": "emp-0001",
+              "changed_by_emp_id": "schedulerBot",
+              "version": 1
+            },
+            {
+              "timestamp": "2025-03-15T14:30:00Z",
+              "action": "Schedule Published",
+              "emp_id": "emp-0001",
+              "changed_by_emp_id": "emp-0001",
+              "version": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+This enhancement provides several benefits:
+- Clear workflow states for schedules (Draft → Published → Confirmed)
+- Ability to plan and manage schedules for longer periods (quarters, months)
+- Version tracking for schedule revisions
+- Audit trail of when schedules are published and confirmed
+- Better control over when staff can see their schedules
+- Support for planning multiple locations in advance
+- Maintains all previous functionality while adding new capabilities
+
+The system can now support more sophisticated scheduling workflows while
+maintaining backward compatibility with existing features.
