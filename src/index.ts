@@ -7,7 +7,7 @@ const program = new Command();
 
 program
   .name('a-team')
-  .description('A TypeScript CLI tool')
+  .description('A-Team: AI / Agentic task management for teams')
   .version(version);
 
 program
