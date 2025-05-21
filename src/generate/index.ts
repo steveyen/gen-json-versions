@@ -1,10 +1,10 @@
 import { writeFileSync } from 'fs';
 import { join } from 'path';
-import { Phase1Generator } from './generators/phase1';
-import { Phase2Generator } from './generators/phase2';
-import { Phase3Generator } from './generators/phase3';
-import { Phase4Generator } from './generators/phase4';
-import { Phase5Generator } from './generators/phase5';
+import { Phase1Generator } from './phase1';
+import { Phase2Generator } from './phase2';
+import { Phase3Generator } from './phase3';
+import { Phase4Generator } from './phase4';
+import { Phase5Generator } from './phase5';
 
 interface GeneratorOptions {
   startDate?: Date;
