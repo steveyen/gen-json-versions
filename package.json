@@ -1,22 +1,23 @@
 {
-  "name": "a-team",
+  "name": "ai-agentic-team-task-management",
   "version": "0.0.1",
-  "description": "A-Team: AI / Agentic task management for teams",
   "main": "dist/index.js",
-  "bin": {
-    "a-team": "./dist/index.js"
-  },
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts",
-    "dev": "ts-node src/index.ts",
-    "prepare": "npm run build"
+    "start": "node dist/index.js",
+    "generate": "tsc && node dist/cli.js"
   },
-  "keywords": ["cli", "typescript"],
   "author": "",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "date-fns": "^2.30.0",
+    "faker": "^5.5.3",
+    "uuid": "^9.0.1"
+  },
   "devDependencies": {
-    "@types/node": "^20.11.24",
-    "commander": "^12.0.0",
+    "@types/faker": "^5.5.3",
+    "@types/node": "^20.10.5",
+    "@types/uuid": "^9.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
