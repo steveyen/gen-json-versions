@@ -1,112 +1,112 @@
 {
   "emp": [
     {
-      "id": "emp-3bb742",
-      "fullName": "Nick Deckow",
-      "contactNumber": "198-6414"
+      "id": "emp-f44269",
+      "fullName": "Betty Homenick",
+      "contactNumber": "584-2924"
     },
     {
-      "id": "emp-32948b",
-      "fullName": "Joanna Schaefer",
-      "contactNumber": "192-0220"
+      "id": "emp-1a2e13",
+      "fullName": "Beatrice Abernathy",
+      "contactNumber": "215-1255"
     },
     {
-      "id": "emp-a3b0e9",
-      "fullName": "Rachael Prosacco",
-      "contactNumber": "717-6159"
+      "id": "emp-dde5ac",
+      "fullName": "Chelsea Ryan Jr.",
+      "contactNumber": "017-2560"
     },
     {
-      "id": "emp-b28e90",
-      "fullName": "Maureen Balistreri",
-      "contactNumber": "341-8785"
+      "id": "emp-6abb9a",
+      "fullName": "Traci Robel",
+      "contactNumber": "359-1735"
     },
     {
-      "id": "emp-deea76",
-      "fullName": "Josh Lind",
-      "contactNumber": "108-4277"
+      "id": "emp-ba6292",
+      "fullName": "Rick Howell",
+      "contactNumber": "575-1510"
     },
     {
-      "id": "emp-4d9e11",
-      "fullName": "Melba Grimes",
-      "contactNumber": "731-1428"
+      "id": "emp-f14249",
+      "fullName": "Armando Jerde",
+      "contactNumber": "113-2063"
     },
     {
-      "id": "emp-988873",
-      "fullName": "Linda Watsica",
-      "contactNumber": "741-1752"
+      "id": "emp-165658",
+      "fullName": "Ramiro McDermott",
+      "contactNumber": "243-2823"
     },
     {
-      "id": "emp-424599",
-      "fullName": "Margarita Kertzmann",
-      "contactNumber": "570-8418"
+      "id": "emp-65cab1",
+      "fullName": "Vera Heidenreich",
+      "contactNumber": "861-1637"
     },
     {
-      "id": "emp-1da6a3",
-      "fullName": "Kellie Shanahan",
-      "contactNumber": "598-1686"
+      "id": "emp-684e6c",
+      "fullName": "Christy Berge IV",
+      "contactNumber": "286-0288"
     },
     {
-      "id": "emp-ae1074",
-      "fullName": "Ken Wiza",
-      "contactNumber": "564-1543"
+      "id": "emp-01868d",
+      "fullName": "Caleb Bauch",
+      "contactNumber": "167-9448"
     },
     {
-      "id": "emp-de2d92",
-      "fullName": "Mr. Iris Leffler",
-      "contactNumber": "141-9849"
+      "id": "emp-63434c",
+      "fullName": "Lorraine Crist",
+      "contactNumber": "489-6121"
     },
     {
-      "id": "emp-ca59ed",
-      "fullName": "Melanie Hodkiewicz",
-      "contactNumber": "430-6849"
+      "id": "emp-80b125",
+      "fullName": "Bennie Nicolas",
+      "contactNumber": "433-4046"
     },
     {
-      "id": "emp-bb7d28",
-      "fullName": "Troy Wilkinson",
-      "contactNumber": "222-6657"
+      "id": "emp-431d89",
+      "fullName": "Pauline Mitchell",
+      "contactNumber": "482-5672"
     },
     {
-      "id": "emp-7160ea",
-      "fullName": "Allison Hirthe",
-      "contactNumber": "597-7203"
+      "id": "emp-c71286",
+      "fullName": "Cathy Collier",
+      "contactNumber": "986-2881"
     },
     {
-      "id": "emp-5b3648",
-      "fullName": "Lula Spinka V",
-      "contactNumber": "243-5959"
+      "id": "emp-50f95c",
+      "fullName": "Miss Sue Keebler",
+      "contactNumber": "168-9161"
     }
   ],
   "definedShifts": [
     {
-      "id": "shift-5cdf47",
+      "id": "shift-553641",
       "name": "Morning Baker",
       "startTime": "06:00",
       "endTime": "14:00",
       "description": "Primary baking shift for breads and morning pastries."
     },
     {
-      "id": "shift-2d206a",
+      "id": "shift-30dcfa",
       "name": "Afternoon Cashier",
       "startTime": "12:00",
       "endTime": "20:00",
       "description": "Customer service and sales at the counter."
     },
     {
-      "id": "shift-bdc1ff",
+      "id": "shift-7540e7",
       "name": "Evening Prep",
       "startTime": "16:00",
       "endTime": "22:00",
       "description": "Preparing ingredients and doughs for the next day."
     },
     {
-      "id": "shift-e4b352",
+      "id": "shift-865bd6",
       "name": "Weekend Morning",
       "startTime": "07:00",
       "endTime": "15:00",
       "description": "Weekend morning shift covering both baking and sales."
     },
     {
-      "id": "shift-f99f84",
+      "id": "shift-bda29a",
       "name": "Weekend Evening",
       "startTime": "15:00",
       "endTime": "23:00",
@@ -115,414 +115,434 @@
   ],
   "sched": [
     {
-      "id": "sched-625be0",
+      "id": "sched-291676",
       "date": "2023-12-31",
       "assignments": [
         {
-          "empId": "emp-b28e90",
-          "shiftId": "shift-5cdf47"
-        },
-        {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-2d206a"
-        },
-        {
-          "empId": "emp-424599",
-          "shiftId": "shift-e4b352"
+          "empId": "emp-684e6c",
+          "shiftId": "shift-7540e7"
         }
       ]
     },
     {
-      "id": "sched-4352a5",
+      "id": "sched-93d76b",
       "date": "2024-01-01",
       "assignments": [
         {
-          "empId": "emp-4d9e11",
-          "shiftId": "shift-e4b352"
+          "empId": "emp-dde5ac",
+          "shiftId": "shift-553641"
+        },
+        {
+          "empId": "emp-65cab1",
+          "shiftId": "shift-bda29a"
+        },
+        {
+          "empId": "emp-c71286",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-dbc515",
+      "id": "sched-efcd94",
       "date": "2024-01-02",
       "assignments": [
         {
-          "empId": "emp-b28e90",
-          "shiftId": "shift-5cdf47"
-        },
-        {
-          "empId": "emp-a3b0e9",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-165658",
+          "shiftId": "shift-bda29a"
         }
       ]
     },
     {
-      "id": "sched-17faba",
+      "id": "sched-7ef1cc",
       "date": "2024-01-03",
       "assignments": [
         {
-          "empId": "emp-1da6a3",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-165658",
+          "shiftId": "shift-865bd6"
+        },
+        {
+          "empId": "emp-c71286",
+          "shiftId": "shift-bda29a"
+        },
+        {
+          "empId": "emp-f14249",
+          "shiftId": "shift-30dcfa"
         }
       ]
     },
     {
-      "id": "sched-3618a9",
+      "id": "sched-8876e8",
       "date": "2024-01-04",
       "assignments": [
         {
-          "empId": "emp-ae1074",
-          "shiftId": "shift-f99f84"
-        },
-        {
-          "empId": "emp-32948b",
-          "shiftId": "shift-5cdf47"
-        },
-        {
-          "empId": "emp-b28e90",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-80b125",
+          "shiftId": "shift-bda29a"
         }
       ]
     },
     {
-      "id": "sched-e79497",
+      "id": "sched-f4d1ba",
       "date": "2024-01-05",
       "assignments": [
         {
-          "empId": "emp-4d9e11",
-          "shiftId": "shift-2d206a"
-        },
-        {
-          "empId": "emp-988873",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-dde5ac",
+          "shiftId": "shift-7540e7"
         }
       ]
     },
     {
-      "id": "sched-efb959",
+      "id": "sched-84e88f",
       "date": "2024-01-06",
       "assignments": [
         {
-          "empId": "emp-424599",
-          "shiftId": "shift-e4b352"
+          "empId": "emp-dde5ac",
+          "shiftId": "shift-865bd6"
         },
         {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-65cab1",
+          "shiftId": "shift-bda29a"
         },
         {
-          "empId": "emp-988873",
-          "shiftId": "shift-e4b352"
+          "empId": "emp-f14249",
+          "shiftId": "shift-7540e7"
         }
       ]
     },
     {
-      "id": "sched-6e21cc",
+      "id": "sched-55f0fe",
       "date": "2024-01-07",
       "assignments": [
         {
-          "empId": "emp-4d9e11",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-c71286",
+          "shiftId": "shift-bda29a"
         },
         {
-          "empId": "emp-988873",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-01868d",
+          "shiftId": "shift-553641"
+        },
+        {
+          "empId": "emp-6abb9a",
+          "shiftId": "shift-865bd6"
         }
       ]
     },
     {
-      "id": "sched-0a1d36",
+      "id": "sched-9f4a0d",
       "date": "2024-01-08",
       "assignments": [
         {
-          "empId": "emp-32948b",
-          "shiftId": "shift-2d206a"
-        },
-        {
-          "empId": "emp-ca59ed",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-01868d",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-73d184",
+      "id": "sched-7a2ff9",
       "date": "2024-01-09",
       "assignments": [
         {
-          "empId": "emp-32948b",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-50f95c",
+          "shiftId": "shift-7540e7"
         },
         {
-          "empId": "emp-ca59ed",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-f44269",
+          "shiftId": "shift-7540e7"
         }
       ]
     },
     {
-      "id": "sched-ad5210",
+      "id": "sched-486cf9",
       "date": "2024-01-10",
       "assignments": [
         {
-          "empId": "emp-1da6a3",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-dde5ac",
+          "shiftId": "shift-30dcfa"
         },
         {
-          "empId": "emp-4d9e11",
-          "shiftId": "shift-2d206a"
-        },
-        {
-          "empId": "emp-988873",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-dde5ac",
+          "shiftId": "shift-30dcfa"
         }
       ]
     },
     {
-      "id": "sched-0d38b0",
+      "id": "sched-a93a75",
       "date": "2024-01-11",
       "assignments": [
         {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-c71286",
+          "shiftId": "shift-7540e7"
+        },
+        {
+          "empId": "emp-684e6c",
+          "shiftId": "shift-865bd6"
+        },
+        {
+          "empId": "emp-01868d",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-43af4e",
+      "id": "sched-4387b1",
       "date": "2024-01-12",
       "assignments": [
         {
-          "empId": "emp-b28e90",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-dde5ac",
+          "shiftId": "shift-865bd6"
         },
         {
-          "empId": "emp-424599",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-6abb9a",
+          "shiftId": "shift-bda29a"
         },
         {
-          "empId": "emp-1da6a3",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-f44269",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-029c98",
+      "id": "sched-ce6b46",
       "date": "2024-01-13",
       "assignments": [
         {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-f44269",
+          "shiftId": "shift-30dcfa"
         },
         {
-          "empId": "emp-deea76",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-f14249",
+          "shiftId": "shift-7540e7"
+        },
+        {
+          "empId": "emp-ba6292",
+          "shiftId": "shift-865bd6"
         }
       ]
     },
     {
-      "id": "sched-e2e8da",
+      "id": "sched-e20ab6",
       "date": "2024-01-14",
       "assignments": [
         {
-          "empId": "emp-988873",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-f14249",
+          "shiftId": "shift-bda29a"
+        },
+        {
+          "empId": "emp-65cab1",
+          "shiftId": "shift-30dcfa"
         }
       ]
     },
     {
-      "id": "sched-8bbf55",
+      "id": "sched-d11202",
       "date": "2024-01-15",
       "assignments": [
         {
-          "empId": "emp-deea76",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-431d89",
+          "shiftId": "shift-553641"
+        },
+        {
+          "empId": "emp-80b125",
+          "shiftId": "shift-bda29a"
         }
       ]
     },
     {
-      "id": "sched-6e0d8f",
+      "id": "sched-f98a7e",
       "date": "2024-01-16",
       "assignments": [
         {
-          "empId": "emp-deea76",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-63434c",
+          "shiftId": "shift-553641"
+        },
+        {
+          "empId": "emp-684e6c",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-86a515",
+      "id": "sched-e8608a",
       "date": "2024-01-17",
       "assignments": [
         {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-684e6c",
+          "shiftId": "shift-7540e7"
         },
         {
-          "empId": "emp-bb7d28",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-01868d",
+          "shiftId": "shift-865bd6"
         },
         {
-          "empId": "emp-3bb742",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-65cab1",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-a723ee",
+      "id": "sched-e0afbd",
       "date": "2024-01-18",
       "assignments": [
         {
-          "empId": "emp-ca59ed",
-          "shiftId": "shift-e4b352"
-        },
-        {
-          "empId": "emp-de2d92",
-          "shiftId": "shift-bdc1ff"
-        },
-        {
-          "empId": "emp-de2d92",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-6abb9a",
+          "shiftId": "shift-865bd6"
         }
       ]
     },
     {
-      "id": "sched-5a0be6",
+      "id": "sched-094f3e",
       "date": "2024-01-19",
       "assignments": [
         {
-          "empId": "emp-3bb742",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-684e6c",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-2d8ad7",
+      "id": "sched-83e348",
       "date": "2024-01-20",
       "assignments": [
         {
-          "empId": "emp-b28e90",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-c71286",
+          "shiftId": "shift-30dcfa"
         },
         {
-          "empId": "emp-424599",
-          "shiftId": "shift-e4b352"
+          "empId": "emp-80b125",
+          "shiftId": "shift-865bd6"
+        },
+        {
+          "empId": "emp-f14249",
+          "shiftId": "shift-7540e7"
         }
       ]
     },
     {
-      "id": "sched-08342c",
+      "id": "sched-3a243c",
       "date": "2024-01-21",
       "assignments": [
         {
-          "empId": "emp-424599",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-50f95c",
+          "shiftId": "shift-bda29a"
         },
         {
-          "empId": "emp-5b3648",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-1a2e13",
+          "shiftId": "shift-7540e7"
+        },
+        {
+          "empId": "emp-ba6292",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-fc857f",
+      "id": "sched-e5eb5d",
       "date": "2024-01-22",
       "assignments": [
         {
-          "empId": "emp-a3b0e9",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-165658",
+          "shiftId": "shift-bda29a"
         },
         {
-          "empId": "emp-de2d92",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-80b125",
+          "shiftId": "shift-bda29a"
         }
       ]
     },
     {
-      "id": "sched-239f0c",
+      "id": "sched-c215a1",
       "date": "2024-01-23",
       "assignments": [
         {
-          "empId": "emp-ae1074",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-01868d",
+          "shiftId": "shift-7540e7"
+        },
+        {
+          "empId": "emp-63434c",
+          "shiftId": "shift-bda29a"
         }
       ]
     },
     {
-      "id": "sched-805300",
+      "id": "sched-f873eb",
       "date": "2024-01-24",
       "assignments": [
         {
-          "empId": "emp-de2d92",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-63434c",
+          "shiftId": "shift-30dcfa"
+        },
+        {
+          "empId": "emp-ba6292",
+          "shiftId": "shift-865bd6"
         }
       ]
     },
     {
-      "id": "sched-2d4b52",
+      "id": "sched-d76d6e",
       "date": "2024-01-25",
       "assignments": [
         {
-          "empId": "emp-a3b0e9",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-c71286",
+          "shiftId": "shift-7540e7"
         },
         {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-f99f84"
+          "empId": "emp-684e6c",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-224453",
+      "id": "sched-f2546f",
       "date": "2024-01-26",
       "assignments": [
         {
-          "empId": "emp-ae1074",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-1a2e13",
+          "shiftId": "shift-30dcfa"
         }
       ]
     },
     {
-      "id": "sched-f20234",
+      "id": "sched-322c4f",
       "date": "2024-01-27",
       "assignments": [
         {
-          "empId": "emp-32948b",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-65cab1",
+          "shiftId": "shift-30dcfa"
+        },
+        {
+          "empId": "emp-50f95c",
+          "shiftId": "shift-553641"
         }
       ]
     },
     {
-      "id": "sched-ca6854",
+      "id": "sched-268f93",
       "date": "2024-01-28",
       "assignments": [
         {
-          "empId": "emp-4d9e11",
-          "shiftId": "shift-e4b352"
+          "empId": "emp-431d89",
+          "shiftId": "shift-bda29a"
         },
         {
-          "empId": "emp-7160ea",
-          "shiftId": "shift-2d206a"
-        },
-        {
-          "empId": "emp-4d9e11",
-          "shiftId": "shift-5cdf47"
+          "empId": "emp-f44269",
+          "shiftId": "shift-7540e7"
         }
       ]
     },
     {
-      "id": "sched-e32292",
+      "id": "sched-68a8f0",
       "date": "2024-01-29",
       "assignments": [
         {
-          "empId": "emp-424599",
-          "shiftId": "shift-bdc1ff"
+          "empId": "emp-f14249",
+          "shiftId": "shift-553641"
         },
         {
-          "empId": "emp-deea76",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-165658",
+          "shiftId": "shift-30dcfa"
         },
         {
-          "empId": "emp-1da6a3",
-          "shiftId": "shift-2d206a"
+          "empId": "emp-65cab1",
+          "shiftId": "shift-30dcfa"
         }
       ]
     }

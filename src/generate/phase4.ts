@@ -1,4 +1,4 @@
-import { Phase4Data, Phase4Location, Phase4DefinedShift, Phase3Employee } from '../types';
+import { Phase4Data, Phase4Location, Phase4DefinedShift, Phase3Employee, Phase2Schedule, Phase2Assignment } from '../types';
 import { generateId, generateDate, generateFullName, generatePhoneNumber, generateRandomElements, generateAddress } from '../utils/helpers';
 
 const ROLES = [
@@ -170,6 +170,9 @@ export class Phase4Generator {
       const eligibleShifts = this.definedShifts.filter(s =>
         s.eligibleRoles.some((role: string) => employee.roles.includes(role))
       );
+      if (eligibleShifts.length <= 0) {
+        return null;
+      }
       return {
         empId: employee.id,
         shiftId: eligibleShifts[Math.floor(Math.random() * eligibleShifts.length)].id
@@ -182,12 +185,15 @@ export class Phase4Generator {
     };
   }
 
-  private generateSchedule(date: string) {
+  private generateSchedule(date: string): Phase2Schedule {
     const numAssignments = Math.floor(Math.random() * 3) + 1; // 1-3 assignments per day
-    const assignments = [];
+    const assignments: Phase2Assignment[] = [];
 
     for (let i = 0; i < numAssignments; i++) {
-      assignments.push(this.generateAssignment());
+      const assignment = this.generateAssignment();
+      if (assignment) {
+        assignments.push(assignment);
+      }
     }
 
     return {
@@ -198,7 +204,7 @@ export class Phase4Generator {
   }
 
   public generate(): Phase4Data {
-    const schedules = [];
+    const schedules: Phase2Schedule[] = [];
 
     for (let i = 0; i < this.numRecords; i++) {
       const date = generateDate(this.startDate, i);

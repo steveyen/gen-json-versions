@@ -188,7 +188,7 @@ export class Phase5Generator {
     return [baseUnavailability];
   }
 
-  private generateAssignment(): Phase5Assignment {
+  private generateAssignment(): Phase5Assignment | null {
     const employee = this.employees[Math.floor(Math.random() * this.employees.length)];
     let selectedShift = this.definedShifts[Math.floor(Math.random() * this.definedShifts.length)];
 
@@ -200,13 +200,15 @@ export class Phase5Generator {
       const eligibleShifts = this.definedShifts.filter(s =>
         s.eligibleRoles.some((role: string) => employee.roles.some(r => r.name === role))
       );
-      selectedShift = eligibleShifts[Math.floor(Math.random() * eligibleShifts.length)];
+      if (eligibleShifts.length > 0) {
+        selectedShift = eligibleShifts[Math.floor(Math.random() * eligibleShifts.length)];
+      }
     }
 
     const hoursWorked = calculateHoursWorked(selectedShift.startTime, selectedShift.endTime);
     const role = employee.roles.find(r => selectedShift.eligibleRoles.includes(r.name));
     if (!role) {
-      throw new Error(`No eligible role found for employee ${employee.id} and shift ${selectedShift.id}`);
+      return null;
     }
     const calculatedCost = calculateCost(hoursWorked, role.maxHourlyRate);
 
@@ -226,8 +228,10 @@ export class Phase5Generator {
 
     for (let i = 0; i < numAssignments; i++) {
       const assignment = this.generateAssignment();
-      assignments.push(assignment);
-      totalCost += assignment.calculatedCost;
+      if (assignment) {
+        assignments.push(assignment);
+        totalCost += assignment.calculatedCost;
+      }
     }
 
     return {

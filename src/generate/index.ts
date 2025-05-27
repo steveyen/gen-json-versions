@@ -13,6 +13,15 @@ interface GeneratorOptions {
   outputDir?: string;
 }
 
+// Registry of phase generators
+const phaseGenerators = {
+  1: Phase1Generator,
+  2: Phase2Generator,
+  3: Phase3Generator,
+  4: Phase4Generator,
+  5: Phase5Generator,
+} as const;
+
 export class TestDataGenerator {
   private options: Required<GeneratorOptions>;
 
@@ -32,65 +41,27 @@ export class TestDataGenerator {
     console.log(`Generated test data for Phase ${phase} at ${filepath}`);
   }
 
-  public generatePhase1() {
-    const generator = new Phase1Generator(this.options.startDate, this.options.numRecords);
-    const data = generator.generate();
-    this.writeToFile(data, 1);
-    return data;
-  }
-
-  public generatePhase2() {
-    const generator = new Phase2Generator(this.options.startDate, this.options.numRecords, this.options.numEmployees);
-    const data = generator.generate();
-    this.writeToFile(data, 2);
-    return data;
-  }
-
-  public generatePhase3() {
-    const generator = new Phase3Generator(this.options.startDate, this.options.numRecords, this.options.numEmployees);
-    const data = generator.generate();
-    this.writeToFile(data, 3);
-    return data;
-  }
-
-  public generatePhase4() {
-    const generator = new Phase4Generator(this.options.startDate, this.options.numRecords, this.options.numEmployees);
-    const data = generator.generate();
-    this.writeToFile(data, 4);
-    return data;
-  }
-
-  public generatePhase5() {
-    const generator = new Phase5Generator(this.options.startDate, this.options.numRecords, this.options.numEmployees);
-    const data = generator.generate();
-    this.writeToFile(data, 5);
-    return data;
-  }
-
   public generateAll() {
     console.log('Generating test data for all phases...');
-    this.generatePhase1();
-    this.generatePhase2();
-    this.generatePhase3();
-    this.generatePhase4();
-    this.generatePhase5();
+    for (let i = 1; i <= 5; i++) {
+      this.generate(i);
+    }
     console.log('Test data generation complete!');
   }
 
   public generate(phase: number) {
-    switch (phase) {
-      case 1:
-        return this.generatePhase1();
-      case 2:
-        return this.generatePhase2();
-      case 3:
-        return this.generatePhase3();
-      case 4:
-        return this.generatePhase4();
-      case 5:
-        return this.generatePhase5();
-      default:
-        throw new Error("unknown phase: " + phase);
+    const GeneratorClass = phaseGenerators[phase as keyof typeof phaseGenerators];
+    if (!GeneratorClass) {
+      throw new Error(`Unknown phase: ${phase}`);
     }
+
+    const generator = new GeneratorClass(
+      this.options.startDate,
+      this.options.numRecords,
+      this.options.numEmployees
+    );
+    const data = generator.generate();
+    this.writeToFile(data, phase);
+    return data;
   }
 }

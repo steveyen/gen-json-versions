@@ -130,6 +130,9 @@ export class Phase3Generator {
       const eligibleShifts = this.definedShifts.filter(s =>
         s.eligibleRoles.some(role => employee.roles.includes(role))
       );
+      if (eligibleShifts.length <= 0) {
+        return null;
+      }
       return {
         empId: employee.id,
         shiftId: eligibleShifts[Math.floor(Math.random() * eligibleShifts.length)].id
@@ -147,7 +150,10 @@ export class Phase3Generator {
     const assignments = [];
 
     for (let i = 0; i < numAssignments; i++) {
-      assignments.push(this.generateAssignment());
+      const assignment = this.generateAssignment();
+      if (assignment) {
+        assignments.push(assignment);
+      }
     }
 
     return {
