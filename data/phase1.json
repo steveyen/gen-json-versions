@@ -1,0 +1,404 @@
+{
+  "sched": [
+    {
+      "id": "sched-1b40f9",
+      "date": "2023-12-31",
+      "assignments": [
+        {
+          "employeeName": "Christopher Blick",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-3ec7c6",
+      "date": "2024-01-01",
+      "assignments": [
+        {
+          "employeeName": "Lewis Yundt I",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        },
+        {
+          "employeeName": "Raul Schamberger",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        },
+        {
+          "employeeName": "Patrick Volkman",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-114761",
+      "date": "2024-01-02",
+      "assignments": [
+        {
+          "employeeName": "Ray Heathcote",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Fredrick Bins",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        },
+        {
+          "employeeName": "Delia Stamm",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-44a88b",
+      "date": "2024-01-03",
+      "assignments": [
+        {
+          "employeeName": "Gene Thiel",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-4dec08",
+      "date": "2024-01-04",
+      "assignments": [
+        {
+          "employeeName": "Janis Haag",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-7e3a34",
+      "date": "2024-01-05",
+      "assignments": [
+        {
+          "employeeName": "Casey Ryan",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-0402ee",
+      "date": "2024-01-06",
+      "assignments": [
+        {
+          "employeeName": "Gustavo Stiedemann",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-f6ce5a",
+      "date": "2024-01-07",
+      "assignments": [
+        {
+          "employeeName": "Anna Grant",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        },
+        {
+          "employeeName": "Dean Lueilwitz",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-841413",
+      "date": "2024-01-08",
+      "assignments": [
+        {
+          "employeeName": "June Towne",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-037a98",
+      "date": "2024-01-09",
+      "assignments": [
+        {
+          "employeeName": "Leticia Gaylord",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Elmer Dibbert",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        },
+        {
+          "employeeName": "Miss Annie Beatty",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-0f897f",
+      "date": "2024-01-10",
+      "assignments": [
+        {
+          "employeeName": "Wanda Oberbrunner",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-6317d8",
+      "date": "2024-01-11",
+      "assignments": [
+        {
+          "employeeName": "Tracy Bayer",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Bertha Kuphal",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-4c60e7",
+      "date": "2024-01-12",
+      "assignments": [
+        {
+          "employeeName": "Bennie Turcotte",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Rosemarie Hettinger",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-a9070c",
+      "date": "2024-01-13",
+      "assignments": [
+        {
+          "employeeName": "Miss Dennis Jaskolski",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        },
+        {
+          "employeeName": "Carol Hamill",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        },
+        {
+          "employeeName": "Alberta Hackett",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-810dd1",
+      "date": "2024-01-14",
+      "assignments": [
+        {
+          "employeeName": "Ms. Loren Bayer",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        },
+        {
+          "employeeName": "Kathryn Shanahan",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        },
+        {
+          "employeeName": "Miss Rudolph Walker",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-13e73a",
+      "date": "2024-01-15",
+      "assignments": [
+        {
+          "employeeName": "Muriel Bernier",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-2cb38d",
+      "date": "2024-01-16",
+      "assignments": [
+        {
+          "employeeName": "Henry Nolan",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        },
+        {
+          "employeeName": "Andy Reichert",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-0c505c",
+      "date": "2024-01-17",
+      "assignments": [
+        {
+          "employeeName": "Diana Rowe",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        },
+        {
+          "employeeName": "Ruben Stokes",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Ms. Bert Skiles",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-d4139b",
+      "date": "2024-01-18",
+      "assignments": [
+        {
+          "employeeName": "Joe Collier",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Leticia Hartmann",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        },
+        {
+          "employeeName": "Brandy Hettinger",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-107476",
+      "date": "2024-01-19",
+      "assignments": [
+        {
+          "employeeName": "Dr. Emily Douglas",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-f30d75",
+      "date": "2024-01-20",
+      "assignments": [
+        {
+          "employeeName": "Monique Ratke",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-b0dff9",
+      "date": "2024-01-21",
+      "assignments": [
+        {
+          "employeeName": "Julia Goodwin",
+          "shift": "Morning Bake (6 AM - 2 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-5ad18a",
+      "date": "2024-01-22",
+      "assignments": [
+        {
+          "employeeName": "Rodolfo Osinski",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        },
+        {
+          "employeeName": "Dave Lakin MD",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-8db80c",
+      "date": "2024-01-23",
+      "assignments": [
+        {
+          "employeeName": "Chad Bashirian",
+          "shift": "Weekend Evening (3 PM - 11 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-d99fdc",
+      "date": "2024-01-24",
+      "assignments": [
+        {
+          "employeeName": "Carroll Schmidt",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-6aad43",
+      "date": "2024-01-25",
+      "assignments": [
+        {
+          "employeeName": "Jesus Kulas",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        },
+        {
+          "employeeName": "Gregory Swift",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-cf196b",
+      "date": "2024-01-26",
+      "assignments": [
+        {
+          "employeeName": "Brenda Bins DVM",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        },
+        {
+          "employeeName": "Terence Larkin DVM",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        },
+        {
+          "employeeName": "Mike Wunsch V",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-0d9327",
+      "date": "2024-01-27",
+      "assignments": [
+        {
+          "employeeName": "Nadine Bechtelar",
+          "shift": "Afternoon Cashier (12 PM - 8 PM)"
+        },
+        {
+          "employeeName": "Dianne Hermiston Sr.",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        },
+        {
+          "employeeName": "Ted Upton",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-8bdd7f",
+      "date": "2024-01-28",
+      "assignments": [
+        {
+          "employeeName": "Nicole Berge",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        },
+        {
+          "employeeName": "Suzanne Huels",
+          "shift": "Weekend Morning (7 AM - 3 PM)"
+        }
+      ]
+    },
+    {
+      "id": "sched-6e7503",
+      "date": "2024-01-29",
+      "assignments": [
+        {
+          "employeeName": "Jose Sanford",
+          "shift": "Evening Prep (4 PM - 10 PM)"
+        }
+      ]
+    }
+  ]
+}

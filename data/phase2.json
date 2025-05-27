@@ -1,0 +1,530 @@
+{
+  "emp": [
+    {
+      "id": "emp-3bb742",
+      "fullName": "Nick Deckow",
+      "contactNumber": "198-6414"
+    },
+    {
+      "id": "emp-32948b",
+      "fullName": "Joanna Schaefer",
+      "contactNumber": "192-0220"
+    },
+    {
+      "id": "emp-a3b0e9",
+      "fullName": "Rachael Prosacco",
+      "contactNumber": "717-6159"
+    },
+    {
+      "id": "emp-b28e90",
+      "fullName": "Maureen Balistreri",
+      "contactNumber": "341-8785"
+    },
+    {
+      "id": "emp-deea76",
+      "fullName": "Josh Lind",
+      "contactNumber": "108-4277"
+    },
+    {
+      "id": "emp-4d9e11",
+      "fullName": "Melba Grimes",
+      "contactNumber": "731-1428"
+    },
+    {
+      "id": "emp-988873",
+      "fullName": "Linda Watsica",
+      "contactNumber": "741-1752"
+    },
+    {
+      "id": "emp-424599",
+      "fullName": "Margarita Kertzmann",
+      "contactNumber": "570-8418"
+    },
+    {
+      "id": "emp-1da6a3",
+      "fullName": "Kellie Shanahan",
+      "contactNumber": "598-1686"
+    },
+    {
+      "id": "emp-ae1074",
+      "fullName": "Ken Wiza",
+      "contactNumber": "564-1543"
+    },
+    {
+      "id": "emp-de2d92",
+      "fullName": "Mr. Iris Leffler",
+      "contactNumber": "141-9849"
+    },
+    {
+      "id": "emp-ca59ed",
+      "fullName": "Melanie Hodkiewicz",
+      "contactNumber": "430-6849"
+    },
+    {
+      "id": "emp-bb7d28",
+      "fullName": "Troy Wilkinson",
+      "contactNumber": "222-6657"
+    },
+    {
+      "id": "emp-7160ea",
+      "fullName": "Allison Hirthe",
+      "contactNumber": "597-7203"
+    },
+    {
+      "id": "emp-5b3648",
+      "fullName": "Lula Spinka V",
+      "contactNumber": "243-5959"
+    }
+  ],
+  "definedShifts": [
+    {
+      "id": "shift-5cdf47",
+      "name": "Morning Baker",
+      "startTime": "06:00",
+      "endTime": "14:00",
+      "description": "Primary baking shift for breads and morning pastries."
+    },
+    {
+      "id": "shift-2d206a",
+      "name": "Afternoon Cashier",
+      "startTime": "12:00",
+      "endTime": "20:00",
+      "description": "Customer service and sales at the counter."
+    },
+    {
+      "id": "shift-bdc1ff",
+      "name": "Evening Prep",
+      "startTime": "16:00",
+      "endTime": "22:00",
+      "description": "Preparing ingredients and doughs for the next day."
+    },
+    {
+      "id": "shift-e4b352",
+      "name": "Weekend Morning",
+      "startTime": "07:00",
+      "endTime": "15:00",
+      "description": "Weekend morning shift covering both baking and sales."
+    },
+    {
+      "id": "shift-f99f84",
+      "name": "Weekend Evening",
+      "startTime": "15:00",
+      "endTime": "23:00",
+      "description": "Weekend evening shift covering both sales and prep."
+    }
+  ],
+  "sched": [
+    {
+      "id": "sched-625be0",
+      "date": "2023-12-31",
+      "assignments": [
+        {
+          "empId": "emp-b28e90",
+          "shiftId": "shift-5cdf47"
+        },
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-424599",
+          "shiftId": "shift-e4b352"
+        }
+      ]
+    },
+    {
+      "id": "sched-4352a5",
+      "date": "2024-01-01",
+      "assignments": [
+        {
+          "empId": "emp-4d9e11",
+          "shiftId": "shift-e4b352"
+        }
+      ]
+    },
+    {
+      "id": "sched-dbc515",
+      "date": "2024-01-02",
+      "assignments": [
+        {
+          "empId": "emp-b28e90",
+          "shiftId": "shift-5cdf47"
+        },
+        {
+          "empId": "emp-a3b0e9",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-17faba",
+      "date": "2024-01-03",
+      "assignments": [
+        {
+          "empId": "emp-1da6a3",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-3618a9",
+      "date": "2024-01-04",
+      "assignments": [
+        {
+          "empId": "emp-ae1074",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-32948b",
+          "shiftId": "shift-5cdf47"
+        },
+        {
+          "empId": "emp-b28e90",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-e79497",
+      "date": "2024-01-05",
+      "assignments": [
+        {
+          "empId": "emp-4d9e11",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-988873",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-efb959",
+      "date": "2024-01-06",
+      "assignments": [
+        {
+          "empId": "emp-424599",
+          "shiftId": "shift-e4b352"
+        },
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-988873",
+          "shiftId": "shift-e4b352"
+        }
+      ]
+    },
+    {
+      "id": "sched-6e21cc",
+      "date": "2024-01-07",
+      "assignments": [
+        {
+          "empId": "emp-4d9e11",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-988873",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-0a1d36",
+      "date": "2024-01-08",
+      "assignments": [
+        {
+          "empId": "emp-32948b",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-ca59ed",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-73d184",
+      "date": "2024-01-09",
+      "assignments": [
+        {
+          "empId": "emp-32948b",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-ca59ed",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-ad5210",
+      "date": "2024-01-10",
+      "assignments": [
+        {
+          "empId": "emp-1da6a3",
+          "shiftId": "shift-5cdf47"
+        },
+        {
+          "empId": "emp-4d9e11",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-988873",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-0d38b0",
+      "date": "2024-01-11",
+      "assignments": [
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-43af4e",
+      "date": "2024-01-12",
+      "assignments": [
+        {
+          "empId": "emp-b28e90",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-424599",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-1da6a3",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-029c98",
+      "date": "2024-01-13",
+      "assignments": [
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-deea76",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-e2e8da",
+      "date": "2024-01-14",
+      "assignments": [
+        {
+          "empId": "emp-988873",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-8bbf55",
+      "date": "2024-01-15",
+      "assignments": [
+        {
+          "empId": "emp-deea76",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-6e0d8f",
+      "date": "2024-01-16",
+      "assignments": [
+        {
+          "empId": "emp-deea76",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-86a515",
+      "date": "2024-01-17",
+      "assignments": [
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-bb7d28",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-3bb742",
+          "shiftId": "shift-bdc1ff"
+        }
+      ]
+    },
+    {
+      "id": "sched-a723ee",
+      "date": "2024-01-18",
+      "assignments": [
+        {
+          "empId": "emp-ca59ed",
+          "shiftId": "shift-e4b352"
+        },
+        {
+          "empId": "emp-de2d92",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-de2d92",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-5a0be6",
+      "date": "2024-01-19",
+      "assignments": [
+        {
+          "empId": "emp-3bb742",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-2d8ad7",
+      "date": "2024-01-20",
+      "assignments": [
+        {
+          "empId": "emp-b28e90",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-424599",
+          "shiftId": "shift-e4b352"
+        }
+      ]
+    },
+    {
+      "id": "sched-08342c",
+      "date": "2024-01-21",
+      "assignments": [
+        {
+          "empId": "emp-424599",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-5b3648",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-fc857f",
+      "date": "2024-01-22",
+      "assignments": [
+        {
+          "empId": "emp-a3b0e9",
+          "shiftId": "shift-f99f84"
+        },
+        {
+          "empId": "emp-de2d92",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-239f0c",
+      "date": "2024-01-23",
+      "assignments": [
+        {
+          "empId": "emp-ae1074",
+          "shiftId": "shift-bdc1ff"
+        }
+      ]
+    },
+    {
+      "id": "sched-805300",
+      "date": "2024-01-24",
+      "assignments": [
+        {
+          "empId": "emp-de2d92",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-2d4b52",
+      "date": "2024-01-25",
+      "assignments": [
+        {
+          "empId": "emp-a3b0e9",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-f99f84"
+        }
+      ]
+    },
+    {
+      "id": "sched-224453",
+      "date": "2024-01-26",
+      "assignments": [
+        {
+          "empId": "emp-ae1074",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-f20234",
+      "date": "2024-01-27",
+      "assignments": [
+        {
+          "empId": "emp-32948b",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    },
+    {
+      "id": "sched-ca6854",
+      "date": "2024-01-28",
+      "assignments": [
+        {
+          "empId": "emp-4d9e11",
+          "shiftId": "shift-e4b352"
+        },
+        {
+          "empId": "emp-7160ea",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-4d9e11",
+          "shiftId": "shift-5cdf47"
+        }
+      ]
+    },
+    {
+      "id": "sched-e32292",
+      "date": "2024-01-29",
+      "assignments": [
+        {
+          "empId": "emp-424599",
+          "shiftId": "shift-bdc1ff"
+        },
+        {
+          "empId": "emp-deea76",
+          "shiftId": "shift-2d206a"
+        },
+        {
+          "empId": "emp-1da6a3",
+          "shiftId": "shift-2d206a"
+        }
+      ]
+    }
+  ]
+}

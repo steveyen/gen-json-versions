@@ -76,4 +76,21 @@ export class TestDataGenerator {
     this.generatePhase5();
     console.log('Test data generation complete!');
   }
+
+  public generate(phase: number) {
+    switch (phase) {
+      case 1:
+        return this.generatePhase1();
+      case 2:
+        return this.generatePhase2();
+      case 3:
+        return this.generatePhase3();
+      case 4:
+        return this.generatePhase4();
+      case 5:
+        return this.generatePhase5();
+      default:
+        throw new Error("unknown phase: " + phase);
+    }
+  }
 }

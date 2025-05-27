@@ -35,7 +35,7 @@ npm run generate -- -p 3
 - `-s, --start-date <date>`: Start date for the test data (YYYY-MM-DD), defaults to 2024-01-01
 - `-r, --records <number>`: Number of records to generate, defaults to 30
 - `-e, --employees <number>`: Number of employees to generate, defaults to 15
-- `-o, --output-dir <path>`: Output directory for the generated data, defaults to 'test-data'
+- `-o, --output-dir <path>`: Output directory for the generated data, defaults to 'data'
 - `-p, --phase <number>`: Specific phase to generate (1-5), or "all" for all phases, defaults to "all"
 
 ### Examples

@@ -44,28 +44,7 @@ program
       generator.generateAll();
     } else {
       const phase = parseInt(options.phase);
-      if (phase < 1 || phase > 5) {
-        console.error('Invalid phase number. Please specify a number between 1 and 5, or "all".');
-        process.exit(1);
-      }
-
-      switch (phase) {
-        case 1:
-          generator.generatePhase1();
-          break;
-        case 2:
-          generator.generatePhase2();
-          break;
-        case 3:
-          generator.generatePhase3();
-          break;
-        case 4:
-          generator.generatePhase4();
-          break;
-        case 5:
-          generator.generatePhase5();
-          break;
-      }
+      generator.generate(phase);
     }
   });
 
