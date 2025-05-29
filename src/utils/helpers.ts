@@ -2,6 +2,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { addDays, format, parseISO } from 'date-fns';
 import faker from 'faker';
 
+// Set a fixed seed for consistent data generation
+faker.seed(123); // You can change this number to get different but still consistent data
+
 export const generateId = (prefix: string): string => {
   return `${prefix}-${uuidv4().slice(0, 6)}`;
 };
