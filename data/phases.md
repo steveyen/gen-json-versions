@@ -33,7 +33,14 @@ link an `employeeName` to a `shift`.
       "assignments": [
         {
           "employeeName": "Alice Wonderland",
-          "shift": "Morning Bake (6 AM - 2 PM)"
+          "shift": "Morning Bake (6 AM - 2 PM)",
+          "^shift": {
+            "values": [
+              "Morning Bake (6 AM - 2 PM)",
+              "Morning Cashier (7 AM - 1 PM)",
+              "Afternoon Cashier (12 PM - 8 PM)"
+            ]
+          }
         },
         {
           "employeeName": "Bob The Baker",
@@ -150,6 +157,12 @@ e.g., "shift-ms001"), a `name` (e.g., "Morning Baker"),
       "endTime": "14:00",
       "description": "Primary baking shift for breads and morning pastries."
     }, {
+      "id": "shift-mc011",
+      "name": "Morning Cashier",
+      "startTime": "07:00",
+      "endTime": "13:00",
+      "description": "Customer service and sales at the counter."
+    }, {
       "id": "shift-ac001",
       "name": "Afternoon Cashier",
       "startTime": "12:00",
@@ -208,7 +221,10 @@ roles are suitable for that shift."
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
       "contactNumber": "555-1234",
-      "roles": ["Baker", "Cake Decorator"] // New field
+      "roles": ["Baker", "Cake Decorator"], // New field
+      "^roles": {
+        "values": ["Baker", "Cake Decorator", "Lead Baker", "Cashier", "Barista", "Utility"]
+      }
     }, {
       "id": "emp-0002",
       "fullName": "Bob The Baker",
@@ -227,13 +243,18 @@ roles are suitable for that shift."
       "name": "Morning Baker",
       "startTime": "06:00",
       "endTime": "14:00",
-      "description": "Primary baking shift for breads and morning pastries.", "eligibleRoles": ["Baker", "Lead Baker"] // New field
+      "description": "Primary baking shift for breads and morning pastries.",
+      "eligibleRoles": ["Baker", "Lead Baker"], // New field
+      "^eligibleRoles": {
+        "values": ["Baker", "Cake Decorator", "Lead Baker", "Cashier", "Barista", "Utility"]
+      }
     }, {
       "id": "shift-ac001",
       "name": "Afternoon Cashier",
       "startTime": "12:00",
       "endTime": "20:00",
-      "description": "Customer service and sales at the counter.", "eligibleRoles": ["Cashier"] // New field
+      "description": "Customer service and sales at the counter.",
+      "eligibleRoles": ["Cashier"] // New field
     } // ...
   ],
   "sched": [
@@ -272,7 +293,10 @@ scheduling someone when they are unavailable."
           "startDate": "2025-10-20",
           "endDate": "2025-10-22",
           "reason": "Vacation",
-          "status": "Approved" // "Requested", "Approved", "Denied"
+          "status": "Approved", // "Requested", "Approved", "Denied"
+          "^status": {
+            "values": ["Requested", "Approved", "Denied"]
+          }
         }, {
           "requestId": "ru001",
           "type": "Recurring Unavailability",
@@ -343,7 +367,7 @@ at specific locations."
     }, {
       "id": "shift-mkm001", // More specific ID
       "locationId": "loc-0002", // New field
-      "name": "Morning Kiosk Seller",
+      "name": "Morning Seller - Kiosk",
       "startTime": "08:00",
       "endTime": "13:00",
       "description": "Selling pastries and coffee at the market kiosk.",
