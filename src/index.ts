@@ -2,7 +2,6 @@
 
 import { Command } from 'commander';
 import { version } from '../package.json';
-import { TestDataGenerator } from './generate';
 
 const program = new Command();
 
@@ -33,19 +32,14 @@ program
   .option('-o, --output-dir <path>', 'Output directory for the generated data', 'data')
   .option('-p, --phase <number>', 'Specific phase to generate (1-5), or "all" for all phases', 'all')
   .action((options) => {
-    const generator = new TestDataGenerator({
-      startDate: new Date(options.startDate),
-      numRecords: parseInt(options.records),
-      numEmployees: parseInt(options.employees),
-      outputDir: options.outputDir
-    });
+    // TODO: const generator = new TestDataGenerator({
+    //   startDate: new Date(options.startDate),
+    //   numRecords: parseInt(options.records),
+    //   numEmployees: parseInt(options.employees),
+    //   outputDir: options.outputDir
+    // });
 
-    if (options.phase === 'all') {
-      generator.generateAll();
-    } else {
-      const phase = parseInt(options.phase);
-      generator.generate(phase);
-    }
+    // generator.generate();
   });
 
 program.parse();
