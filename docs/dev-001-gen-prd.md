@@ -70,7 +70,7 @@ This tool solves the problem of creating realistic, consistent sample datasets f
 ## Design Considerations
 
 ### CLI Interface Design
-- Simple, intuitive command structure: `generate emp.json phases.md ./output-dir/`
+- Simple, intuitive command structure: `gen emp.json phases.md ./output-dir/`
 
 ### File Naming Convention
 - Output files should follow the pattern: `phase-v{version}.json`
@@ -78,12 +78,19 @@ This tool solves the problem of creating realistic, consistent sample datasets f
 - Files should be created in the specified output directory
 
 ### Data Generation Strategy
-- Use employee data from input file as the source of truth
+- Use employee data from input file as the source of truth for employees
 - Generate proper dates, times, and business data
 - Maintain relationships between entities
 - Follow the schema structure shown in JSON examples from markdown
+- Sample JSON data from the phases markdown file needs to be treated
+  like templates or prototype data for data generation.
+- Valid values from the JSON examples needs to collected
+  to form enumerations of valid values.
 
 ## Technical Considerations
+
+### Avoid AI / LLM usage
+- During CLI runtime, we'll use deterministic algorithms instead of calls to AI / LLM's.
 
 ### Markdown Parsing
 - Parse markdown to identify phase sections and version numbers
