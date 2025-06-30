@@ -1,7 +1,7 @@
 {
   "name": "ai-agentic-team-task-management",
   "version": "0.0.1",
-  "main": "dist/index.js",
+  "main": "dist/cli.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
