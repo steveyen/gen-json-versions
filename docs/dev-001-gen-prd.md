@@ -1,28 +1,32 @@
-# The Sweet Spot: Evolving a Bakery Employee Scheduling App
+# PRD -- The Sweet Spot: Evolving Data for a Bakery Employee Scheduling App
 
 Let's simulate a scenario where a small bakery, "The Sweet Spot",
 gradually expands its operations. As their business grows, so do the
 needs for team scheduling, where they've started tracking their
 team scheduling data as JSON records.
 
+The goal or requirement in the PRD is to specify a data generator CLI tool
+that can output sample JSON records for this bakery as it evolves
+over time.
+
 We'll be working with JSON data schemas throughout this project
-and its evolution through multiple versions and feature enhancements
-that were requested by the bakery.
+and the bakery's evolution through multiple schema versions and feature
+enhancements that were requested by the bakery owner.
 
 ## Phase 1: The Bare Bones Schedule
 
-### Feature Ask 1.0: The Start
+### Data Version v1.0: The Start
 
 "As the bakery owner, I need a simple way to create
 a weekly schedule that lists which employee is working on which day
 and their assigned shift (e.g., Morning Bake, Afternoon Cashier, etc)."
 
-### Initial JSON Data Schema (Version 1.0)
-
 To start, we'll have multiple JSON objects, one JSON document per
 daily schedule. Each schedule object will specify the `date`
 and an array of `assignments`. Each `assignment` will
 link an `employeeName` to a `shift`.
+
+#### Example JSON v1.0:
 
 ```json
 {
@@ -66,15 +70,13 @@ A few months later, The Sweet Spot is doing well!
 They've hired more staff and need better ways to manage
 employee information and define shifts more formally.
 
-### Feature Ask 2.1: Centralized Employee Roster
+### Data Version v2.0: Centralized Employee Roster
 
 "We have more staff now, and just typing names is
 leading to inconsistencies. I need a separate place to
 manage employee details like their full name and a
 unique employee ID. When scheduling, I want to refer to
 these employees by their ID."
-
-### JSON Data Schema Changes (Version 1.1)
 
 - Introduce employee JSON records.
 
@@ -85,7 +87,7 @@ and a `fullName`.
 - From now on, a schedule will refer to `empId`
   instead of `employeeName`.
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v2.0:
 
 ```json {
   "emp": [
@@ -118,16 +120,15 @@ and a `fullName`.
       ]
     } // ...
   ]
-} ```
+}
+```
 
-### Feature Ask 2.2: Standardized Shift Definitions
+### Data Version v2.1: Standardized Shift Definitions
 
 "Typing out shift details like 'Morning Bake (6 AM - 2 PM)' every time is
 tedious and error-prone. We need to define standard shifts (e.g., 'Morning
 Baker', 'Afternoon Cashier', 'Evening Prep') with set start and end times,
 and then assign employees to these predefined shifts."
-
-### JSON Data Schema Changes (Version 1.2)
 
 - Introduce another new top-level array called `definedShifts`.
 
@@ -136,14 +137,14 @@ e.g., "shift-ms001"), a `name` (e.g., "Morning Baker"),
 `startTime` (e.g., "06:00"), and `endTime` (e.g., "14:00").
 
 - In the `assignments` of a daily `schedule`, instead of a
-free-text `shift` description, we'll now use `shiftId` to
-link to the new `definedShifts` array.
+  free-text `shift` description, we'll now use `shiftId` to
+  link to the new `definedShifts` array.
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v2.1:
 
 ```json {
   "emp": [
-    // ... (as in v1.1)
+    // ... (as in v2.0)
   ],
   "definedShifts": [
     {
@@ -181,14 +182,15 @@ link to the new `definedShifts` array.
       ]
     } // ...
   ]
-} ```
+}
+```
 
 ## Phase 3: Specialization and Availability
 
 The Sweet Spot is now a bustling local favorite! They have specialized
 roles and staff have different availability constraints.
 
-### Feature Ask 3.1: Employee Roles & Shift Suitability
+### Data Version v3.0: Employee Roles & Shift Suitability
 
 "Some of my staff are trained as bakers, others mainly for counter service, and
 some are good at cake decorating. I need to track employee roles. Also, not
@@ -196,15 +198,13 @@ every shift is suitable for every role (e.g., a cashier can't cover a 'Master
 Baker' shift). It would be great if, when assigning shifts, we could see which
 roles are suitable for that shift."
 
-### JSON Data Schema Changes (Version 1.3)
-
 - Add a `roles` array to each object in the `employees` array (e.g., `roles:
-["Baker", "Cashier"]`). An employee can have multiple roles.  - Add an
-`eligibleRoles` array to each object in the `definedShifts` array (e.g.,
-`eligibleRoles: ["Baker", "Lead Baker"]`). This indicates which roles can be
-assigned to this shift.
+  ["Baker", "Cashier"]`). An employee can have multiple roles.  - Add an
+  `eligibleRoles` array to each object in the `definedShifts` array (e.g.,
+  `eligibleRoles: ["Baker", "Lead Baker"]`). This indicates which roles can be
+  assigned to this shift.
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v3.0:
 
 ```json {
   "emp": [
@@ -244,24 +244,23 @@ assigned to this shift.
     // ... (structure remains the same, but assignments now implicitly link to
     employees with roles and shifts with eligible roles)
   ]
-} ```
+}
+```
 
-### Feature Ask 3.2: Employee Unavailability & Time Off Requests
+### Data Version v3.1: Employee Unavailability & Time Off Requests
 
 "Staff need to be able to request time off, and I need to mark their
 unavailability (e.g., student only works evenings, someone has a recurring
 Tuesday morning appointment). The system should prevent me from accidentally
 scheduling someone when they are unavailable."
 
-### JSON Data Schema Changes (Version 1.4)
-
 - Add an `unavailability` array to each `employee` object.
-Each item in this array is an object specifying `startDate`,
-`endDate`, `startTime` (optional), `endTime` (optional),
-`reason` (e.g., "Vacation," "Doctor's Appointment," "Recurring Class"),
-and `status` (e.g., "Requested", "Approved", "Denied").
+  Each item in this array is an object specifying `startDate`,
+  `endDate`, `startTime` (optional), `endTime` (optional),
+  `reason` (e.g., "Vacation," "Doctor's Appointment," "Recurring Class"),
+  and `status` (e.g., "Requested", "Approved", "Denied").
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v3.1:
 
 ```json {
   "emp": [
@@ -291,40 +290,39 @@ and `status` (e.g., "Requested", "Approved", "Denied").
     } // ...
   ],
   "definedShifts": [
-    // ... (as in v1.3)
+    // ... (as in v3.0)
   ],
   "sched": [
     // ... (structure remains the same,
     //      but scheduling logic now needs to check unavailability)
   ]
-} ```
+}
+```
 
 ## Phase 4: Workflow Enhancements & Reporting
 
 The Sweet Spot is thriving and opening a second, smaller
 kiosk location! They need more robust scheduling features.
 
-### Feature Ask 4.1: Multiple Locations
+### Data Version v4.0: Multiple Locations
 
 "We're opening a kiosk at the farmer's market! I need to create schedules for
 different locations ('Main Bakery', 'Market Kiosk') and assign staff to shifts
 at specific locations."
 
-### JSON Data Schema Changes (Version 1.5)
-
 - We'll introduce a new top-level array `locations`. Each location
-will have `locationId` (e.g., "loc01") and
-a `locationName` (e.g., "Main Bakery").
+  will have `locationId` (e.g., "loc01") and
+  a `locationName` (e.g., "Main Bakery").
 
 - Add `locationId` to each `definedShift` object. This means a
-shift definition is now tied to a location (e.g., "Morning Baker
-at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
+  shift definition is now tied to a location (e.g., "Morning Baker
+  at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v4.0:
 
 ```json {
   "emp": [
-    // ... (as in v1.4)
+    // ... (as in v3.1)
   ],
   "loc": [ // New top-level entity
     {
@@ -371,17 +369,16 @@ at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
       ]
     }
   ]
-} ```
+}
+```
 
-### Feature Ask 4.2: Shift Swapping/Cover Requests & Audit Trail
+### Data Version v4.1: Shift Swapping/Cover Requests & Audit Trail
 
 "Staff often want to swap shifts or request someone to cover
 their shift. I need a formal way to manage these requests,
 get approvals, and see a history of who originally was
 scheduled versus who actually worked it (an audit trail
 for the assignment)."
-
-### JSON Data Schema Changes (Version 1.6)
 
 - We'll modify the `assignment` object within a daily `schedule`.
   - Add an `originalEmpId` (if different from the current `employeeId`
@@ -393,10 +390,10 @@ for the assignment)."
     `previousEmpId`, `newEmpId`, `action` (e.g., "Swap Request",
     "Cover Approved by Manager"), and `notes`.
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v4.1:
 
 ```json {
-  // ... emp, loc, definedShifts as in v1.5
+  // ... emp, loc, definedShifts as in v4.0
 
   "sched": [
     {
@@ -438,7 +435,8 @@ for the assignment)."
 	      } // ... more assignments
     }
 	]
-} ```
+}
+```
 
 ## Phase 5: Advanced Business Operations & Analytics
 
@@ -446,21 +444,19 @@ The Sweet Spot has grown into a successful multi-location
 business and needs more sophisticated features to manage
 operations and analyze performance.
 
-### Feature Ask 5.1: Labor Cost Tracking & Budget Management
+### Data Version v5.0: Labor Cost Tracking & Budget Management
 
 "As we've grown, I need to track labor costs more precisely.
 Each role should have an associated hourly rate, and I want to
 be able to set weekly labor budgets per location. The system
 should warn me if a schedule exceeds the budget."
 
-### JSON Data Schema Changes (Version 1.7)
-
 - Add `hourlyRate` to each `role` in the `roles` array
 - Add `laborBudget` to each `location` object
 - Add `actualCost` to each `schedule` object
 - Modify `assignment` to include `hoursWorked` and `calculatedCost`
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v5.0:
 
 ```json {
   "emp": [
@@ -517,19 +513,17 @@ should warn me if a schedule exceeds the budget."
 As The Sweet Spot continues to grow and evolve, some field names need to be
 updated to better reflect their purpose and accommodate future flexibility.
 
-### Feature Ask 6.1: Hourly Rate Field Renaming
+### Data Version v6.0: Hourly Rate Field Renaming
 
 "We need to rename the hourlyRate field to maxHourlyRate to better reflect
 that this is the maximum rate an employee can earn in this role. This will
 help us prepare for future features where we might want to implement
 different rates based on experience level or performance."
 
-### JSON Data Schema Changes (Version 1.8)
-
 - Rename `hourlyRate` to `maxHourlyRate` in the employee roles array
 - Update all references to use the new field name
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v6.0:
 
 ```json {
   "emp": [
@@ -560,19 +554,17 @@ different rates based on experience level or performance."
 As The Sweet Spot grows, they hear that a best practice is
 to use snake_case for naming fields.
 
-### Feature Ask 7.1: Consistent Snake Case Field Names
+### Data Version v7.0: Consistent Snake Case Field Names
 
 "Our boss heard that systems often use snake_case as their standard.
 To maintain consistency and reduce confusion, we need to convert all
 our JSON field names to use snake_case instead of camelCase."
 
-### JSON Data Schema Changes (Version 1.9)
-
 - Convert all field names to lowercase snake_case format
 - Maintain the same data structure and relationships
 - Update all references to use the new field names
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v7.0:
 
 ```json {
   "emp": [
@@ -656,21 +648,19 @@ The Sweet Spot has expanded internationally! Well, they've opened a location
 in Canada, right across the border. This brings new challenges in managing
 costs and budgets across different currencies.
 
-### Feature Ask 8.1: Multi-Currency Support
+### Data Version v8.0: Multi-Currency Support
 
 "With our new Canadian location, we need to track costs in both USD and CAD.
 Some of our reports need to show costs in the local currency, while others
 need to show everything converted to USD for company-wide analysis. We also
 need to handle currency conversion rates that change over time."
 
-### JSON Data Schema Changes (Version 2.0)
-
 - Add `currency` field to `location` objects
 - Add `exchange_rates` as a new top-level array to track historical rates
 - Modify cost-related fields to include both local and converted amounts
 - Add currency conversion tracking to cost calculations
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v8.0:
 
 ```json {
   "loc": [
@@ -746,13 +736,15 @@ need to handle currency conversion rates that change over time."
 ```
 
 This enhancement allows The Sweet Spot to:
+
 - Track costs in local currencies for each location
 - Maintain historical exchange rates for accurate reporting
 - Convert costs to a standard currency (USD) for company-wide analysis
 - Generate reports in either local or converted currencies
 - Handle currency fluctuations over time while maintaining historical accuracy
 
-The system can now support future international expansion by simply adding new locations with their respective currencies and exchange rates.
+The system can now support future international expansion by
+simply adding new locations with their respective currencies and exchange rates.
 
 ## Phase 9: Planning Enhancement
 
@@ -760,7 +752,7 @@ Planning just one week at a time isn't cutting it anymore,
 and they need better control over the schedule
 publication process.
 
-### Feature Ask 9.1: Schedule Status & Extended Planning
+### Data Version v9.0: Schedule Status & Extended Planning
 
 "We need to plan schedules further in advance and have better control
 over when schedules are visible to staff. Sometimes we need to make
@@ -768,13 +760,11 @@ draft schedules that aren't ready for staff to see, and we need a way
 to confirm when shifts are actually worked. Also, we want to plan
 schedules for longer periods, not just week by week."
 
-### JSON Data Schema Changes (Version 2.1)
-
 - Add `status` field to each schedule object
 - Add `published_at` and `confirmed_at` timestamps
 - Add `version` tracking for schedule revisions
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v9.0:
 
 ```json {
   "sched": [
@@ -853,7 +843,7 @@ the main `status` as "Scheduled", but track the proposed changes
 in other ways. Perhaps the change history already tells us the
 proposal status?
 
-### Feature Ask 10.1: Simplified Status Management
+### Data Version v10.0: Simplified Status Management
 
 "We need to simplify how we track assignment status. Currently, when someone
 requests a swap or cover, the status changes from 'Scheduled' to something
@@ -861,13 +851,11 @@ like 'SwapRequested', which confuses employees. They think their shift is
 no longer scheduled. We should keep the main status as 'Scheduled' and use
 the change history to track any pending changes or requests."
 
-### JSON Data Schema Changes (Version 2.2)
-
 - Simplify the `status` field in assignments to only use "Scheduled" or "Completed"
 - Add a `pending_changes` object to track any active requests or proposed changes
 - Enhance the `change_history` to better reflect the current state of requests
 
-#### Example Snippet (Illustrating Changes):
+#### Example JSON v10.0:
 
 ```json
 {
