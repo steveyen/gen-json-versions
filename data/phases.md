@@ -1,13 +1,9 @@
-# PRD -- The Sweet Spot: Evolving Data for a Bakery Employee Scheduling App
+# The Sweet Spot: Evolving Data for a Bakery Employee Scheduling App
 
 Let's simulate a scenario where a small bakery, "The Sweet Spot",
 gradually expands its operations. As their business grows, so do the
 needs for team scheduling, where they've started tracking their
 team scheduling data as JSON records.
-
-The goal or requirement in the PRD is to specify a data generator CLI tool
-that can output sample JSON records for this bakery as it evolves
-over time.
 
 We'll be working with JSON data schemas throughout this project
 and the bakery's evolution through multiple schema versions and feature
