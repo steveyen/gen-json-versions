@@ -49,36 +49,139 @@ class CLI {
       console.log('Generation logic will be implemented in subsequent tasks.');
 
     } catch (error) {
-      console.error('Error:', error instanceof Error ? error.message : String(error));
-      process.exit(1);
+      this.handleError(error);
     }
   }
 
+  private handleError(error: unknown): void {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+
+    console.error('\n❌ Error occurred:');
+    console.error(`   ${errorMessage}`);
+
+    // Provide helpful suggestions based on error type
+    if (errorMessage.includes('not found')) {
+      console.error('\n💡 Suggestions:');
+      console.error('   - Check that the file path is correct');
+      console.error('   - Ensure the file exists in the specified location');
+      console.error('   - Use absolute paths if needed');
+    } else if (errorMessage.includes('not readable')) {
+      console.error('\n💡 Suggestions:');
+      console.error('   - Check file permissions');
+      console.error('   - Ensure you have read access to the file');
+    } else if (errorMessage.includes('not writable')) {
+      console.error('\n💡 Suggestions:');
+      console.error('   - Check directory permissions');
+      console.error('   - Ensure you have write access to the output directory');
+    } else if (errorMessage.includes('extension')) {
+      console.error('\n💡 Suggestions:');
+      console.error('   - Employee file should have .json extension');
+      console.error('   - Phases file should have .md or .markdown extension');
+    }
+
+    console.error('\nFor help, run: json-data-generator --help');
+    process.exit(1);
+  }
+
   private validateArguments(options: CLIOptions): void {
-    // Check if employee file exists and is readable
-    if (!fs.existsSync(options.employeeFile)) {
-      throw new Error(`Employee file not found: ${options.employeeFile}`);
+    // Validate employee file
+    this.validateEmployeeFile(options.employeeFile);
+
+    // Validate phases file
+    this.validatePhasesFile(options.phasesFile);
+
+    // Validate output directory
+    this.validateOutputDirectory(options.outputDir);
+  }
+
+  private validateEmployeeFile(employeeFile: string): void {
+    // Check if path is provided
+    if (!employeeFile || employeeFile.trim() === '') {
+      throw new Error('Employee file path is required and cannot be empty');
     }
 
-    if (!fs.statSync(options.employeeFile).isFile()) {
-      throw new Error(`Employee file is not a regular file: ${options.employeeFile}`);
+    // Check if file exists
+    if (!fs.existsSync(employeeFile)) {
+      throw new Error(`Employee file not found: ${employeeFile}`);
     }
 
-    // Check if phases file exists and is readable
-    if (!fs.existsSync(options.phasesFile)) {
-      throw new Error(`Phases file not found: ${options.phasesFile}`);
+    // Check if it's a regular file
+    const stats = fs.statSync(employeeFile);
+    if (!stats.isFile()) {
+      throw new Error(`Employee file is not a regular file: ${employeeFile}`);
     }
 
-    if (!fs.statSync(options.phasesFile).isFile()) {
-      throw new Error(`Phases file is not a regular file: ${options.phasesFile}`);
+    // Check if file is readable
+    try {
+      fs.accessSync(employeeFile, fs.constants.R_OK);
+    } catch (error) {
+      throw new Error(`Employee file is not readable: ${employeeFile}`);
     }
 
-    // Check if output directory exists, create if it doesn't
-    if (!fs.existsSync(options.outputDir)) {
-      console.log(`Creating output directory: ${options.outputDir}`);
-      fs.mkdirSync(options.outputDir, { recursive: true });
-    } else if (!fs.statSync(options.outputDir).isDirectory()) {
-      throw new Error(`Output path is not a directory: ${options.outputDir}`);
+    // Check file extension
+    if (!employeeFile.toLowerCase().endsWith('.json')) {
+      throw new Error(`Employee file should have .json extension: ${employeeFile}`);
+    }
+  }
+
+  private validatePhasesFile(phasesFile: string): void {
+    // Check if path is provided
+    if (!phasesFile || phasesFile.trim() === '') {
+      throw new Error('Phases file path is required and cannot be empty');
+    }
+
+    // Check if file exists
+    if (!fs.existsSync(phasesFile)) {
+      throw new Error(`Phases file not found: ${phasesFile}`);
+    }
+
+    // Check if it's a regular file
+    const stats = fs.statSync(phasesFile);
+    if (!stats.isFile()) {
+      throw new Error(`Phases file is not a regular file: ${phasesFile}`);
+    }
+
+    // Check if file is readable
+    try {
+      fs.accessSync(phasesFile, fs.constants.R_OK);
+    } catch (error) {
+      throw new Error(`Phases file is not readable: ${phasesFile}`);
+    }
+
+    // Check file extension (allow .md or .markdown)
+    const lowerFile = phasesFile.toLowerCase();
+    if (!lowerFile.endsWith('.md') && !lowerFile.endsWith('.markdown')) {
+      throw new Error(`Phases file should have .md or .markdown extension: ${phasesFile}`);
+    }
+  }
+
+  private validateOutputDirectory(outputDir: string): void {
+    // Check if path is provided
+    if (!outputDir || outputDir.trim() === '') {
+      throw new Error('Output directory path is required and cannot be empty');
+    }
+
+    // Check if path already exists
+    if (fs.existsSync(outputDir)) {
+      const stats = fs.statSync(outputDir);
+      if (!stats.isDirectory()) {
+        throw new Error(`Output path exists but is not a directory: ${outputDir}`);
+      }
+
+      // Check if directory is writable
+      try {
+        fs.accessSync(outputDir, fs.constants.W_OK);
+      } catch (error) {
+        throw new Error(`Output directory is not writable: ${outputDir}`);
+      }
+    } else {
+      // Try to create the directory
+      try {
+        console.log(`Creating output directory: ${outputDir}`);
+        fs.mkdirSync(outputDir, { recursive: true });
+      } catch (error) {
+        throw new Error(`Failed to create output directory: ${outputDir}. Error: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }
   }
 

@@ -1,0 +1,1 @@
+// TypeScript type definitions for the application will be defined here.
