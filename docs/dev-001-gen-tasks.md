@@ -29,7 +29,7 @@
 
 - [ ] 1.0 CLI Interface Setup
   - [x] 1.1 Create main CLI entry point with argument validation
-  - [ ] 1.2 Implement command-line argument parsing for employee file, phases file, and output directory
+  - [x] 1.2 Implement command-line argument parsing for employee file, phases file, and output directory
   - [ ] 1.3 Add basic error handling for missing or invalid arguments
   - [ ] 1.4 Set up project structure with TypeScript configuration
   - [ ] 1.5 Create package.json with necessary dependencies (markdown parser, JSON utilities)
