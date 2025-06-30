@@ -1,1 +1,332 @@
-// File I/O operations and directory management will be implemented here.
+import * as fs from 'fs';
+import * as path from 'path';
+
+export interface FileCheckResult {
+  success: boolean;
+  error?: string;
+  exists?: boolean;
+  readable?: boolean;
+  isFile?: boolean;
+  size?: number;
+}
+
+export class FileUtils {
+  /**
+   * Comprehensive file existence and readability check
+   */
+  static checkFile(filePath: string): FileCheckResult {
+    try {
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return {
+          success: false,
+          error: `File does not exist: ${filePath}`,
+          exists: false
+        };
+      }
+
+      // Get file stats
+      const stats = fs.statSync(filePath);
+
+      // Check if it's a file (not a directory)
+      if (!stats.isFile()) {
+        return {
+          success: false,
+          error: `Path is not a file: ${filePath}`,
+          exists: true,
+          isFile: false
+        };
+      }
+
+      // Check if file is readable
+      try {
+        fs.accessSync(filePath, fs.constants.R_OK);
+      } catch (accessError) {
+        return {
+          success: false,
+          error: `File is not readable: ${filePath}`,
+          exists: true,
+          isFile: true,
+          readable: false
+        };
+      }
+
+      // Check file size
+      if (stats.size === 0) {
+        return {
+          success: false,
+          error: `File is empty: ${filePath}`,
+          exists: true,
+          isFile: true,
+          readable: true,
+          size: 0
+        };
+      }
+
+      return {
+        success: true,
+        exists: true,
+        isFile: true,
+        readable: true,
+        size: stats.size
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Error checking file: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Check if directory exists and is writable
+   */
+  static checkDirectory(dirPath: string): FileCheckResult {
+    try {
+      // Check if directory exists
+      if (!fs.existsSync(dirPath)) {
+        return {
+          success: false,
+          error: `Directory does not exist: ${dirPath}`,
+          exists: false
+        };
+      }
+
+      // Get directory stats
+      const stats = fs.statSync(dirPath);
+
+      // Check if it's a directory
+      if (!stats.isDirectory()) {
+        return {
+          success: false,
+          error: `Path is not a directory: ${dirPath}`,
+          exists: true,
+          isFile: false
+        };
+      }
+
+      // Check if directory is writable
+      try {
+        fs.accessSync(dirPath, fs.constants.W_OK);
+      } catch (accessError) {
+        return {
+          success: false,
+          error: `Directory is not writable: ${dirPath}`,
+          exists: true,
+          isFile: false,
+          readable: false
+        };
+      }
+
+      return {
+        success: true,
+        exists: true,
+        isFile: false,
+        readable: true
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Error checking directory: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Create directory if it doesn't exist
+   */
+  static ensureDirectoryExists(dirPath: string): FileCheckResult {
+    try {
+      if (fs.existsSync(dirPath)) {
+        return this.checkDirectory(dirPath);
+      }
+
+      // Create directory recursively
+      fs.mkdirSync(dirPath, { recursive: true });
+
+      return {
+        success: true,
+        exists: true,
+        isFile: false,
+        readable: true
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to create directory: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Get file extension
+   */
+  static getFileExtension(filePath: string): string {
+    return path.extname(filePath).toLowerCase();
+  }
+
+    /**
+   * Validate file extension
+   */
+  static validateFileExtension(filePath: string, allowedExtensions: string[]): FileCheckResult {
+    const extension = this.getFileExtension(filePath);
+
+    if (!allowedExtensions.includes(extension)) {
+      return {
+        success: false,
+        error: `Invalid file extension. Expected one of: ${allowedExtensions.join(', ')}, got: ${extension}`
+      };
+    }
+
+    return { success: true };
+  }
+
+  /**
+   * Read file content as string
+   */
+  static readFile(filePath: string): { success: boolean; content?: string; error?: string } {
+    try {
+      const checkResult = this.checkFile(filePath);
+      if (!checkResult.success) {
+        return { success: false, error: checkResult.error };
+      }
+
+      const content = fs.readFileSync(filePath, 'utf-8');
+      return { success: true, content };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to read file: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Write content to file
+   */
+  static writeFile(filePath: string, content: string): { success: boolean; error?: string } {
+    try {
+      // Ensure directory exists
+      const dirPath = path.dirname(filePath);
+      const dirResult = this.ensureDirectoryExists(dirPath);
+      if (!dirResult.success) {
+        return { success: false, error: dirResult.error };
+      }
+
+      fs.writeFileSync(filePath, content, 'utf-8');
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to write file: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Read JSON file and parse it
+   */
+  static readJsonFile(filePath: string): { success: boolean; data?: any; error?: string } {
+    try {
+      const readResult = this.readFile(filePath);
+      if (!readResult.success) {
+        return { success: false, error: readResult.error };
+      }
+
+      const data = JSON.parse(readResult.content!);
+      return { success: true, data };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to parse JSON file: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Write data as JSON file with pretty formatting
+   */
+  static writeJsonFile(filePath: string, data: any, pretty: boolean = true): { success: boolean; error?: string } {
+    try {
+      const content = pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data);
+      return this.writeFile(filePath, content);
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to stringify JSON data: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Copy file from source to destination
+   */
+  static copyFile(sourcePath: string, destPath: string): { success: boolean; error?: string } {
+    try {
+      const sourceCheck = this.checkFile(sourcePath);
+      if (!sourceCheck.success) {
+        return { success: false, error: sourceCheck.error };
+      }
+
+      // Ensure destination directory exists
+      const destDir = path.dirname(destPath);
+      const dirResult = this.ensureDirectoryExists(destDir);
+      if (!dirResult.success) {
+        return { success: false, error: dirResult.error };
+      }
+
+      fs.copyFileSync(sourcePath, destPath);
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to copy file: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Delete file if it exists
+   */
+  static deleteFile(filePath: string): { success: boolean; error?: string } {
+    try {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to delete file: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * List files in directory
+   */
+  static listFiles(dirPath: string, extension?: string): { success: boolean; files?: string[]; error?: string } {
+    try {
+      const checkResult = this.checkDirectory(dirPath);
+      if (!checkResult.success) {
+        return { success: false, error: checkResult.error };
+      }
+
+      const files = fs.readdirSync(dirPath);
+      let filteredFiles = files;
+
+      if (extension) {
+        filteredFiles = files.filter(file =>
+          this.getFileExtension(file) === extension.toLowerCase()
+        );
+      }
+
+      return { success: true, files: filteredFiles };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to list files: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+}
