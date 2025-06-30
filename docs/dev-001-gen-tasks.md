@@ -32,7 +32,7 @@
   - [x] 1.2 Implement command-line argument parsing for employee file, phases file, and output directory
   - [x] 1.3 Add basic error handling for missing or invalid arguments
   - [x] 1.4 Set up project structure with TypeScript configuration
-  - [ ] 1.5 Create package.json with necessary dependencies (markdown parser, JSON utilities)
+  - [x] 1.5 Create package.json with necessary dependencies (markdown parser, JSON utilities)
 
 - [ ] 2.0 File Parsing and Input Handling
   - [ ] 2.1 Create employee parser module to read and validate employee JSON file

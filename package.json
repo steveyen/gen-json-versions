@@ -14,11 +14,14 @@
     "commander": "^14.0.0",
     "date-fns": "^2.30.0",
     "faker": "^5.5.3",
+    "jsonc-parser": "^3.3.1",
+    "marked": "^16.0.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/faker": "^5.5.3",
     "@types/jest": "^29.5.8",
+    "@types/marked": "^5.0.2",
     "@types/node": "^20.10.5",
     "@types/uuid": "^9.0.7",
     "jest": "^29.7.0",
