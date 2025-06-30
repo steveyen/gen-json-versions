@@ -47,6 +47,7 @@
   - [ ] 3.3 Implement JSON cleansing to remove C/C++ style comments from extracted JSON
   - [ ] 3.4 Build phase metadata extraction (version numbers, phase names)
   - [ ] 3.5 Extract valid value enumerations from JSON examples for data generation
+  - [ ] 3.6 Value metadata is available in related fields with a prefix caret ('^'), like "^fieldName".
 
 - [ ] 4.0 Data Generation Engine
   - [ ] 4.1 Create core data generator that uses employee data consistently
