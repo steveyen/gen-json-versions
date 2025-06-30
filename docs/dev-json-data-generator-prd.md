@@ -119,18 +119,4 @@ This tool solves the problem of creating realistic, consistent sample datasets f
 
 ## Open Questions
 
-1. **Data Volume**: How many sample records should be generated per phase? Should this be based on the business growth described in the narrative?
-
-2. **Date Ranges**: What date ranges should be used for the generated data? Should dates progress realistically across phases?
-
-3. **Business Logic**: How should the tool handle business-specific logic (e.g., shift assignments based on employee roles, availability constraints)?
-
-4. **Schema Mapping**: How should the tool handle schema changes between phases (e.g., field renames, new required fields)?
-
-5. **Error Recovery**: What should happen if the markdown file contains malformed JSON examples?
-
-6. **Output Formatting**: Should the generated JSON be pretty-printed or minified?
-
-7. **Logging**: What level of logging should the tool provide during execution?
-
-8. **Testing Strategy**: How should the tool be tested to ensure generated data quality and consistency?
+None
