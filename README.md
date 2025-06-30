@@ -2,7 +2,8 @@
 
 # Bakery Scheduling Test Data Generator
 
-This tool generates test data for a bakery scheduling system, supporting multiple phases of data evolution:
+This tool generates test data for a bakery scheduling system,
+supporting multiple phases of data evolution:
 
 1. Basic employee and shift data
 2. Employee roles and defined shifts
