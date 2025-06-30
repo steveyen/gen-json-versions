@@ -2,352 +2,352 @@
   "emp": [
     {
       "id": "emp-0001",
-      "full_name": "Alice Wonderland",
-      "contact_number": "555-1234",
-      "favored_shift": "Morning",
+      "fullName": "Alice Wonderland",
+      "contactNumber": "555-1234",
+      "shift": "Morning",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0002",
-      "full_name": "Bob The Baker",
-      "contact_number": "555-5678",
-      "favored_shift": "Morning",
+      "fullName": "Bob The Baker",
+      "contactNumber": "555-5678",
+      "shift": "Morning",
       "roles": ["Lead Baker"]
     },
     {
       "id": "emp-0003",
-      "full_name": "Charlie Chocolatier",
-      "contact_number": "555-8765",
-      "favored_shift": "Afternoon",
+      "fullName": "Charlie Chocolatier",
+      "contactNumber": "555-8765",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0004",
-      "full_name": "Diana Dishwasher",
-      "contact_number": "555-1122",
-      "favored_shift": "Afternoon",
+      "fullName": "Diana Dishwasher",
+      "contactNumber": "555-1122",
+      "shift": "Afternoon",
       "roles": ["Cashier", "Utility"]
     },
     {
       "id": "emp-0005",
-      "full_name": "Emma Espresso",
-      "contact_number": "555-3344",
-      "favored_shift": "Morning",
+      "fullName": "Emma Espresso",
+      "contactNumber": "555-3344",
+      "shift": "Morning",
       "roles": ["Barista", "Cashier"]
     },
     {
       "id": "emp-0006",
-      "full_name": "Frank Flour",
-      "contact_number": "555-5566",
-      "favored_shift": "Morning",
+      "fullName": "Frank Flour",
+      "contactNumber": "555-5566",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0007",
-      "full_name": "Grace Glaze",
-      "contact_number": "555-7788",
-      "favored_shift": "Afternoon",
+      "fullName": "Grace Glaze",
+      "contactNumber": "555-7788",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0008",
-      "full_name": "Henry Honey",
-      "contact_number": "555-9900",
-      "favored_shift": "Morning",
+      "fullName": "Henry Honey",
+      "contactNumber": "555-9900",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0009",
-      "full_name": "Iris Icing",
-      "contact_number": "555-2233",
-      "favored_shift": "Afternoon",
+      "fullName": "Iris Icing",
+      "contactNumber": "555-2233",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0010",
-      "full_name": "Jack Jam",
-      "contact_number": "555-4455",
-      "favored_shift": "Morning",
+      "fullName": "Jack Jam",
+      "contactNumber": "555-4455",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0011",
-      "full_name": "Kate Knead",
-      "contact_number": "555-6677",
-      "favored_shift": "Morning",
+      "fullName": "Kate Knead",
+      "contactNumber": "555-6677",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0012",
-      "full_name": "Liam Lattice",
-      "contact_number": "555-8899",
-      "favored_shift": "Afternoon",
+      "fullName": "Liam Lattice",
+      "contactNumber": "555-8899",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0013",
-      "full_name": "Mia Mixer",
-      "contact_number": "555-0011",
-      "favored_shift": "Morning",
+      "fullName": "Mia Mixer",
+      "contactNumber": "555-0011",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0014",
-      "full_name": "Noah Nuts",
-      "contact_number": "555-2233",
-      "favored_shift": "Afternoon",
+      "fullName": "Noah Nuts",
+      "contactNumber": "555-2233",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0015",
-      "full_name": "Olivia Oven",
-      "contact_number": "555-4455",
-      "favored_shift": "Morning",
+      "fullName": "Olivia Oven",
+      "contactNumber": "555-4455",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0016",
-      "full_name": "Paul Pastry",
-      "contact_number": "555-6677",
-      "favored_shift": "Afternoon",
+      "fullName": "Paul Pastry",
+      "contactNumber": "555-6677",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0017",
-      "full_name": "Quinn Quick",
-      "contact_number": "555-8899",
-      "favored_shift": "Morning",
+      "fullName": "Quinn Quick",
+      "contactNumber": "555-8899",
+      "shift": "Morning",
       "roles": ["Cashier", "Barista"]
     },
     {
       "id": "emp-0018",
-      "full_name": "Ruby Rise",
-      "contact_number": "555-0011",
-      "favored_shift": "Morning",
+      "fullName": "Ruby Rise",
+      "contactNumber": "555-0011",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0019",
-      "full_name": "Sam Sugar",
-      "contact_number": "555-2233",
-      "favored_shift": "Afternoon",
+      "fullName": "Sam Sugar",
+      "contactNumber": "555-2233",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0020",
-      "full_name": "Tara Timer",
-      "contact_number": "555-4455",
-      "favored_shift": "Morning",
+      "fullName": "Tara Timer",
+      "contactNumber": "555-4455",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0021",
-      "full_name": "Uma Utensil",
-      "contact_number": "555-6677",
-      "favored_shift": "Afternoon",
+      "fullName": "Uma Utensil",
+      "contactNumber": "555-6677",
+      "shift": "Afternoon",
       "roles": ["Utility", "Cashier"]
     },
     {
       "id": "emp-0022",
-      "full_name": "Victor Vanilla",
-      "contact_number": "555-8899",
-      "favored_shift": "Morning",
+      "fullName": "Victor Vanilla",
+      "contactNumber": "555-8899",
+      "shift": "Morning",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0023",
-      "full_name": "Wendy Wheat",
-      "contact_number": "555-0011",
-      "favored_shift": "Morning",
+      "fullName": "Wendy Wheat",
+      "contactNumber": "555-0011",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0024",
-      "full_name": "Xavier Xylitol",
-      "contact_number": "555-2233",
-      "favored_shift": "Afternoon",
+      "fullName": "Xavier Xylitol",
+      "contactNumber": "555-2233",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0025",
-      "full_name": "Yara Yeast",
-      "contact_number": "555-4455",
-      "favored_shift": "Morning",
+      "fullName": "Yara Yeast",
+      "contactNumber": "555-4455",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0026",
-      "full_name": "Zoe Zest",
-      "contact_number": "555-6677",
-      "favored_shift": "Afternoon",
+      "fullName": "Zoe Zest",
+      "contactNumber": "555-6677",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0027",
-      "full_name": "Adam Apple",
-      "contact_number": "555-8899",
-      "favored_shift": "Morning",
+      "fullName": "Adam Apple",
+      "contactNumber": "555-8899",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0028",
-      "full_name": "Betty Butter",
-      "contact_number": "555-0011",
-      "favored_shift": "Afternoon",
+      "fullName": "Betty Butter",
+      "contactNumber": "555-0011",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0029",
-      "full_name": "Carl Crust",
-      "contact_number": "555-2233",
-      "favored_shift": "Morning",
+      "fullName": "Carl Crust",
+      "contactNumber": "555-2233",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0030",
-      "full_name": "Daisy Dough",
-      "contact_number": "555-4455",
-      "favored_shift": "Afternoon",
+      "fullName": "Daisy Dough",
+      "contactNumber": "555-4455",
+      "shift": "Afternoon",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0031",
-      "full_name": "Ethan Egg",
-      "contact_number": "555-6677",
-      "favored_shift": "Morning",
+      "fullName": "Ethan Egg",
+      "contactNumber": "555-6677",
+      "shift": "Morning",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0032",
-      "full_name": "Fiona Frosting",
-      "contact_number": "555-8899",
-      "favored_shift": "Afternoon",
+      "fullName": "Fiona Frosting",
+      "contactNumber": "555-8899",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0033",
-      "full_name": "George Gluten",
-      "contact_number": "555-0011",
-      "favored_shift": "Morning",
+      "fullName": "George Gluten",
+      "contactNumber": "555-0011",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0034",
-      "full_name": "Hannah Honey",
-      "contact_number": "555-2233",
-      "favored_shift": "Afternoon",
+      "fullName": "Hannah Honey",
+      "contactNumber": "555-2233",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0035",
-      "full_name": "Ian Icing",
-      "contact_number": "555-4455",
-      "favored_shift": "Morning",
+      "fullName": "Ian Icing",
+      "contactNumber": "555-4455",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0036",
-      "full_name": "Julia Jam",
-      "contact_number": "555-6677",
-      "favored_shift": "Afternoon",
+      "fullName": "Julia Jam",
+      "contactNumber": "555-6677",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0037",
-      "full_name": "Kevin Knead",
-      "contact_number": "555-8899",
-      "favored_shift": "Morning",
+      "fullName": "Kevin Knead",
+      "contactNumber": "555-8899",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0038",
-      "full_name": "Lisa Lattice",
-      "contact_number": "555-0011",
-      "favored_shift": "Afternoon",
+      "fullName": "Lisa Lattice",
+      "contactNumber": "555-0011",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0039",
-      "full_name": "Mike Mixer",
-      "contact_number": "555-2233",
-      "favored_shift": "Morning",
+      "fullName": "Mike Mixer",
+      "contactNumber": "555-2233",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0040",
-      "full_name": "Nina Nuts",
-      "contact_number": "555-4455",
-      "favored_shift": "Afternoon",
+      "fullName": "Nina Nuts",
+      "contactNumber": "555-4455",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0041",
-      "full_name": "Oscar Oven",
-      "contact_number": "555-6677",
-      "favored_shift": "Morning",
+      "fullName": "Oscar Oven",
+      "contactNumber": "555-6677",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0042",
-      "full_name": "Penny Pastry",
-      "contact_number": "555-8899",
-      "favored_shift": "Afternoon",
+      "fullName": "Penny Pastry",
+      "contactNumber": "555-8899",
+      "shift": "Afternoon",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0043",
-      "full_name": "Quentin Quick",
-      "contact_number": "555-0011",
-      "favored_shift": "Morning",
+      "fullName": "Quentin Quick",
+      "contactNumber": "555-0011",
+      "shift": "Morning",
       "roles": ["Cashier", "Barista"]
     },
     {
       "id": "emp-0044",
-      "full_name": "Rita Rise",
-      "contact_number": "555-2233",
-      "favored_shift": "Morning",
+      "fullName": "Rita Rise",
+      "contactNumber": "555-2233",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0045",
-      "full_name": "Steve Sugar",
-      "contact_number": "555-4455",
-      "favored_shift": "Afternoon",
+      "fullName": "Steve Sugar",
+      "contactNumber": "555-4455",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     },
     {
       "id": "emp-0046",
-      "full_name": "Tina Timer",
-      "contact_number": "555-6677",
-      "favored_shift": "Morning",
+      "fullName": "Tina Timer",
+      "contactNumber": "555-6677",
+      "shift": "Morning",
       "roles": ["Baker", "Lead Baker"]
     },
     {
       "id": "emp-0047",
-      "full_name": "Ulysses Utensil",
-      "contact_number": "555-8899",
-      "favored_shift": "Afternoon",
+      "fullName": "Ulysses Utensil",
+      "contactNumber": "555-8899",
+      "shift": "Afternoon",
       "roles": ["Utility", "Cashier"]
     },
     {
       "id": "emp-0048",
-      "full_name": "Vera Vanilla",
-      "contact_number": "555-0011",
-      "favored_shift": "Morning",
+      "fullName": "Vera Vanilla",
+      "contactNumber": "555-0011",
+      "shift": "Morning",
       "roles": ["Baker", "Cake Decorator"]
     },
     {
       "id": "emp-0049",
-      "full_name": "Walter Wheat",
-      "contact_number": "555-2233",
-      "favored_shift": "Morning",
+      "fullName": "Walter Wheat",
+      "contactNumber": "555-2233",
+      "shift": "Morning",
       "roles": ["Baker"]
     },
     {
       "id": "emp-0050",
-      "full_name": "Xena Xylitol",
-      "contact_number": "555-4455",
-      "favored_shift": "Afternoon",
+      "fullName": "Xena Xylitol",
+      "contactNumber": "555-4455",
+      "shift": "Afternoon",
       "roles": ["Cake Decorator"]
     }
   ]
