@@ -4,6 +4,7 @@
 
 - `src/cli.ts` - Main CLI entry point and argument parsing
 - `src/cli.test.ts` - Unit tests for CLI argument handling
+- `jest.config.js` - Jest testing configuration
 - `src/parser/employee-parser.ts` - Employee JSON file parsing logic
 - `src/parser/employee-parser.test.ts` - Unit tests for employee parsing
 - `src/parser/markdown-parser.ts` - Markdown phase detection and JSON extraction
@@ -27,7 +28,7 @@
 ## Tasks
 
 - [ ] 1.0 CLI Interface Setup
-  - [ ] 1.1 Create main CLI entry point with argument validation
+  - [x] 1.1 Create main CLI entry point with argument validation
   - [ ] 1.2 Implement command-line argument parsing for employee file, phases file, and output directory
   - [ ] 1.3 Add basic error handling for missing or invalid arguments
   - [ ] 1.4 Set up project structure with TypeScript configuration
