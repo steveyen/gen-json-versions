@@ -5,7 +5,7 @@
 - `src/cli.ts` - Main CLI entry point and argument parsing
 - `src/cli.test.ts` - Unit tests for CLI argument handling
 - `jest.config.js` - Jest testing configuration
-- `src/parser/employee-parser.ts` - Employee JSON file parsing logic
+- `src/parser/employee-parser.ts` - Flexible employee JSON file parsing logic with basic validation and database building
 - `src/parser/employee-parser.test.ts` - Unit tests for employee parsing
 - `src/parser/markdown-parser.ts` - Markdown phase detection and JSON extraction
 - `src/parser/markdown-parser.test.ts` - Unit tests for markdown parsing
@@ -15,7 +15,7 @@
 - `src/utils/json-utils.test.ts` - Unit tests for JSON utilities
 - `src/utils/file-utils.ts` - File I/O operations and directory management
 - `src/utils/file-utils.test.ts` - Unit tests for file operations
-- `src/types/index.ts` - TypeScript type definitions for the application
+- `src/types/index.ts` - TypeScript type definitions for flexible EmployeeDatabase and EmployeeParserResult
 - `package.json` - Project dependencies and scripts
 - `tsconfig.json` - TypeScript configuration
 - `jest.config.js` - Jest testing configuration
@@ -35,8 +35,8 @@
   - [x] 1.5 Create package.json with necessary dependencies (markdown parser, JSON utilities)
 
 - [ ] 2.0 File Parsing and Input Handling
-  - [ ] 2.1 Create employee parser module to read and validate employee JSON file
-  - [ ] 2.2 Implement employee data structure validation and error handling
+  - [x] 2.1 Create employee parser module to read and validate employee JSON file
+  - [x] 2.2 Implement employee data structure validation and error handling
   - [ ] 2.3 Build employee database in memory for consistent use across phases
   - [ ] 2.4 Add file existence and readability checks for input files
   - [ ] 2.5 Create utility functions for file I/O operations
