@@ -257,7 +257,7 @@ scheduling someone when they are unavailable."
 - Add an `unavailability` array to each `employee` object.
   Each item in this array is an object specifying `startDate`,
   `endDate`, `startTime` (optional), `endTime` (optional),
-  `reason` (e.g., "Vacation," "Doctor's Appointment," "Recurring Class"),
+  `reason` (e.g., "Vacation," "Doctor's Appointment," "Class"),
   and `status` (e.g., "Requested", "Approved", "Denied").
 
 #### Example JSON v3.1:
