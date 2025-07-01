@@ -113,10 +113,10 @@ export class JsonUtils {
   /**
    * Extract metadata fields with caret prefix (^fieldName)
    */
-  static extractMetadata(jsonData: any): Record<string, any> {
+  static extractMetadata(obj: any): Record<string, any> {
     const metadata: Record<string, any> = {};
 
-    const extractFromObject = (obj: any, path: string = '') => {
+    const process = (obj: any, path: string = '') => {
       if (typeof obj !== 'object' || obj === null) {
         return;
       }
@@ -127,17 +127,21 @@ export class JsonUtils {
         // Check if this is a metadata field (starts with ^)
         if (key.startsWith('^')) {
           const metadataKey = key.substring(1); // Remove the ^ prefix
+
           metadata[metadataKey] = value;
+
+          delete obj[key];
         }
 
         // Recursively process nested objects and arrays
         if (typeof value === 'object' && value !== null) {
-          extractFromObject(value, currentPath);
+          process(value, currentPath);
         }
       }
     };
 
-    extractFromObject(jsonData);
+    process(obj);
+
     return metadata;
   }
 }
