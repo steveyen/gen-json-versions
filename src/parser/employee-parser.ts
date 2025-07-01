@@ -26,11 +26,12 @@ export class EmployeeParser {
 
       // Read and parse JSON file
       const fileContent = fs.readFileSync(filePath, 'utf-8');
+
       const rawData = JSON.parse(fileContent);
 
       // Validate the data structure
       const validationResult = this.validateEmployeeData(rawData);
-      if (!validationResult.success) {
+      if (validationResult.error) {
         return {
           error: validationResult.error
         };
@@ -52,40 +53,38 @@ export class EmployeeParser {
   /**
    * Validate employee data structure - flexible validation
    */
-  private static validateEmployeeData(data: any): { success: boolean; error?: string } {
+  private static validateEmployeeData(data: any): { error?: string } {
     if (!Array.isArray(data)) {
       return {
-        success: false,
         error: 'Employee data must be an array'
       };
     }
 
     if (data.length === 0) {
       return {
-        success: false,
         error: 'Employee data array cannot be empty'
       };
     }
 
     for (let i = 0; i < data.length; i++) {
       const employee = data[i];
+
       const validationResult = this.validateEmployee(employee, i);
-      if (!validationResult.success) {
+      if (validationResult.error) {
         return validationResult;
       }
     }
 
-    return { success: true };
+    return {};
   }
 
   /**
    * Validate individual employee object - flexible validation
    */
-  private static validateEmployee(employee: any, index: number): { success: boolean; error?: string } {
+  private static validateEmployee(employee: any, index: number): { error?: string } {
     // Basic validation: must be an object
     if (typeof employee !== 'object' || employee === null || Array.isArray(employee)) {
       return {
-        success: false,
         error: `Employee at index ${index} must be an object`
       };
     }
@@ -93,12 +92,11 @@ export class EmployeeParser {
     // Ensure the object has at least one property
     if (Object.keys(employee).length === 0) {
       return {
-        success: false,
         error: `Employee at index ${index} cannot be an empty object`
       };
     }
 
-    return { success: true };
+    return {};
   }
 
   /**
