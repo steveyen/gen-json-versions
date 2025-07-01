@@ -133,7 +133,7 @@ class CLI {
     this.validateFile('Phases', options.phasesFile, '.md');
 
     // Validate output directory
-    this.validateOutputDirectory(options.outputDir);
+    this.ensureDir('Output', options.outputDir);
   }
 
   private validateFile(kind: string, filePath: string, suffix?: string): void {
@@ -166,33 +166,33 @@ class CLI {
     }
   }
 
-  private validateOutputDirectory(outputDir: string): void {
+  private ensureDir(kind: string, dirPath: string): void {
     // Check if path is provided
-    if (!outputDir || outputDir.trim() === '') {
-      throw new Error('Output directory path is required and cannot be empty');
+    if (!dirPath || dirPath.trim() === '') {
+      throw new Error(`${kind} directory path is required and cannot be empty`);
     }
 
     // Check if path already exists
-    if (fs.existsSync(outputDir)) {
-      const stats = fs.statSync(outputDir);
+    if (fs.existsSync(dirPath)) {
+      const stats = fs.statSync(dirPath);
       if (!stats.isDirectory()) {
-        throw new Error(`Output path exists but is not a directory: ${outputDir}`);
-      }
-
-      // Check if directory is writable
-      try {
-        fs.accessSync(outputDir, fs.constants.W_OK);
-      } catch (error) {
-        throw new Error(`Output directory is not writable: ${outputDir}`);
+        throw new Error(`${kind} path exists but is not a directory: ${dirPath}`);
       }
     } else {
       // Try to create the directory
       try {
-        console.log(`Creating output directory: ${outputDir}`);
-        fs.mkdirSync(outputDir, { recursive: true });
+        console.log(`${kind} directory creating: ${dirPath}`);
+        fs.mkdirSync(dirPath, { recursive: true });
       } catch (error) {
-        throw new Error(`Failed to create output directory: ${outputDir}. Error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`${kind} directory creation failed: ${dirPath}. Error: ${error instanceof Error ? error.message : String(error)}`);
       }
+    }
+
+    // Check if directory is writable
+    try {
+      fs.accessSync(dirPath, fs.constants.W_OK);
+    } catch (error) {
+      throw new Error(`${kind} directory is not writable: ${dirPath}`);
     }
   }
 
