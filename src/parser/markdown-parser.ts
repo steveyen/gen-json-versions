@@ -137,7 +137,7 @@ export class MarkdownParser {
       const line = lines[i];
 
       // Check for code block start
-      const codeBlockStart = line.match(/^```(\w+)?$/);
+      const codeBlockStart = line.match(/^```(\w+)?\s*({.*)?$/);
       if (codeBlockStart && !inCodeBlock) {
         inCodeBlock = true;
         currentBlock = {
@@ -146,6 +146,11 @@ export class MarkdownParser {
           metadata: {}
         };
         blockContent = [];
+
+        // If there's content on the same line as the opening backticks, add it to block content
+        if (codeBlockStart[2]) {
+          blockContent.push(codeBlockStart[2]);
+        }
         continue;
       }
 
