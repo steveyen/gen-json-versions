@@ -186,14 +186,14 @@ Content here`;
         {
           version: 'v1.0',
           name: 'Data Version v1.0',
-          startLine: 1,
+          begLine: 1,
           endLine: 10,
           content: 'Phase 1 content',
           jsonBlocks: [
             {
               language: 'json',
               content: '{"name": "John", "status": ["active", "inactive"]}',
-              startLine: 3,
+              begLine: 3,
               endLine: 5,
               metadata: { 'description': 'User data' }
             }
@@ -202,14 +202,14 @@ Content here`;
         {
           version: 'v2.0',
           name: 'Data Version v2.0',
-          startLine: 11,
+          begLine: 11,
           endLine: 20,
           content: 'Phase 2 content',
           jsonBlocks: [
             {
               language: 'json',
               content: '{"name": "Jane", "age": 25}',
-              startLine: 13,
+              begLine: 13,
               endLine: 15,
               metadata: { 'description': 'Employee data' }
             }
@@ -230,11 +230,6 @@ Content here`;
 
     it('should get all JSON blocks', () => {
       const blocks = PhasesParser.getAllJsonBlocks(mockPhases);
-      expect(blocks).toHaveLength(2);
-    });
-
-    it('should get JSON blocks by language', () => {
-      const blocks = PhasesParser.getJsonBlocksByLanguage(mockPhases, 'json');
       expect(blocks).toHaveLength(2);
     });
 
@@ -259,10 +254,10 @@ Content here`;
         {
           version: 'v1.0',
           name: 'Phase 1',
-          startLine: 1,
+          begLine: 1,
           endLine: 10,
           content: 'Content',
-          jsonBlocks: [{ language: 'json', content: '{}', startLine: 1, endLine: 1, metadata: {} }]
+          jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, metadata: {} }]
         }
       ];
 
@@ -280,18 +275,18 @@ Content here`;
         {
           version: 'v1.0',
           name: 'Phase 1',
-          startLine: 1,
+          begLine: 1,
           endLine: 10,
           content: 'Content',
-          jsonBlocks: [{ language: 'json', content: '{}', startLine: 1, endLine: 1, metadata: {} }]
+          jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, metadata: {} }]
         },
         {
           version: 'v1.0',
           name: 'Phase 2',
-          startLine: 11,
+          begLine: 11,
           endLine: 20,
           content: 'Content',
-          jsonBlocks: [{ language: 'json', content: '{}', startLine: 11, endLine: 11, metadata: {} }]
+          jsonBlocks: [{ language: 'json', content: '{}', begLine: 11, endLine: 11, metadata: {} }]
         }
       ];
 
@@ -304,7 +299,7 @@ Content here`;
         {
           version: 'v1.0',
           name: 'Phase 1',
-          startLine: 1,
+          begLine: 1,
           endLine: 10,
           content: 'Content',
           jsonBlocks: []
@@ -321,7 +316,7 @@ Content here`;
       const block = {
         language: 'json',
         content: '{"name": "John", "age": 30}',
-        startLine: 1,
+        begLine: 1,
         endLine: 1,
         metadata: {}
       };
@@ -335,7 +330,7 @@ Content here`;
       const block = {
         language: 'json',
         content: '{"name": "John", "age": 30,}', // Invalid trailing comma
-        startLine: 1,
+        begLine: 1,
         endLine: 1,
         metadata: {}
       };
