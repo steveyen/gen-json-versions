@@ -145,13 +145,6 @@ export class FileUtils {
   }
 
   /**
-   * Get file extension
-   */
-  static getFileExtension(filePath: string): string {
-    return path.extname(filePath).toLowerCase();
-  }
-
-  /**
    * Read file content as string
    */
   static readFile(filePath: string): { success: boolean; content?: string; error?: string } {
