@@ -27,7 +27,7 @@
 
 ## Tasks
 
-- [ ] 1.0 CLI Interface Setup
+- [x] 1.0 CLI Interface Setup
   - [x] 1.1 Create main CLI entry point with argument validation
   - [x] 1.2 Implement command-line argument parsing for employee file, phases file, and output directory
   - [x] 1.3 Add basic error handling for missing or invalid arguments
