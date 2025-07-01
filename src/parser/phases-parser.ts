@@ -4,17 +4,19 @@ import { JsonUtils } from '../utils/json-utils';
 export interface Phase {
   version: string;
   name: string;
-  startLine: number;
-  endLine: number;
   content: string;
+  begLine: number;
+  endLine: number;
   jsonBlocks: CodeBlock[];
 }
 
 export interface CodeBlock {
   language: string; // Ex: 'json'.
   content: string;
-  startLine: number;
+  begLine: number;
   endLine: number;
+
+  obj?: any;
   metadata?: Record<string, any>;
 }
 
@@ -51,7 +53,7 @@ export class PhasesParser {
 
       // Extract JSON code blocks from each phase
       for (const phase of phases) {
-        phase.jsonBlocks = this.extractJsonBlocks(phase.content, phase.startLine);
+        phase.jsonBlocks = this.extractJsonBlocks(phase.content, phase.begLine);
 
         // Process each JSON block for cleansing and metadata extraction
         for (const block of phase.jsonBlocks) {
@@ -96,7 +98,7 @@ export class PhasesParser {
         currentPhase = {
           version: phaseMatch.version,
           name: phaseMatch.name,
-          startLine: i,
+          begLine: i,
           endLine: lines.length - 1, // Will be updated when next phase is found
           content: '',
           jsonBlocks: []
@@ -140,7 +142,7 @@ export class PhasesParser {
         inCodeBlock = true;
         currentBlock = {
           language: (codeBlockStart[1] || '').toLowerCase(),
-          startLine: startOffset + i
+          begLine: startOffset + i
         };
         blockContent = [];
 
@@ -252,15 +254,6 @@ export class PhasesParser {
   }
 
   /**
-   * Get JSON blocks by language from all phases
-   */
-  static getJsonBlocksByLanguage(phases: Phase[], language: string): CodeBlock[] {
-    return this.getAllJsonBlocks(phases).filter(block =>
-      block.language.toLowerCase() === language.toLowerCase()
-    );
-  }
-
-  /**
    * Process a JSON block to cleanse it and extract metadata
    */
   private static processJsonBlock(block: CodeBlock): void {
@@ -270,13 +263,14 @@ export class PhasesParser {
       // If cleansing fails, keep original content
       return;
     }
+
     block.content = cleanseResult.result!;
 
     // Parse the JSON to extract metadata fields (fields starting with ^)
     try {
-      const parsed = JSON.parse(block.content);
+      const obj = JSON.parse(block.content);
 
-      block.metadata = this.extractMetadata(parsed);
+      block.metadata = this.extractMetadata(obj);
     } catch (error) {
     }
   }
@@ -305,6 +299,7 @@ export class PhasesParser {
     };
 
     process(obj);
+
     return metadata;
   }
 
