@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import * as fs from 'fs';
-import * as path from 'path';
+import { MarkdownParser } from './parser/markdown-parser';
 
 interface CLIOptions {
   employeeFile: string;
@@ -45,8 +45,30 @@ class CLI {
       console.log(`Phases file: ${options.phasesFile}`);
       console.log(`Output directory: ${options.outputDir}`);
 
-      // TODO: Implement the actual generation logic
-      console.log('Generation logic will be implemented in subsequent tasks.');
+      // Load and validate phases for early sanity checking
+      console.log('\n📋 Loading phases...');
+      const phasesResult = MarkdownParser.parseMarkdownFile(options.phasesFile);
+
+      if (!phasesResult.success) {
+        throw new Error(`Failed to parse phases file: ${phasesResult.error}`);
+      }
+
+      const phases = phasesResult.phases!;
+
+      // Log loaded versions for sanity checking
+      console.log(`✅ Successfully loaded ${phases.length} phase(s):`);
+      phases.forEach((phase, index) => {
+        console.log(`   ${index + 1}. ${phase.name} (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
+      });
+
+      // Validate phases
+      const validationResult = MarkdownParser.validatePhases(phases);
+      if (!validationResult.success) {
+        throw new Error(`Phase validation failed: ${validationResult.error}`);
+      }
+
+      console.log('\n✅ Phase validation passed');
+      console.log('\n🚀 Ready to proceed with data generation...');
 
     } catch (error) {
       this.handleError(error);
