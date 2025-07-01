@@ -269,11 +269,10 @@ export class PhasesParser {
 
         block.content = cleanseResult.result!;
 
-        // Parse the JSON to extract metadata fields (fields starting with ^)
+        // Parse the JSON and extract metadata fields (fields starting with ^)
         try {
-            const obj = JSON.parse(block.content);
-
-            block.objMetadata = this.extractObjMetadata(obj);
+            block.obj = JSON.parse(block.content);
+            block.objMetadata = this.extractObjMetadata(block.obj);
         } catch (error) {
         }
     }

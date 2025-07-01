@@ -70,14 +70,7 @@ class CLI {
 
           phase.jsonBlocks.forEach((block, blockIndex) => {
             console.log(`\nJSON Block ${blockIndex + 1}:`);
-
-            try {
-              const parsedJson = JSON.parse(block.content);
-              console.log(JSON.stringify(parsedJson, null, 2));
-            } catch (parseError) {
-              console.log(`   ⚠️ Invalid JSON in block ${blockIndex + 1}:`);
-              console.log(`   ${block.content}`);
-            }
+            console.log(JSON.stringify(block.obj, null, 1));
           });
         }
       });
