@@ -82,33 +82,7 @@ describe('JsonUtils', () => {
     });
   });
 
-  describe('validateJson', () => {
-    it('should validate correct JSON', () => {
-      const input = '{"name": "John", "age": 30}';
 
-      const result = JsonUtils.validateJson(input);
-
-      expect(result.success).toBe(true);
-      expect(result.isValid).toBe(true);
-    });
-
-    it('should reject invalid JSON', () => {
-      const input = '{"name": "John", "age": 30,}'; // Trailing comma
-
-      const result = JsonUtils.validateJson(input);
-
-      expect(result.success).toBe(true);
-      expect(result.isValid).toBe(false);
-      expect(result.error).toContain('Invalid JSON');
-    });
-
-    it('should handle empty input', () => {
-      const result = JsonUtils.validateJson('');
-
-      expect(result.success).toBe(false);
-      expect(result.error).toBe('Invalid input: jsonString must be a non-empty string');
-    });
-  });
 
   describe('parseJsonWithCleansing', () => {
     it('should parse JSON with comments', () => {

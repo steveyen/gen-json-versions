@@ -8,11 +8,7 @@ export interface JsonCleanseResult {
   error?: string;
 }
 
-export interface JsonValidationResult {
-  success: boolean;
-  isValid?: boolean;
-  error?: string;
-}
+
 
 export class JsonUtils {
   /**
@@ -120,31 +116,7 @@ export class JsonUtils {
     }
   }
 
-  /**
-   * Validate if a string is valid JSON
-   */
-  static validateJson(jsonString: string): JsonValidationResult {
-    try {
-      if (!jsonString || typeof jsonString !== 'string') {
-        return {
-          success: false,
-          error: 'Invalid input: jsonString must be a non-empty string'
-        };
-      }
 
-      JSON.parse(jsonString);
-      return {
-        success: true,
-        isValid: true
-      };
-    } catch (error) {
-      return {
-        success: true,
-        isValid: false,
-        error: `Invalid JSON: ${error instanceof Error ? error.message : String(error)}`
-      };
-    }
-  }
 
   /**
    * Parse JSON with automatic cleansing
