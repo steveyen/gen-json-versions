@@ -272,7 +272,7 @@ export class MarkdownParser {
       try {
         const data = JSON.parse(cleanseResult.cleanedJson);
         // Extract metadata fields
-        block.metadataFields = JsonUtils.extractMetadataFields(data);
+        block.metadataFields = JsonUtils.extractMetadata(data);
       } catch (error) {
         // JSON parsing failed, but we still have the cleansed content
         console.warn(`Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`);

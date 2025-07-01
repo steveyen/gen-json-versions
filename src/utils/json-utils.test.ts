@@ -94,7 +94,7 @@ describe('JsonUtils', () => {
         }
       };
 
-      const result = JsonUtils.extractMetadataFields(input);
+      const result = JsonUtils.extractMetadata(input);
 
       expect(result).toEqual({
         'description': "User metadata",
@@ -115,7 +115,7 @@ describe('JsonUtils', () => {
         }
       };
 
-      const result = JsonUtils.extractMetadataFields(input);
+      const result = JsonUtils.extractMetadata(input);
 
       expect(result).toEqual({
         'type': "object",
@@ -132,7 +132,7 @@ describe('JsonUtils', () => {
         }
       };
 
-      const result = JsonUtils.extractMetadataFields(input);
+      const result = JsonUtils.extractMetadata(input);
 
       expect(result).toEqual({});
     });

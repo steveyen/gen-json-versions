@@ -113,7 +113,7 @@ export class JsonUtils {
   /**
    * Extract metadata fields with caret prefix (^fieldName)
    */
-  static extractMetadataFields(jsonData: any): Record<string, any> {
+  static extractMetadata(jsonData: any): Record<string, any> {
     const metadata: Record<string, any> = {};
 
     const extractFromObject = (obj: any, path: string = '') => {
