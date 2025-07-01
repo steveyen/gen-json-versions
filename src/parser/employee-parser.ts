@@ -6,8 +6,8 @@ export interface EmployeeDatabase {
   employeesById: Map<string, Record<string, any>>;
 }
 
-export interface EmployeeParserResult {
-  data?: EmployeeDatabase;
+export interface EmployeesResult {
+  result?: EmployeeDatabase;
   error?: string; // If error is present, the operation failed
 }
 
@@ -15,7 +15,7 @@ export class EmployeeParser {
   /**
    * Parse employee data from a JSON file
    */
-  static parseEmployeeFile(filePath: string): EmployeeParserResult {
+  static parseEmployeesFile(filePath: string): EmployeesResult {
     try {
       // Check if file exists and is readable
       if (!fs.existsSync(filePath)) {
@@ -29,53 +29,13 @@ export class EmployeeParser {
 
       const rawData = JSON.parse(fileContent);
 
-      // Validate the data structure
-      const validationResult = this.validateEmployeeData(rawData);
-      if (validationResult.error) {
-        return {
-          error: validationResult.error
-        };
-      }
-
       // Build employee database
-      const employeeDatabase = this.buildEmployeeDatabase(rawData);
-
-      return {
-        data: employeeDatabase
-      };
+      return this.buildEmployeeDatabase(rawData);
     } catch (error) {
       return {
         error: `Failed to parse employee file: ${error instanceof Error ? error.message : String(error)}`
       };
     }
-  }
-
-  /**
-   * Validate employee data structure - flexible validation
-   */
-  private static validateEmployeeData(data: any): { error?: string } {
-    if (!Array.isArray(data)) {
-      return {
-        error: 'Employee data must be an array'
-      };
-    }
-
-    if (data.length === 0) {
-      return {
-        error: 'Employee data array cannot be empty'
-      };
-    }
-
-    for (let i = 0; i < data.length; i++) {
-      const employee = data[i];
-
-      const validationResult = this.validateEmployee(employee, i);
-      if (validationResult.error) {
-        return validationResult;
-      }
-    }
-
-    return {};
   }
 
   /**
@@ -102,10 +62,25 @@ export class EmployeeParser {
   /**
    * Build employee database with indexed lookups
    */
-  private static buildEmployeeDatabase(employees: any[]): EmployeeDatabase {
+  private static buildEmployeeDatabase(data: any[]): EmployeesResult {
+    if (!Array.isArray(data)) {
+      return {
+        error: 'Employees data must be an array'
+      };
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      const employee = data[i];
+
+      const validationResult = this.validateEmployee(employee, i);
+      if (validationResult.error) {
+        return validationResult;
+      }
+    }
+
     const employeesById = new Map<string, Record<string, any>>();
 
-    for (const employee of employees) {
+    for (const employee of data) {
       // Index by ID if available
       if (employee.id && typeof employee.id === 'string') {
         employeesById.set(employee.id, employee);
@@ -113,8 +88,10 @@ export class EmployeeParser {
     }
 
     return {
-      employees,
-      employeesById
+      result: {
+        employees: data,
+        employeesById
+      }
     };
   }
 }
