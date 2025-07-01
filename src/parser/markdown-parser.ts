@@ -7,10 +7,10 @@ export interface PhaseSection {
   startLine: number;
   endLine: number;
   content: string;
-  jsonBlocks: JsonCodeBlock[];
+  jsonBlocks: CodeBlock[];
 }
 
-export interface JsonCodeBlock {
+export interface CodeBlock {
   language: string; // Ex: 'json'.
   content: string;
   startLine: number;
@@ -125,11 +125,11 @@ export class MarkdownParser {
   /**
    * Extract JSON code blocks from markdown content
    */
-  private static extractJsonCodeBlocks(content: string, startOffset: number): JsonCodeBlock[] {
-    const blocks: JsonCodeBlock[] = [];
+  private static extractJsonCodeBlocks(content: string, startOffset: number): CodeBlock[] {
+    const blocks: CodeBlock[] = [];
     const lines = content.split('\n');
     let inCodeBlock = false;
-    let currentBlock: Partial<JsonCodeBlock> | null = null;
+    let currentBlock: Partial<CodeBlock> | null = null;
     let blockContent: string[] = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -161,7 +161,7 @@ export class MarkdownParser {
 
         // Only include JSON blocks
         if (currentBlock.content && this.isJsonBlock(currentBlock.language, currentBlock.content)) {
-          blocks.push(currentBlock as JsonCodeBlock);
+          blocks.push(currentBlock as CodeBlock);
         }
 
         currentBlock = null;
@@ -252,14 +252,14 @@ export class MarkdownParser {
   /**
    * Get all JSON blocks from all phases
    */
-  static getAllJsonBlocks(phases: PhaseSection[]): JsonCodeBlock[] {
+  static getAllJsonBlocks(phases: PhaseSection[]): CodeBlock[] {
     return phases.flatMap(phase => phase.jsonBlocks);
   }
 
   /**
    * Get JSON blocks by language
    */
-  static getJsonBlocksByLanguage(phases: PhaseSection[], language: string): JsonCodeBlock[] {
+  static getJsonBlocksByLanguage(phases: PhaseSection[], language: string): CodeBlock[] {
     return this.getAllJsonBlocks(phases).filter(block =>
       block.language.toLowerCase() === language.toLowerCase()
     );
@@ -268,7 +268,7 @@ export class MarkdownParser {
   /**
    * Process JSON block for cleansing and metadata extraction
    */
-  private static processJsonBlock(block: JsonCodeBlock): void {
+  private static processJsonBlock(block: CodeBlock): void {
     // Cleanse the JSON content
     const cleanseResult = JsonUtils.cleanseJson(block.content);
     if (cleanseResult.success && cleanseResult.cleanedJson) {
@@ -286,7 +286,7 @@ export class MarkdownParser {
   /**
    * Parse JSON content from a code block
    */
-  static parseJsonBlock(block: JsonCodeBlock): { success: boolean; data?: any; error?: string } {
+  static parseJsonBlock(block: CodeBlock): { success: boolean; data?: any; error?: string } {
     try {
       const data = JSON.parse(block.content);
       return { success: true, data };

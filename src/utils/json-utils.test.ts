@@ -1,4 +1,4 @@
-import { JsonUtils, JsonCleanseResult, JsonValidationResult } from './json-utils';
+import { JsonUtils } from './json-utils';
 
 describe('JsonUtils', () => {
   describe('cleanseJson', () => {

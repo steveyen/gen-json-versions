@@ -1,4 +1,4 @@
-import { MarkdownParser, PhaseSection, JsonCodeBlock } from './markdown-parser';
+import { MarkdownParser, PhaseSection } from './markdown-parser';
 
 describe('MarkdownParser', () => {
   describe('parseMarkdownFile', () => {
