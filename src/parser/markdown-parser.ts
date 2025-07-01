@@ -16,7 +16,6 @@ export interface JsonCodeBlock {
   startLine: number;
   endLine: number;
   metadata: Record<string, any>;
-  valueEnumerations?: Record<string, any[]>;
   metadataFields?: Record<string, any>;
 }
 
@@ -278,9 +277,6 @@ export class MarkdownParser {
       // Try to parse the cleansed JSON
       const parseResult = JsonUtils.parseJsonWithCleansing(block.content);
       if (parseResult.success && parseResult.data) {
-        // Extract value enumerations
-        block.valueEnumerations = JsonUtils.extractValueEnumerations(parseResult.data);
-
         // Extract metadata fields
         block.metadataFields = JsonUtils.extractMetadataFields(parseResult.data);
       }
@@ -302,22 +298,7 @@ export class MarkdownParser {
     }
   }
 
-  /**
-   * Get all value enumerations from all phases
-   */
-  static getAllValueEnumerations(phases: PhaseSection[]): Record<string, any[]> {
-    const enumerations: Record<string, any[]> = {};
 
-    for (const phase of phases) {
-      for (const block of phase.jsonBlocks) {
-        if (block.valueEnumerations) {
-          Object.assign(enumerations, block.valueEnumerations);
-        }
-      }
-    }
-
-    return enumerations;
-  }
 
   /**
    * Get all metadata fields from all phases
@@ -336,22 +317,7 @@ export class MarkdownParser {
     return metadata;
   }
 
-  /**
-   * Get value enumerations for a specific phase
-   */
-  static getValueEnumerationsForPhase(phases: PhaseSection[], version: string): Record<string, any[]> {
-    const phase = this.getPhaseByVersion(phases, version);
-    if (!phase) return {};
 
-    const enumerations: Record<string, any[]> = {};
-    for (const block of phase.jsonBlocks) {
-      if (block.valueEnumerations) {
-        Object.assign(enumerations, block.valueEnumerations);
-      }
-    }
-
-    return enumerations;
-  }
 
   /**
    * Get metadata fields for a specific phase

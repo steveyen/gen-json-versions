@@ -139,63 +139,7 @@ describe('JsonUtils', () => {
     });
   });
 
-  describe('extractValueEnumerations', () => {
-    it('should extract string enumerations', () => {
-      const input = {
-        status: ["active", "inactive", "pending"],
-        user: {
-          roles: ["admin", "user", "guest"]
-        }
-      };
 
-      const result = JsonUtils.extractValueEnumerations(input);
-
-      expect(result).toEqual({
-        'status': ["active", "inactive", "pending"],
-        'user.roles': ["admin", "user", "guest"]
-      });
-    });
-
-    it('should extract number enumerations', () => {
-      const input = {
-        priorities: [1, 2, 3, 4, 5],
-        scores: [0, 10, 20, 30]
-      };
-
-      const result = JsonUtils.extractValueEnumerations(input);
-
-      expect(result).toEqual({
-        'priorities': [1, 2, 3, 4, 5],
-        'scores': [0, 10, 20, 30]
-      });
-    });
-
-    it('should not extract mixed type arrays', () => {
-      const input = {
-        mixed: ["string", 123, true],
-        valid: ["a", "b", "c"]
-      };
-
-      const result = JsonUtils.extractValueEnumerations(input);
-
-      expect(result).toEqual({
-        'valid': ["a", "b", "c"]
-      });
-    });
-
-    it('should not extract empty arrays', () => {
-      const input = {
-        empty: [],
-        valid: ["a", "b"]
-      };
-
-      const result = JsonUtils.extractValueEnumerations(input);
-
-      expect(result).toEqual({
-        'valid': ["a", "b"]
-      });
-    });
-  });
 
   describe('extractMetadataFields', () => {
     it('should extract metadata fields with caret prefix', () => {

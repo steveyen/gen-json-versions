@@ -174,43 +174,7 @@ export class JsonUtils {
     }
   }
 
-  /**
-   * Extract value enumerations from JSON schema
-   * Looks for patterns like arrays of values that could be used for data generation
-   */
-  static extractValueEnumerations(jsonData: any): Record<string, any[]> {
-    const enumerations: Record<string, any[]> = {};
 
-    const extractFromObject = (obj: any, path: string = '') => {
-      if (typeof obj !== 'object' || obj === null) {
-        return;
-      }
-
-      for (const [key, value] of Object.entries(obj)) {
-        const currentPath = path ? `${path}.${key}` : key;
-
-        // Check if this is an array of primitive values (potential enumeration)
-        if (Array.isArray(value) && value.length > 0) {
-          const firstItem = value[0];
-          if (typeof firstItem === 'string' || typeof firstItem === 'number' || typeof firstItem === 'boolean') {
-            // Check if all items are of the same primitive type
-            const allSameType = value.every(item => typeof item === typeof firstItem);
-            if (allSameType) {
-              enumerations[currentPath] = value;
-            }
-          }
-        }
-
-        // Recursively process nested objects and arrays
-        if (typeof value === 'object' && value !== null) {
-          extractFromObject(value, currentPath);
-        }
-      }
-    };
-
-    extractFromObject(jsonData);
-    return enumerations;
-  }
 
   /**
    * Extract metadata fields with caret prefix (^fieldName)

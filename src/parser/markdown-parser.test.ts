@@ -117,9 +117,6 @@ This is a regular markdown file without phase sections.
       const block = phase.jsonBlocks[0];
       expect(block.content).not.toContain('// User name');
       expect(block.content).not.toContain('/* User age */');
-      expect(block.valueEnumerations).toEqual({
-        'status': ["active", "inactive", "pending"]
-      });
       expect(block.metadataFields).toEqual({
         'description': "User data schema",
         'maxLength': 50
@@ -206,7 +203,6 @@ Content here`;
               startLine: 3,
               endLine: 5,
               metadata: {},
-              valueEnumerations: { 'status': ['active', 'inactive'] },
               metadataFields: { 'description': 'User data' }
             }
           ]
@@ -224,7 +220,6 @@ Content here`;
               startLine: 13,
               endLine: 15,
               metadata: {},
-              valueEnumerations: { 'roles': ['admin', 'user'] },
               metadataFields: { 'maxLength': 100 }
             }
           ]
@@ -252,13 +247,7 @@ Content here`;
       expect(blocks).toHaveLength(2);
     });
 
-    it('should get all value enumerations', () => {
-      const enumerations = MarkdownParser.getAllValueEnumerations(mockPhases);
-      expect(enumerations).toEqual({
-        'status': ['active', 'inactive'],
-        'roles': ['admin', 'user']
-      });
-    });
+
 
     it('should get all metadata fields', () => {
       const metadata = MarkdownParser.getAllMetadataFields(mockPhases);
@@ -268,12 +257,7 @@ Content here`;
       });
     });
 
-    it('should get value enumerations for specific phase', () => {
-      const enumerations = MarkdownParser.getValueEnumerationsForPhase(mockPhases, 'v1.0');
-      expect(enumerations).toEqual({
-        'status': ['active', 'inactive']
-      });
-    });
+
 
     it('should get metadata fields for specific phase', () => {
       const metadata = MarkdownParser.getMetadataFieldsForPhase(mockPhases, 'v2.0');
