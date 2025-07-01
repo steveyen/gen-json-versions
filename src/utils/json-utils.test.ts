@@ -82,12 +82,6 @@ describe('JsonUtils', () => {
     });
   });
 
-
-
-
-
-
-
   describe('extractMetadataFields', () => {
     it('should extract metadata fields with caret prefix', () => {
       const input = {
@@ -141,58 +135,6 @@ describe('JsonUtils', () => {
       const result = JsonUtils.extractMetadataFields(input);
 
       expect(result).toEqual({});
-    });
-  });
-
-  describe('formatJson', () => {
-    it('should format JSON with default indentation', () => {
-      const input = { name: "John", age: 30 };
-
-      const result = JsonUtils.formatJson(input);
-
-      expect(result).toBe('{\n  "name": "John",\n  "age": 30\n}');
-    });
-
-    it('should format JSON with custom indentation', () => {
-      const input = { name: "John", age: 30 };
-
-      const result = JsonUtils.formatJson(input, 4);
-
-      expect(result).toBe('{\n    "name": "John",\n    "age": 30\n}');
-    });
-
-    it('should throw error for invalid data', () => {
-      const input: any = { circular: null };
-      input.circular = input; // Create circular reference
-
-      expect(() => JsonUtils.formatJson(input)).toThrow('Failed to format JSON');
-    });
-  });
-
-  describe('cloneJson', () => {
-    it('should deep clone JSON data', () => {
-      const input = {
-        name: "John",
-        age: 30,
-        address: {
-          street: "123 Main St",
-          city: "New York"
-        },
-        hobbies: ["reading", "swimming"]
-      };
-
-      const result = JsonUtils.cloneJson(input);
-
-      expect(result).toEqual(input);
-      expect(result).not.toBe(input); // Should be a different reference
-      expect(result.address).not.toBe(input.address); // Nested objects should also be cloned
-    });
-
-    it('should throw error for circular references', () => {
-      const input: any = { name: "John" };
-      input.self = input; // Create circular reference
-
-      expect(() => JsonUtils.cloneJson(input)).toThrow('Failed to clone JSON');
     });
   });
 });

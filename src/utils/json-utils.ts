@@ -140,26 +140,4 @@ export class JsonUtils {
     extractFromObject(jsonData);
     return metadata;
   }
-
-  /**
-   * Pretty format JSON with consistent indentation
-   */
-  static formatJson(data: any, indent: number = 2): string {
-    try {
-      return JSON.stringify(data, null, indent);
-    } catch (error) {
-      throw new Error(`Failed to format JSON: ${error instanceof Error ? error.message : String(error)}`);
-    }
-  }
-
-  /**
-   * Deep clone JSON data
-   */
-  static cloneJson<T>(data: T): T {
-    try {
-      return JSON.parse(JSON.stringify(data));
-    } catch (error) {
-      throw new Error(`Failed to clone JSON: ${error instanceof Error ? error.message : String(error)}`);
-    }
-  }
 }
