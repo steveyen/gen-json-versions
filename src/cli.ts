@@ -2,11 +2,11 @@
 
 import { Command } from 'commander';
 import * as fs from 'fs';
-import { PhasesParser } from './parser/phases-parser';
 import { name } from '../package.json';
+import { PhasesParser } from './parser/phases-parser';
 
 interface CLIOptions {
-  employeeFile: string;
+  employeesFile: string;
   phasesFile: string;
   outputDir: string;
   verbose?: boolean;
@@ -29,7 +29,7 @@ class CLI {
     this.program
       .command('generate')
       .description('Generate JSON data files')
-      .requiredOption('-e, --employee-file <path>', 'Path to employee JSON file')
+      .requiredOption('-e, --employees-file <path>', 'Path to employees JSON file')
       .requiredOption('-p, --phases-file <path>', 'Path to markdown phases file')
       .requiredOption('-o, --output-dir <path>', 'Output directory for generated files')
       .option('-v, --verbose', 'Enable verbose output with pretty-printed JSON blocks')
@@ -44,7 +44,7 @@ class CLI {
       // Validate arguments
       this.validateArguments(options);
 
-      console.log(`Employee file: ${options.employeeFile}`);
+      console.log(`Employee file: ${options.employeesFile}`);
       console.log(`Phases file: ${options.phasesFile}`);
       console.log(`Output dir: ${options.outputDir}`);
 
@@ -127,7 +127,7 @@ class CLI {
 
   private validateArguments(options: CLIOptions): void {
     // Validate employee file
-    this.validateFile('Employee', options.employeeFile, '.json');
+    this.validateFile('Employee', options.employeesFile, '.json');
 
     // Validate phases file
     this.validateFile('Phases', options.phasesFile, '.md');
