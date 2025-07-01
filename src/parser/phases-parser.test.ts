@@ -113,7 +113,7 @@ This is a regular markdown file without phase sections.
       const block = phase.jsonBlocks[0];
       expect(block.content).not.toContain('// User name');
       expect(block.content).not.toContain('/* User age */');
-      expect(block.metadataFields).toEqual({
+      expect(block.metadata).toEqual({
         'description': "User data schema",
         'maxLength': 50
       });
@@ -195,8 +195,7 @@ Content here`;
               content: '{"name": "John", "status": ["active", "inactive"]}',
               startLine: 3,
               endLine: 5,
-              metadata: {},
-              metadataFields: { 'description': 'User data' }
+              metadata: { 'description': 'User data' }
             }
           ]
         },
@@ -212,8 +211,7 @@ Content here`;
               content: '{"name": "Jane", "age": 25}',
               startLine: 13,
               endLine: 15,
-              metadata: {},
-              metadataFields: { 'description': 'Employee data' }
+              metadata: { 'description': 'Employee data' }
             }
           ]
         }
@@ -240,15 +238,15 @@ Content here`;
       expect(blocks).toHaveLength(2);
     });
 
-    it('should get all metadata fields', () => {
-      const metadata = PhasesParser.getAllMetadataFields(mockPhases);
+    it('should get all metadata', () => {
+      const metadata = PhasesParser.getAllMetadata(mockPhases);
       expect(metadata).toEqual({
         'description': 'Employee data' // Last one wins
       });
     });
 
     it('should get metadata fields for specific phase', () => {
-      const metadata = PhasesParser.getMetadataFieldsForPhase(mockPhases, 'v2.0');
+      const metadata = PhasesParser.getMetadataForPhase(mockPhases, 'v2.0');
       expect(metadata).toEqual({
         'description': 'Employee data'
       });

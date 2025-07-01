@@ -16,7 +16,6 @@ export interface CodeBlock {
   startLine: number;
   endLine: number;
   metadata: Record<string, any>;
-  metadataFields?: Record<string, any>;
 }
 
 export interface PhasesParseResult {
@@ -277,10 +276,9 @@ export class PhasesParser {
     // Parse the JSON to extract metadata fields (fields starting with ^)
     try {
       const parsed = JSON.parse(block.content);
-      block.metadataFields = this.extractMetadata(parsed);
+
+      block.metadata = this.extractMetadata(parsed);
     } catch (error) {
-      // If JSON parsing fails, we'll skip metadata extraction
-      block.metadataFields = {};
     }
   }
 
@@ -326,15 +324,15 @@ export class PhasesParser {
   }
 
   /**
-   * Get all metadata fields from all phases
+   * Get all metadata from all phases
    */
-  static getAllMetadataFields(phases: Phase[]): Record<string, any> {
+  static getAllMetadata(phases: Phase[]): Record<string, any> {
     const allMetadata: Record<string, any> = {};
 
     for (const phase of phases) {
       for (const block of phase.jsonBlocks) {
-        if (block.metadataFields) {
-          Object.assign(allMetadata, block.metadataFields);
+        if (block.metadata) {
+          Object.assign(allMetadata, block.metadata);
         }
       }
     }
@@ -343,9 +341,9 @@ export class PhasesParser {
   }
 
   /**
-   * Get metadata fields for a specific phase
+   * Get metadata for a specific phase
    */
-  static getMetadataFieldsForPhase(phases: Phase[], version: string): Record<string, any> {
+  static getMetadataForPhase(phases: Phase[], version: string): Record<string, any> {
     const phase = this.getPhaseByVersion(phases, version);
     if (!phase) {
       return {};
@@ -353,8 +351,8 @@ export class PhasesParser {
 
     const metadata: Record<string, any> = {};
     for (const block of phase.jsonBlocks) {
-      if (block.metadataFields) {
-        Object.assign(metadata, block.metadataFields);
+      if (block.metadata) {
+        Object.assign(metadata, block.metadata);
       }
     }
 
@@ -371,6 +369,7 @@ export class PhasesParser {
 
     // Check for duplicate versions
     const versions = phases.map(phase => phase.version);
+
     const uniqueVersions = new Set(versions);
     if (versions.length !== uniqueVersions.size) {
       return { error: 'Duplicate phase versions found' };
