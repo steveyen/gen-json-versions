@@ -196,8 +196,18 @@ export class MarkdownParser {
   private static matchPhaseHeader(line: string): { version: string; name: string } | null {
     const trimmedLine = line.trim();
 
-    // Pattern 1: "Version v1.0" or "Version 1.0"
-    const versionPattern = /^#+\s*version\s+(v?\d+\.\d+(?:\.\d+)?)/i;
+    // Pattern 1: "Data Version v1.0" - these are the actual version phases we want
+    const dataVersionPattern = /^###\s+data\s+version\s+(v?\d+\.\d+(?:\.\d+)?)/i;
+    const dataVersionMatch = trimmedLine.match(dataVersionPattern);
+    if (dataVersionMatch) {
+      return {
+        version: dataVersionMatch[1],
+        name: `Data Version ${dataVersionMatch[1]}`
+      };
+    }
+
+    // Pattern 2: "Version v1.0" (without "Data" prefix) - also valid
+    const versionPattern = /^###\s+version\s+(v?\d+\.\d+(?:\.\d+)?)/i;
     const versionMatch = trimmedLine.match(versionPattern);
     if (versionMatch) {
       return {
@@ -206,38 +216,8 @@ export class MarkdownParser {
       };
     }
 
-    // Pattern 2: "Phase 1", "Phase 2", etc.
-    const phasePattern = /^#+\s*phase\s+(\d+)/i;
-    const phaseMatch = trimmedLine.match(phasePattern);
-    if (phaseMatch) {
-      return {
-        version: `v${phaseMatch[1]}.0`,
-        name: `Phase ${phaseMatch[1]}`
-      };
-    }
-
-    // Pattern 3: "Stage 1", "Stage 2", etc.
-    const stagePattern = /^#+\s*stage\s+(\d+)/i;
-    const stageMatch = trimmedLine.match(stagePattern);
-    if (stageMatch) {
-      return {
-        version: `v${stageMatch[1]}.0`,
-        name: `Stage ${stageMatch[1]}`
-      };
-    }
-
-    // Pattern 4: "Step 1", "Step 2", etc.
-    const stepPattern = /^#+\s*step\s+(\d+)/i;
-    const stepMatch = trimmedLine.match(stepPattern);
-    if (stepMatch) {
-      return {
-        version: `v${stepMatch[1]}.0`,
-        name: `Step ${stepMatch[1]}`
-      };
-    }
-
-    // Pattern 5: Custom version format like "v1.0", "v2.1.3"
-    const customVersionPattern = /^#+\s*(v\d+\.\d+(?:\.\d+)?)/i;
+    // Pattern 3: Custom version format like "v1.0", "v2.1.3" at level 3
+    const customVersionPattern = /^###\s+(v\d+\.\d+(?:\.\d+)?)/i;
     const customMatch = trimmedLine.match(customVersionPattern);
     if (customMatch) {
       return {
@@ -245,6 +225,9 @@ export class MarkdownParser {
         name: `Version ${customMatch[1]}`
       };
     }
+
+    // Note: We're intentionally NOT matching "Phase X" headers as they are
+    // organizational sections, not actual version phases
 
     return null;
   }
