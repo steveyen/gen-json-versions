@@ -118,33 +118,7 @@ export class JsonUtils {
 
 
 
-  /**
-   * Parse JSON with automatic cleansing
-   */
-  static parseJsonWithCleansing(jsonContent: string): { success: boolean; data?: any; error?: string } {
-    try {
-      // First cleanse the JSON
-      const cleanseResult = this.cleanseJson(jsonContent);
-      if (!cleanseResult.success) {
-        return {
-          success: false,
-          error: cleanseResult.error
-        };
-      }
 
-      // Then parse the cleaned JSON
-      const data = JSON.parse(cleanseResult.cleanedJson!);
-      return {
-        success: true,
-        data
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error: `Failed to parse JSON: ${error instanceof Error ? error.message : String(error)}`
-      };
-    }
-  }
 
 
 

@@ -84,34 +84,7 @@ describe('JsonUtils', () => {
 
 
 
-  describe('parseJsonWithCleansing', () => {
-    it('should parse JSON with comments', () => {
-      const input = `{
-        "name": "John", // Comment
-        "age": 30 /* Another comment */
-      }`;
 
-      const result = JsonUtils.parseJsonWithCleansing(input);
-
-      expect(result.success).toBe(true);
-      expect(result.data).toEqual({
-        name: "John",
-        age: 30
-      });
-    });
-
-    it('should handle invalid JSON after cleansing', () => {
-      const input = `{
-        "name": "John", // Comment
-        "age": 30, // Trailing comma
-      }`;
-
-      const result = JsonUtils.parseJsonWithCleansing(input);
-
-      expect(result.success).toBe(false);
-      expect(result.error).toContain('Failed to parse JSON');
-    });
-  });
 
 
 
