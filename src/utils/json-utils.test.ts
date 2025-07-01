@@ -8,7 +8,7 @@ describe('JsonUtils', () => {
         "age": 30
       }`;
 
-      const result = JsonUtils.cleanseJson(input);
+      const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
@@ -24,7 +24,7 @@ describe('JsonUtils', () => {
         "age": 30
       }`;
 
-      const result = JsonUtils.cleanseJson(input);
+      const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
@@ -40,7 +40,7 @@ describe('JsonUtils', () => {
         "age": 30
       }`;
 
-      const result = JsonUtils.cleanseJson(input);
+      const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
@@ -57,7 +57,7 @@ describe('JsonUtils', () => {
         "age": 30
       }`;
 
-      const result = JsonUtils.cleanseJson(input);
+      const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
@@ -68,14 +68,14 @@ describe('JsonUtils', () => {
     });
 
     it('should handle empty input', () => {
-      const result = JsonUtils.cleanseJson('');
+      const result = JsonUtils.jsonCleanse('');
 
       expect(result.error).toBeTruthy();
       expect(result.error).toBe('Invalid input: jsonContent must be a non-empty string');
     });
 
     it('should handle null input', () => {
-      const result = JsonUtils.cleanseJson(null as any);
+      const result = JsonUtils.jsonCleanse(null as any);
 
       expect(result.error).toBeTruthy();
       expect(result.error).toBe('Invalid input: jsonContent must be a non-empty string');

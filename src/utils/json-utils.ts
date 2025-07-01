@@ -15,7 +15,7 @@ export class JsonUtils {
    * - Multi-line comments: /* comment *\/
    * - Handles comments within strings properly
    */
-  static cleanseJson(jsonContent: string): JsonCleanseResult {
+  static jsonCleanse(jsonContent: string): JsonCleanseResult {
     try {
       if (!jsonContent || typeof jsonContent !== 'string') {
         return {

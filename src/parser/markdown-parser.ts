@@ -265,7 +265,7 @@ export class MarkdownParser {
    */
   private static processJsonBlock(block: CodeBlock): void {
     // Cleanse the JSON content
-    const cleanseResult = JsonUtils.cleanseJson(block.content);
+    const cleanseResult = JsonUtils.jsonCleanse(block.content);
     if (!cleanseResult.error && cleanseResult.cleanedJson) {
       block.content = cleanseResult.cleanedJson;
       // Try to parse the cleansed JSON
