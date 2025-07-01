@@ -1,5 +1,15 @@
 import * as fs from 'fs';
-import { EmployeeDatabase, EmployeeParserResult } from '../types';
+
+// TypeScript type definitions for employee parsing
+export interface EmployeeDatabase {
+  employees: Record<string, any>[];
+  employeesById: Map<string, Record<string, any>>;
+}
+
+export interface EmployeeParserResult {
+  data?: EmployeeDatabase;
+  error?: string; // If error is present, the operation failed
+}
 
 export class EmployeeParser {
   /**
