@@ -1,5 +1,5 @@
 {
-  "name": "sample-data-generator",
+  "name": "json-data-generator",
   "version": "0.0.1",
   "main": "dist/cli.js",
   "scripts": {

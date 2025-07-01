@@ -3,6 +3,7 @@
 import { Command } from 'commander';
 import * as fs from 'fs';
 import { MarkdownParser } from './parser/markdown-parser';
+import { name } from '../package.json';
 
 interface CLIOptions {
   employeeFile: string;
@@ -21,7 +22,7 @@ class CLI {
 
   private setupCommands(): void {
     this.program
-      .name('json-data-generator')
+      .name(name)
       .description('Generate JSON data from employee and phase files')
       .version('1.0.0');
 
