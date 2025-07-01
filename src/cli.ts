@@ -46,7 +46,7 @@ class CLI {
 
       console.log(`Employee file: ${options.employeeFile}`);
       console.log(`Phases file: ${options.phasesFile}`);
-      console.log(`Output directory: ${options.outputDir}`);
+      console.log(`Output dir: ${options.outputDir}`);
 
       // Load and validate phases for early sanity checking
       console.log('\n📋 Loading phases...');
