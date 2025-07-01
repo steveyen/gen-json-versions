@@ -51,7 +51,7 @@ export class PhasesParser {
 
       // Extract JSON code blocks from each phase
       for (const phase of phases) {
-        phase.jsonBlocks = this.extractJsonCodeBlocks(phase.content, phase.startLine);
+        phase.jsonBlocks = this.extractJsonBlocks(phase.content, phase.startLine);
 
         // Process each JSON block for cleansing and metadata extraction
         for (const block of phase.jsonBlocks) {
@@ -123,7 +123,7 @@ export class PhasesParser {
   /**
    * Extract JSON code blocks from markdown content
    */
-  private static extractJsonCodeBlocks(content: string, startOffset: number): CodeBlock[] {
+  private static extractJsonBlocks(content: string, startOffset: number): CodeBlock[] {
     const blocks: CodeBlock[] = [];
     const lines = content.split('\n');
 
@@ -140,8 +140,7 @@ export class PhasesParser {
         inCodeBlock = true;
         currentBlock = {
           language: (codeBlockStart[1] || '').toLowerCase(),
-          startLine: startOffset + i,
-          metadata: {}
+          startLine: startOffset + i
         };
         blockContent = [];
 
