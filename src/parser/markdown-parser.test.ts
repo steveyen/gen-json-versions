@@ -329,4 +329,87 @@ Content here`;
       expect(result.error).toBe('Invalid version format: invalid-version');
     });
   });
+
+  describe('extractMetadata', () => {
+    it('should extract metadata fields with caret prefix', () => {
+      const input = {
+        name: "John",
+        "^description": "User metadata",
+        "^maxLength": 50,
+        address: {
+          street: "123 Main St",
+          "^required": true
+        }
+      };
+
+      // Access the private method through reflection for testing
+      const result = (MarkdownParser as any).extractMetadata(input);
+
+      expect(result).toEqual({
+        'description': "User metadata",
+        'maxLength': 50,
+        'required': true
+      });
+    });
+
+    it('should handle nested metadata fields', () => {
+      const input = {
+        user: {
+          "^type": "object",
+          name: "John",
+          settings: {
+            "^default": "enabled",
+            theme: "dark"
+          }
+        }
+      };
+
+      const result = (MarkdownParser as any).extractMetadata(input);
+
+      expect(result).toEqual({
+        'type': "object",
+        'default': "enabled"
+      });
+    });
+
+    it('should return empty object when no metadata fields', () => {
+      const input = {
+        name: "John",
+        age: 30,
+        address: {
+          street: "123 Main St"
+        }
+      };
+
+      const result = (MarkdownParser as any).extractMetadata(input);
+
+      expect(result).toEqual({});
+    });
+
+    it('should remove metadata fields from original object', () => {
+      const input = {
+        name: "John",
+        "^description": "User metadata",
+        address: {
+          street: "123 Main St",
+          "^required": true
+        }
+      };
+
+      const result = (MarkdownParser as any).extractMetadata(input);
+
+      expect(result).toEqual({
+        'description': "User metadata",
+        'required': true
+      });
+
+      // Check that metadata fields were removed from original object
+      expect(input).toEqual({
+        name: "John",
+        address: {
+          street: "123 Main St"
+        }
+      });
+    });
+  });
 });

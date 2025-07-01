@@ -272,12 +272,47 @@ export class MarkdownParser {
       try {
         const data = JSON.parse(cleanseResult.cleanedJson);
         // Extract metadata fields
-        block.metadataFields = JsonUtils.extractMetadata(data);
+        block.metadataFields = this.extractMetadata(data);
       } catch (error) {
         // JSON parsing failed, but we still have the cleansed content
         console.warn(`Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
+  }
+
+  /**
+   * Extract metadata fields with caret prefix (^fieldName)
+   */
+  private static extractMetadata(obj: any): Record<string, any> {
+    const metadata: Record<string, any> = {};
+
+    const process = (obj: any, path: string = '') => {
+      if (typeof obj !== 'object' || obj === null) {
+        return;
+      }
+
+      for (const [key, value] of Object.entries(obj)) {
+        const currentPath = path ? `${path}.${key}` : key;
+
+        // Check if this is a metadata field (starts with ^)
+        if (key.startsWith('^')) {
+          const metadataKey = key.substring(1); // Remove the ^ prefix
+
+          metadata[metadataKey] = value;
+
+          delete obj[key];
+        }
+
+        // Recursively process nested objects and arrays
+        if (typeof value === 'object' && value !== null) {
+          process(value, currentPath);
+        }
+      }
+    };
+
+    process(obj);
+
+    return metadata;
   }
 
   /**

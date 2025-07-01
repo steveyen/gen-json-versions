@@ -82,59 +82,5 @@ describe('JsonUtils', () => {
     });
   });
 
-  describe('extractMetadataFields', () => {
-    it('should extract metadata fields with caret prefix', () => {
-      const input = {
-        name: "John",
-        "^description": "User metadata",
-        "^maxLength": 50,
-        address: {
-          street: "123 Main St",
-          "^required": true
-        }
-      };
 
-      const result = JsonUtils.extractMetadata(input);
-
-      expect(result).toEqual({
-        'description': "User metadata",
-        'maxLength': 50,
-        'required': true
-      });
-    });
-
-    it('should handle nested metadata fields', () => {
-      const input = {
-        user: {
-          "^type": "object",
-          name: "John",
-          settings: {
-            "^default": "enabled",
-            theme: "dark"
-          }
-        }
-      };
-
-      const result = JsonUtils.extractMetadata(input);
-
-      expect(result).toEqual({
-        'type': "object",
-        'default': "enabled"
-      });
-    });
-
-    it('should return empty object when no metadata fields', () => {
-      const input = {
-        name: "John",
-        age: 30,
-        address: {
-          street: "123 Main St"
-        }
-      };
-
-      const result = JsonUtils.extractMetadata(input);
-
-      expect(result).toEqual({});
-    });
-  });
 });
