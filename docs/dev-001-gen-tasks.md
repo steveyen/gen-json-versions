@@ -43,7 +43,7 @@
 
 - [ ] 3.0 Markdown Phase Detection and JSON Extraction
   - [x] 3.1 Implement markdown parser to identify phase sections (e.g., "Version v1.0")
-  - [ ] 3.2 Create JSON code block extraction logic from markdown content
+  - [x] 3.2 Create JSON code block extraction logic from markdown content
   - [ ] 3.3 Implement JSON cleansing to remove C/C++ style comments from extracted JSON
   - [ ] 3.4 Build phase metadata extraction (version numbers, phase names)
   - [ ] 3.5 Extract valid value enumerations from JSON examples for data generation

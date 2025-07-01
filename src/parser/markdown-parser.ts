@@ -6,6 +6,15 @@ export interface PhaseSection {
   startLine: number;
   endLine: number;
   content: string;
+  jsonBlocks: JsonCodeBlock[];
+}
+
+export interface JsonCodeBlock {
+  language: string;
+  content: string;
+  startLine: number;
+  endLine: number;
+  metadata: Record<string, any>;
 }
 
 export interface MarkdownParseResult {
@@ -32,7 +41,7 @@ export class MarkdownParser {
       const content = readResult.content!;
       const lines = content.split('\n');
 
-      // Find all phase sections
+            // Find all phase sections
       const phases = this.extractPhaseSections(lines);
 
       if (phases.length === 0) {
@@ -40,6 +49,11 @@ export class MarkdownParser {
           success: false,
           error: 'No phase sections found in markdown file'
         };
+      }
+
+      // Extract JSON code blocks from each phase
+      for (const phase of phases) {
+        phase.jsonBlocks = this.extractJsonCodeBlocks(phase.content, phase.startLine);
       }
 
       return {
@@ -81,7 +95,8 @@ export class MarkdownParser {
           name: phaseMatch.name,
           startLine: i,
           endLine: lines.length - 1, // Will be updated when next phase is found
-          content: ''
+          content: '',
+          jsonBlocks: []
         };
         phaseContent = [line];
       } else if (currentPhase) {
@@ -98,6 +113,81 @@ export class MarkdownParser {
     }
 
     return phases;
+  }
+
+  /**
+   * Extract JSON code blocks from markdown content
+   */
+  private static extractJsonCodeBlocks(content: string, startOffset: number): JsonCodeBlock[] {
+    const blocks: JsonCodeBlock[] = [];
+    const lines = content.split('\n');
+    let inCodeBlock = false;
+    let currentBlock: Partial<JsonCodeBlock> | null = null;
+    let blockContent: string[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      // Check for code block start
+      const codeBlockStart = line.match(/^```(\w+)?$/);
+      if (codeBlockStart && !inCodeBlock) {
+        inCodeBlock = true;
+        currentBlock = {
+          language: codeBlockStart[1] || '',
+          startLine: startOffset + i,
+          metadata: {}
+        };
+        blockContent = [];
+        continue;
+      }
+
+      // Check for code block end
+      if (line.match(/^```$/) && inCodeBlock && currentBlock) {
+        inCodeBlock = false;
+        currentBlock.endLine = startOffset + i;
+        currentBlock.content = blockContent.join('\n');
+
+        // Only include JSON blocks
+        if (currentBlock.content && this.isJsonBlock(currentBlock.language, currentBlock.content)) {
+          blocks.push(currentBlock as JsonCodeBlock);
+        }
+
+        currentBlock = null;
+        continue;
+      }
+
+      // Add line to current block content
+      if (inCodeBlock && currentBlock) {
+        blockContent.push(line);
+      }
+    }
+
+    return blocks;
+  }
+
+  /**
+   * Check if a code block contains JSON content
+   */
+  private static isJsonBlock(language: string | undefined, content: string): boolean {
+    // Check if language is explicitly JSON
+    if (language && language.toLowerCase() === 'json') {
+      return true;
+    }
+
+    // Check if content looks like JSON (starts with { or [)
+    const trimmedContent = content.trim();
+    if (trimmedContent.startsWith('{') || trimmedContent.startsWith('[')) {
+      return true;
+    }
+
+    // Try to parse as JSON to validate
+    try {
+      JSON.parse(trimmedContent);
+      return true;
+    } catch {
+      // Not valid JSON
+      return false;
+    }
   }
 
   /**
@@ -171,6 +261,37 @@ export class MarkdownParser {
    */
   static getPhaseByName(phases: PhaseSection[], name: string): PhaseSection | null {
     return phases.find(phase => phase.name.toLowerCase() === name.toLowerCase()) || null;
+  }
+
+  /**
+   * Get all JSON blocks from all phases
+   */
+  static getAllJsonBlocks(phases: PhaseSection[]): JsonCodeBlock[] {
+    return phases.flatMap(phase => phase.jsonBlocks);
+  }
+
+  /**
+   * Get JSON blocks by language
+   */
+  static getJsonBlocksByLanguage(phases: PhaseSection[], language: string): JsonCodeBlock[] {
+    return this.getAllJsonBlocks(phases).filter(block =>
+      block.language.toLowerCase() === language.toLowerCase()
+    );
+  }
+
+  /**
+   * Parse JSON content from a code block
+   */
+  static parseJsonBlock(block: JsonCodeBlock): { success: boolean; data?: any; error?: string } {
+    try {
+      const data = JSON.parse(block.content);
+      return { success: true, data };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
   }
 
   /**
