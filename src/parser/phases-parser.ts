@@ -15,7 +15,7 @@ export interface CodeBlock {
   content: string;
   startLine: number;
   endLine: number;
-  metadata: Record<string, any>;
+  metadata?: Record<string, any>;
 }
 
 export interface PhasesParseResult {
