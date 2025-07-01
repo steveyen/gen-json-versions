@@ -1,7 +1,7 @@
 import { FileUtils } from '../utils/file-utils';
 import { JsonUtils } from '../utils/json-utils';
 
-export interface PhaseSection {
+export interface Phase {
   version: string;
   name: string;
   startLine: number;
@@ -20,7 +20,7 @@ export interface CodeBlock {
 }
 
 export interface PhasesParseResult {
-  phases?: PhaseSection[];
+  phases?: Phase[];
   error?: string; // If error is present, the operation failed
 }
 
@@ -28,7 +28,7 @@ export class PhasesParser {
   /**
    * Parse markdown file to identify phase sections
    */
-  static parseMarkdownFile(filePath: string): PhasesParseResult {
+  static parseFile(filePath: string): PhasesParseResult {
     try {
       // Read the markdown file
       const readResult = FileUtils.readFile(filePath);
@@ -42,7 +42,7 @@ export class PhasesParser {
       const lines = content.split('\n');
 
             // Find all phase sections
-      const phases = this.extractPhaseSections(lines);
+      const phases = this.extractPhases(lines);
 
       if (phases.length === 0) {
         return {
@@ -73,9 +73,11 @@ export class PhasesParser {
   /**
    * Extract phase sections from markdown lines
    */
-  private static extractPhaseSections(lines: string[]): PhaseSection[] {
-    const phases: PhaseSection[] = [];
-    let currentPhase: PhaseSection | null = null;
+  private static extractPhases(lines: string[]): Phase[] {
+    const phases: Phase[] = [];
+
+    let currentPhase: Phase | null = null;
+
     let phaseContent: string[] = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -100,6 +102,7 @@ export class PhasesParser {
           content: '',
           jsonBlocks: []
         };
+
         phaseContent = [line];
       } else if (currentPhase) {
         // Add line to current phase content
@@ -111,6 +114,7 @@ export class PhasesParser {
     if (currentPhase) {
       currentPhase.endLine = lines.length - 1;
       currentPhase.content = phaseContent.join('\n');
+
       phases.push(currentPhase);
     }
 
@@ -123,6 +127,7 @@ export class PhasesParser {
   private static extractJsonCodeBlocks(content: string, startOffset: number): CodeBlock[] {
     const blocks: CodeBlock[] = [];
     const lines = content.split('\n');
+
     let inCodeBlock = false;
     let currentBlock: Partial<CodeBlock> | null = null;
     let blockContent: string[] = [];
@@ -230,28 +235,28 @@ export class PhasesParser {
   /**
    * Get a specific phase by version
    */
-  static getPhaseByVersion(phases: PhaseSection[], version: string): PhaseSection | null {
+  static getPhaseByVersion(phases: Phase[], version: string): Phase | null {
     return phases.find(phase => phase.version === version) || null;
   }
 
   /**
    * Get a specific phase by name
    */
-  static getPhaseByName(phases: PhaseSection[], name: string): PhaseSection | null {
+  static getPhaseByName(phases: Phase[], name: string): Phase | null {
     return phases.find(phase => phase.name === name) || null;
   }
 
   /**
    * Get all JSON blocks from all phases
    */
-  static getAllJsonBlocks(phases: PhaseSection[]): CodeBlock[] {
+  static getAllJsonBlocks(phases: Phase[]): CodeBlock[] {
     return phases.flatMap(phase => phase.jsonBlocks);
   }
 
   /**
    * Get JSON blocks by language from all phases
    */
-  static getJsonBlocksByLanguage(phases: PhaseSection[], language: string): CodeBlock[] {
+  static getJsonBlocksByLanguage(phases: Phase[], language: string): CodeBlock[] {
     return this.getAllJsonBlocks(phases).filter(block =>
       block.language.toLowerCase() === language.toLowerCase()
     );
@@ -323,7 +328,7 @@ export class PhasesParser {
   /**
    * Get all metadata fields from all phases
    */
-  static getAllMetadataFields(phases: PhaseSection[]): Record<string, any> {
+  static getAllMetadataFields(phases: Phase[]): Record<string, any> {
     const allMetadata: Record<string, any> = {};
 
     for (const phase of phases) {
@@ -340,7 +345,7 @@ export class PhasesParser {
   /**
    * Get metadata fields for a specific phase
    */
-  static getMetadataFieldsForPhase(phases: PhaseSection[], version: string): Record<string, any> {
+  static getMetadataFieldsForPhase(phases: Phase[], version: string): Record<string, any> {
     const phase = this.getPhaseByVersion(phases, version);
     if (!phase) {
       return {};
@@ -359,7 +364,7 @@ export class PhasesParser {
   /**
    * Validate phases for consistency and completeness
    */
-  static validatePhases(phases: PhaseSection[]): { error?: string } {
+  static validatePhases(phases: Phase[]): { error?: string } {
     if (!phases || phases.length === 0) {
       return { error: 'No phases found' };
     }

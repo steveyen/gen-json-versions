@@ -1,4 +1,4 @@
-import { PhasesParser, PhaseSection } from './phases-parser';
+import { PhasesParser, Phase } from './phases-parser';
 
 describe('PhasesParser', () => {
   describe('parseMarkdownFile', () => {
@@ -31,7 +31,7 @@ This is phase 2 content.
         content: mockContent
       });
 
-      const result = PhasesParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases).toHaveLength(2);
@@ -48,7 +48,7 @@ This is phase 2 content.
         error: 'File not found'
       });
 
-      const result = PhasesParser.parseMarkdownFile('nonexistent.md');
+      const result = PhasesParser.parseFile('nonexistent.md');
 
       expect(result.error).toBeTruthy();
       expect(result.error).toBe('File not found');
@@ -72,7 +72,7 @@ This is a regular markdown file without phase sections.
         content: mockContent
       });
 
-      const result = PhasesParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseFile('test.md');
 
       expect(result.error).toBeTruthy();
       expect(result.error).toBe('No phase sections found in markdown file');
@@ -102,7 +102,7 @@ This is a regular markdown file without phase sections.
         content: mockContent
       });
 
-      const result = PhasesParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases).toHaveLength(1);
@@ -132,7 +132,7 @@ Content here`;
         content: mockContent
       });
 
-      const result = PhasesParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v1.0');
@@ -150,7 +150,7 @@ Content here`;
         content: mockContent
       });
 
-      const result = PhasesParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v2.0');
@@ -168,7 +168,7 @@ Content here`;
         content: mockContent
       });
 
-      const result = PhasesParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v3.0');
@@ -179,7 +179,7 @@ Content here`;
   });
 
   describe('utility methods', () => {
-    let mockPhases: PhaseSection[];
+    let mockPhases: Phase[];
 
     beforeEach(() => {
       mockPhases = [
@@ -257,7 +257,7 @@ Content here`;
 
   describe('validation', () => {
     it('should validate phases successfully', () => {
-      const phases: PhaseSection[] = [
+      const phases: Phase[] = [
         {
           version: 'v1.0',
           name: 'Phase 1',
@@ -278,7 +278,7 @@ Content here`;
     });
 
     it('should reject phases with duplicate versions', () => {
-      const phases: PhaseSection[] = [
+      const phases: Phase[] = [
         {
           version: 'v1.0',
           name: 'Phase 1',
@@ -302,7 +302,7 @@ Content here`;
     });
 
     it('should reject phases without JSON blocks', () => {
-      const phases: PhaseSection[] = [
+      const phases: Phase[] = [
         {
           version: 'v1.0',
           name: 'Phase 1',

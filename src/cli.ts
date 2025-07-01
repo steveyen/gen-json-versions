@@ -51,7 +51,7 @@ class CLI {
       // Load and validate phases for early sanity checking
       console.log('\n📋 Loading phases...');
 
-      const phasesResult = PhasesParser.parseMarkdownFile(options.phasesFile);
+      const phasesResult = PhasesParser.parseFile(options.phasesFile);
       if (phasesResult.error) {
         throw new Error(`Failed to parse phases file: ${phasesResult.error}`);
       }
@@ -122,6 +122,7 @@ class CLI {
     }
 
     console.error(`\nFor help, run: ${this.program.name()} --help`);
+
     process.exit(1);
   }
 
