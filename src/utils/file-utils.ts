@@ -151,21 +151,6 @@ export class FileUtils {
     return path.extname(filePath).toLowerCase();
   }
 
-    /**
-   * Validate file extension
-   */
-  static validateFileExtension(filePath: string, allowedExtensions: string[]): FileCheckResult {
-    const extension = this.getFileExtension(filePath);
-
-    if (!allowedExtensions.includes(extension)) {
-      return {
-        error: `Invalid file extension. Expected one of: ${allowedExtensions.join(', ')}, got: ${extension}`
-      };
-    }
-
-    return { exists: true };
-  }
-
   /**
    * Read file content as string
    */
