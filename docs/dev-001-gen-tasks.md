@@ -7,8 +7,8 @@
 - `jest.config.js` - Jest testing configuration
 - `src/parser/employee-parser.ts` - Flexible employee JSON file parsing logic with basic validation and database building
 - `src/parser/employee-parser.test.ts` - Unit tests for employee parsing
-- `src/parser/markdown-parser.ts` - Markdown phase detection and JSON extraction
-- `src/parser/markdown-parser.test.ts` - Unit tests for markdown parsing
+- `src/parser/phases-parser.ts` - Markdown phase detection and JSON extraction
+- `src/parser/phases-parser.test.ts` - Unit tests for phases parsing
 - `src/generator/data-generator.ts` - Core data generation engine
 - `src/generator/data-generator.test.ts` - Unit tests for data generation
 - `src/utils/json-utils.ts` - JSON processing utilities (cleansing, validation)

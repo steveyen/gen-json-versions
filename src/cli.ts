@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import * as fs from 'fs';
-import { MarkdownParser } from './parser/markdown-parser';
+import { PhasesParser } from './parser/phases-parser';
 import { name } from '../package.json';
 
 interface CLIOptions {
@@ -51,7 +51,7 @@ class CLI {
       // Load and validate phases for early sanity checking
       console.log('\n📋 Loading phases...');
 
-      const phasesResult = MarkdownParser.parseMarkdownFile(options.phasesFile);
+      const phasesResult = PhasesParser.parseMarkdownFile(options.phasesFile);
       if (phasesResult.error) {
         throw new Error(`Failed to parse phases file: ${phasesResult.error}`);
       }
@@ -83,7 +83,7 @@ class CLI {
       });
 
       // Validate phases
-      const validationResult = MarkdownParser.validatePhases(phases);
+      const validationResult = PhasesParser.validatePhases(phases);
       if (validationResult.error) {
         throw new Error(`Phase validation failed: ${validationResult.error}`);
       }

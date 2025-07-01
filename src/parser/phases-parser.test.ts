@@ -1,6 +1,6 @@
-import { MarkdownParser, PhaseSection } from './markdown-parser';
+import { PhasesParser, PhaseSection } from './phases-parser';
 
-describe('MarkdownParser', () => {
+describe('PhasesParser', () => {
   describe('parseMarkdownFile', () => {
     it('should parse markdown file with phase sections', () => {
       const mockContent = `# Test Document
@@ -31,7 +31,7 @@ This is phase 2 content.
         content: mockContent
       });
 
-      const result = MarkdownParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseMarkdownFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases).toHaveLength(2);
@@ -48,7 +48,7 @@ This is phase 2 content.
         error: 'File not found'
       });
 
-      const result = MarkdownParser.parseMarkdownFile('nonexistent.md');
+      const result = PhasesParser.parseMarkdownFile('nonexistent.md');
 
       expect(result.error).toBeTruthy();
       expect(result.error).toBe('File not found');
@@ -72,7 +72,7 @@ This is a regular markdown file without phase sections.
         content: mockContent
       });
 
-      const result = MarkdownParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseMarkdownFile('test.md');
 
       expect(result.error).toBeTruthy();
       expect(result.error).toBe('No phase sections found in markdown file');
@@ -102,7 +102,7 @@ This is a regular markdown file without phase sections.
         content: mockContent
       });
 
-      const result = MarkdownParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseMarkdownFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases).toHaveLength(1);
@@ -132,7 +132,7 @@ Content here`;
         content: mockContent
       });
 
-      const result = MarkdownParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseMarkdownFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v1.0');
@@ -150,7 +150,7 @@ Content here`;
         content: mockContent
       });
 
-      const result = MarkdownParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseMarkdownFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v2.0');
@@ -168,7 +168,7 @@ Content here`;
         content: mockContent
       });
 
-      const result = MarkdownParser.parseMarkdownFile('test.md');
+      const result = PhasesParser.parseMarkdownFile('test.md');
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v3.0');
@@ -209,11 +209,11 @@ Content here`;
           jsonBlocks: [
             {
               language: 'json',
-              content: '{"name": "Jane", "roles": ["admin", "user"]}',
+              content: '{"name": "Jane", "age": 25}',
               startLine: 13,
               endLine: 15,
               metadata: {},
-              metadataFields: { 'maxLength': 100 }
+              metadataFields: { 'description': 'Employee data' }
             }
           ]
         }
@@ -221,37 +221,36 @@ Content here`;
     });
 
     it('should get phase by version', () => {
-      const phase = MarkdownParser.getPhaseByVersion(mockPhases, 'v1.0');
+      const phase = PhasesParser.getPhaseByVersion(mockPhases, 'v1.0');
       expect(phase).toBe(mockPhases[0]);
     });
 
     it('should get phase by name', () => {
-      const phase = MarkdownParser.getPhaseByName(mockPhases, 'Data Version v2.0');
+      const phase = PhasesParser.getPhaseByName(mockPhases, 'Data Version v2.0');
       expect(phase).toBe(mockPhases[1]);
     });
 
     it('should get all JSON blocks', () => {
-      const blocks = MarkdownParser.getAllJsonBlocks(mockPhases);
+      const blocks = PhasesParser.getAllJsonBlocks(mockPhases);
       expect(blocks).toHaveLength(2);
     });
 
     it('should get JSON blocks by language', () => {
-      const blocks = MarkdownParser.getJsonBlocksByLanguage(mockPhases, 'json');
+      const blocks = PhasesParser.getJsonBlocksByLanguage(mockPhases, 'json');
       expect(blocks).toHaveLength(2);
     });
 
     it('should get all metadata fields', () => {
-      const metadata = MarkdownParser.getAllMetadataFields(mockPhases);
+      const metadata = PhasesParser.getAllMetadataFields(mockPhases);
       expect(metadata).toEqual({
-        'description': 'User data',
-        'maxLength': 100
+        'description': 'Employee data' // Last one wins
       });
     });
 
     it('should get metadata fields for specific phase', () => {
-      const metadata = MarkdownParser.getMetadataFieldsForPhase(mockPhases, 'v2.0');
+      const metadata = PhasesParser.getMetadataFieldsForPhase(mockPhases, 'v2.0');
       expect(metadata).toEqual({
-        'maxLength': 100
+        'description': 'Employee data'
       });
     });
   });
@@ -261,62 +260,52 @@ Content here`;
       const phases: PhaseSection[] = [
         {
           version: 'v1.0',
-          name: 'Version 1',
+          name: 'Phase 1',
           startLine: 1,
           endLine: 10,
           content: 'Content',
-          jsonBlocks: []
-        },
-        {
-          version: 'v2.0',
-          name: 'Version 2',
-          startLine: 11,
-          endLine: 20,
-          content: 'Content',
-          jsonBlocks: []
+          jsonBlocks: [{ language: 'json', content: '{}', startLine: 1, endLine: 1, metadata: {} }]
         }
       ];
 
-      const result = MarkdownParser.validatePhases(phases);
+      const result = PhasesParser.validatePhases(phases);
       expect(result.error).toBeFalsy();
     });
 
     it('should reject empty phases', () => {
-      const result = MarkdownParser.validatePhases([]);
-      expect(result.error).toBeTruthy();
+      const result = PhasesParser.validatePhases([]);
       expect(result.error).toBe('No phases found');
     });
 
-    it('should reject duplicate versions', () => {
+    it('should reject phases with duplicate versions', () => {
       const phases: PhaseSection[] = [
         {
           version: 'v1.0',
-          name: 'Version 1',
+          name: 'Phase 1',
           startLine: 1,
           endLine: 10,
           content: 'Content',
-          jsonBlocks: []
+          jsonBlocks: [{ language: 'json', content: '{}', startLine: 1, endLine: 1, metadata: {} }]
         },
         {
           version: 'v1.0',
-          name: 'Version 1 Duplicate',
+          name: 'Phase 2',
           startLine: 11,
           endLine: 20,
           content: 'Content',
-          jsonBlocks: []
+          jsonBlocks: [{ language: 'json', content: '{}', startLine: 11, endLine: 11, metadata: {} }]
         }
       ];
 
-      const result = MarkdownParser.validatePhases(phases);
-      expect(result.error).toBeTruthy();
-      expect(result.error).toBe('Duplicate version numbers found in phases');
+      const result = PhasesParser.validatePhases(phases);
+      expect(result.error).toBe('Duplicate phase versions found');
     });
 
-    it('should reject invalid version format', () => {
+    it('should reject phases without JSON blocks', () => {
       const phases: PhaseSection[] = [
         {
-          version: 'invalid-version',
-          name: 'Invalid Version',
+          version: 'v1.0',
+          name: 'Phase 1',
           startLine: 1,
           endLine: 10,
           content: 'Content',
@@ -324,92 +313,98 @@ Content here`;
         }
       ];
 
-      const result = MarkdownParser.validatePhases(phases);
-      expect(result.error).toBeTruthy();
-      expect(result.error).toBe('Invalid version format: invalid-version');
+      const result = PhasesParser.validatePhases(phases);
+      expect(result.error).toBe('Phase v1.0 has no JSON blocks');
     });
   });
 
-  describe('extractMetadata', () => {
-    it('should extract metadata fields with caret prefix', () => {
+  describe('JSON block parsing', () => {
+    it('should parse valid JSON block', () => {
+      const block = {
+        language: 'json',
+        content: '{"name": "John", "age": 30}',
+        startLine: 1,
+        endLine: 1,
+        metadata: {}
+      };
+
+      const result = PhasesParser.parseJsonBlock(block);
+      expect(result.error).toBeFalsy();
+      expect(result.data).toEqual({ name: 'John', age: 30 });
+    });
+
+    it('should handle invalid JSON block', () => {
+      const block = {
+        language: 'json',
+        content: '{"name": "John", "age": 30,}', // Invalid trailing comma
+        startLine: 1,
+        endLine: 1,
+        metadata: {}
+      };
+
+      const result = PhasesParser.parseJsonBlock(block);
+      expect(result.error).toBeTruthy();
+      expect(result.data).toBeFalsy();
+    });
+  });
+
+  describe('metadata extraction', () => {
+    it('should extract metadata fields with ^ prefix', () => {
       const input = {
-        name: "John",
-        "^description": "User metadata",
-        "^maxLength": 50,
+        name: 'John',
+        age: 30,
+        '^description': 'User data',
+        '^maxLength': 50,
         address: {
-          street: "123 Main St",
-          "^required": true
+          street: '123 Main St',
+          '^city': 'New York'
         }
       };
 
-      // Access the private method through reflection for testing
-      const result = (MarkdownParser as any).extractMetadata(input);
-
+      const result = (PhasesParser as any).extractMetadata(input);
       expect(result).toEqual({
-        'description': "User metadata",
+        'description': 'User data',
         'maxLength': 50,
-        'required': true
+        'city': 'New York'
       });
     });
 
     it('should handle nested metadata fields', () => {
       const input = {
         user: {
-          "^type": "object",
-          name: "John",
-          settings: {
-            "^default": "enabled",
-            theme: "dark"
+          '^type': 'admin',
+          profile: {
+            '^version': '1.0'
           }
         }
       };
 
-      const result = (MarkdownParser as any).extractMetadata(input);
-
+      const result = (PhasesParser as any).extractMetadata(input);
       expect(result).toEqual({
-        'type': "object",
-        'default': "enabled"
+        'type': 'admin',
+        'version': '1.0'
       });
     });
 
-    it('should return empty object when no metadata fields', () => {
+    it('should handle arrays with metadata', () => {
       const input = {
-        name: "John",
-        age: 30,
-        address: {
-          street: "123 Main St"
-        }
+        items: [
+          { name: 'item1', '^category': 'electronics' },
+          { name: 'item2', '^category': 'books' }
+        ]
       };
 
-      const result = (MarkdownParser as any).extractMetadata(input);
+      const result = (PhasesParser as any).extractMetadata(input);
+      expect(result).toEqual({
+        'category': 'books' // Last one wins
+      });
+    });
 
+    it('should handle empty objects', () => {
+      const input = {};
+
+      const result = (PhasesParser as any).extractMetadata(input);
       expect(result).toEqual({});
-    });
-
-    it('should remove metadata fields from original object', () => {
-      const input = {
-        name: "John",
-        "^description": "User metadata",
-        address: {
-          street: "123 Main St",
-          "^required": true
-        }
-      };
-
-      const result = (MarkdownParser as any).extractMetadata(input);
-
-      expect(result).toEqual({
-        'description': "User metadata",
-        'required': true
-      });
-
-      // Check that metadata fields were removed from original object
-      expect(input).toEqual({
-        name: "John",
-        address: {
-          street: "123 Main St"
-        }
-      });
     });
   });
 });

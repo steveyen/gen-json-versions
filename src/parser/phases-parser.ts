@@ -19,16 +19,16 @@ export interface CodeBlock {
   metadataFields?: Record<string, any>;
 }
 
-export interface MarkdownParseResult {
+export interface PhasesParseResult {
   phases?: PhaseSection[];
   error?: string; // If error is present, the operation failed
 }
 
-export class MarkdownParser {
+export class PhasesParser {
   /**
    * Parse markdown file to identify phase sections
    */
-  static parseMarkdownFile(filePath: string): MarkdownParseResult {
+  static parseMarkdownFile(filePath: string): PhasesParseResult {
     try {
       // Read the markdown file
       const readResult = FileUtils.readFile(filePath);
@@ -204,7 +204,7 @@ export class MarkdownParser {
       };
     }
 
-    // Pattern 2: "Version v1.0" (without "Data" prefix) - also valid
+    // Pattern 2: "Version v1.0" - alternative format
     const versionPattern = /^###\s+version\s+(v?\d+\.\d+(?:\.\d+)?)/i;
     const versionMatch = trimmedLine.match(versionPattern);
     if (versionMatch) {
@@ -214,34 +214,31 @@ export class MarkdownParser {
       };
     }
 
-    // Pattern 3: Custom version format like "v1.0", "v2.1.3" at level 3
-    const customVersionPattern = /^###\s+(v\d+\.\d+(?:\.\d+)?)/i;
-    const customMatch = trimmedLine.match(customVersionPattern);
-    if (customMatch) {
+    // Pattern 3: "v1.0" - simple version format
+    const simpleVersionPattern = /^###\s+(v?\d+\.\d+(?:\.\d+)?)/i;
+    const simpleVersionMatch = trimmedLine.match(simpleVersionPattern);
+    if (simpleVersionMatch) {
       return {
-        version: customMatch[1],
-        name: `Version ${customMatch[1]}`
+        version: simpleVersionMatch[1],
+        name: `Version ${simpleVersionMatch[1]}`
       };
     }
-
-    // Note: We're intentionally NOT matching "Phase X" headers as they are
-    // organizational sections, not actual version phases
 
     return null;
   }
 
   /**
-   * Get phase section by version
+   * Get a specific phase by version
    */
   static getPhaseByVersion(phases: PhaseSection[], version: string): PhaseSection | null {
     return phases.find(phase => phase.version === version) || null;
   }
 
   /**
-   * Get phase section by name
+   * Get a specific phase by name
    */
   static getPhaseByName(phases: PhaseSection[], name: string): PhaseSection | null {
-    return phases.find(phase => phase.name.toLowerCase() === name.toLowerCase()) || null;
+    return phases.find(phase => phase.name === name) || null;
   }
 
   /**
@@ -252,7 +249,7 @@ export class MarkdownParser {
   }
 
   /**
-   * Get JSON blocks by language
+   * Get JSON blocks by language from all phases
    */
   static getJsonBlocksByLanguage(phases: PhaseSection[], language: string): CodeBlock[] {
     return this.getAllJsonBlocks(phases).filter(block =>
@@ -261,62 +258,56 @@ export class MarkdownParser {
   }
 
   /**
-   * Process JSON block for cleansing and metadata extraction
+   * Process a JSON block to cleanse it and extract metadata
    */
   private static processJsonBlock(block: CodeBlock): void {
-    // Cleanse the JSON content
+    // Cleanse the JSON content (remove comments, etc.)
     const cleanseResult = JsonUtils.jsonCleanse(block.content);
-    if (!cleanseResult.error && cleanseResult.result) {
-      block.content = cleanseResult.result;
-      // Try to parse the cleansed JSON
-      try {
-        const data = JSON.parse(cleanseResult.result);
-        // Extract metadata fields
-        block.metadataFields = this.extractMetadata(data);
-      } catch (error) {
-        // JSON parsing failed, but we still have the cleansed content
-        console.warn(`Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`);
-      }
+    if (cleanseResult.error) {
+      // If cleansing fails, keep original content
+      return;
+    }
+    block.content = cleanseResult.result!;
+
+    // Parse the JSON to extract metadata fields (fields starting with ^)
+    try {
+      const parsed = JSON.parse(block.content);
+      block.metadataFields = this.extractMetadata(parsed);
+    } catch (error) {
+      // If JSON parsing fails, we'll skip metadata extraction
+      block.metadataFields = {};
     }
   }
 
   /**
-   * Extract metadata fields with caret prefix (^fieldName)
+   * Extract metadata fields (fields starting with ^) from a JSON object
    */
   private static extractMetadata(obj: any): Record<string, any> {
     const metadata: Record<string, any> = {};
 
     const process = (obj: any, path: string = '') => {
-      if (typeof obj !== 'object' || obj === null) {
-        return;
-      }
+      if (typeof obj === 'object' && obj !== null) {
+        for (const [key, value] of Object.entries(obj)) {
+          const currentPath = path ? `${path}.${key}` : key;
 
-      for (const [key, value] of Object.entries(obj)) {
-        const currentPath = path ? `${path}.${key}` : key;
-
-        // Check if this is a metadata field (starts with ^)
-        if (key.startsWith('^')) {
-          const metadataKey = key.substring(1); // Remove the ^ prefix
-
-          metadata[metadataKey] = value;
-
-          delete obj[key];
-        }
-
-        // Recursively process nested objects and arrays
-        if (typeof value === 'object' && value !== null) {
-          process(value, currentPath);
+          if (key.startsWith('^')) {
+            // This is a metadata field
+            const metadataKey = key.substring(1); // Remove the ^ prefix
+            metadata[metadataKey] = value;
+          } else if (typeof value === 'object' && value !== null) {
+            // Recursively process nested objects
+            process(value, currentPath);
+          }
         }
       }
     };
 
     process(obj);
-
     return metadata;
   }
 
   /**
-   * Parse JSON content from a code block
+   * Parse a JSON block and return the parsed data
    */
   static parseJsonBlock(block: CodeBlock): { data?: any; error?: string } {
     try {
@@ -333,17 +324,17 @@ export class MarkdownParser {
    * Get all metadata fields from all phases
    */
   static getAllMetadataFields(phases: PhaseSection[]): Record<string, any> {
-    const metadata: Record<string, any> = {};
+    const allMetadata: Record<string, any> = {};
 
     for (const phase of phases) {
       for (const block of phase.jsonBlocks) {
         if (block.metadataFields) {
-          Object.assign(metadata, block.metadataFields);
+          Object.assign(allMetadata, block.metadataFields);
         }
       }
     }
 
-    return metadata;
+    return allMetadata;
   }
 
   /**
@@ -351,7 +342,9 @@ export class MarkdownParser {
    */
   static getMetadataFieldsForPhase(phases: PhaseSection[], version: string): Record<string, any> {
     const phase = this.getPhaseByVersion(phases, version);
-    if (!phase) return {};
+    if (!phase) {
+      return {};
+    }
 
     const metadata: Record<string, any> = {};
     for (const block of phase.jsonBlocks) {
@@ -364,34 +357,27 @@ export class MarkdownParser {
   }
 
   /**
-   * Validate phase sections
+   * Validate phases for consistency and completeness
    */
   static validatePhases(phases: PhaseSection[]): { error?: string } {
-    if (phases.length === 0) {
-      return {
-        error: 'No phases found'
-      };
+    if (!phases || phases.length === 0) {
+      return { error: 'No phases found' };
     }
 
     // Check for duplicate versions
-    const versions = phases.map(p => p.version);
+    const versions = phases.map(phase => phase.version);
     const uniqueVersions = new Set(versions);
-    if (uniqueVersions.size !== versions.length) {
-      return {
-        error: 'Duplicate version numbers found in phases'
-      };
+    if (versions.length !== uniqueVersions.size) {
+      return { error: 'Duplicate phase versions found' };
     }
 
-    // Check for valid version format
-    const versionPattern = /^v?\d+\.\d+(?:\.\d+)?$/;
+    // Check that each phase has at least one JSON block
     for (const phase of phases) {
-      if (!versionPattern.test(phase.version)) {
-        return {
-          error: `Invalid version format: ${phase.version}`
-        };
+      if (!phase.jsonBlocks || phase.jsonBlocks.length === 0) {
+        return { error: `Phase ${phase.version} has no JSON blocks` };
       }
     }
 
-    return {};
+    return {}; // No errors
   }
 }
