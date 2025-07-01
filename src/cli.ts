@@ -50,8 +50,8 @@ class CLI {
 
       // Load and validate phases for early sanity checking
       console.log('\n📋 Loading phases...');
-      const phasesResult = MarkdownParser.parseMarkdownFile(options.phasesFile);
 
+      const phasesResult = MarkdownParser.parseMarkdownFile(options.phasesFile);
       if (phasesResult.error) {
         throw new Error(`Failed to parse phases file: ${phasesResult.error}`);
       }
@@ -60,21 +60,22 @@ class CLI {
 
       // Log loaded versions for sanity checking
       console.log(`✅ Successfully loaded ${phases.length} phase(s):`);
+
       phases.forEach((phase, index) => {
-        console.log(`   ${index + 1}. ${phase.name} (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
+        console.log(` ${index + 1}. ${phase.name} (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
 
         // Pretty-print JSON blocks if verbose mode is enabled
         if (options.verbose) {
-          console.log(`\n📄 JSON Blocks for phase "${phase.name}":`);
+          console.log(`\n    📄 JSON Blocks for phase "${phase.name}":`);
 
           phase.jsonBlocks.forEach((block, blockIndex) => {
-            console.log(`\n   Block ${blockIndex + 1}:`);
+            console.log(`\nJSON Block ${blockIndex + 1}:`);
 
             try {
               const parsedJson = JSON.parse(block.content);
               console.log(JSON.stringify(parsedJson, null, 2));
             } catch (parseError) {
-              console.log(`   ⚠️  Invalid JSON in block ${blockIndex + 1}:`);
+              console.log(`   ⚠️ Invalid JSON in block ${blockIndex + 1}:`);
               console.log(`   ${block.content}`);
             }
           });
