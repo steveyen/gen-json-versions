@@ -11,7 +11,7 @@ export interface PhaseSection {
 }
 
 export interface JsonCodeBlock {
-  language: string;
+  language: string; // Ex: 'json'.
   content: string;
   startLine: number;
   endLine: number;
@@ -140,7 +140,7 @@ export class MarkdownParser {
       if (codeBlockStart && !inCodeBlock) {
         inCodeBlock = true;
         currentBlock = {
-          language: codeBlockStart[1] || '',
+          language: (codeBlockStart[1] || '').toLowerCase(),
           startLine: startOffset + i,
           metadata: {}
         };
