@@ -52,7 +52,7 @@ class CLI {
       console.log('\n📋 Loading phases...');
       const phasesResult = MarkdownParser.parseMarkdownFile(options.phasesFile);
 
-      if (!phasesResult.success) {
+      if (phasesResult.error) {
         throw new Error(`Failed to parse phases file: ${phasesResult.error}`);
       }
 
@@ -83,7 +83,7 @@ class CLI {
 
       // Validate phases
       const validationResult = MarkdownParser.validatePhases(phases);
-      if (!validationResult.success) {
+      if (validationResult.error) {
         throw new Error(`Phase validation failed: ${validationResult.error}`);
       }
 

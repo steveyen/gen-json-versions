@@ -3,12 +3,9 @@
  */
 
 export interface JsonCleanseResult {
-  success: boolean;
   cleanedJson?: string;
-  error?: string;
+  error?: string; // If error is present, the operation failed
 }
-
-
 
 export class JsonUtils {
   /**
@@ -22,7 +19,6 @@ export class JsonUtils {
     try {
       if (!jsonContent || typeof jsonContent !== 'string') {
         return {
-          success: false,
           error: 'Invalid input: jsonContent must be a non-empty string'
         };
       }
@@ -105,22 +101,14 @@ export class JsonUtils {
       }
 
       return {
-        success: true,
         cleanedJson: result
       };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to cleanse JSON: ${error instanceof Error ? error.message : String(error)}`
       };
     }
   }
-
-
-
-
-
-
 
   /**
    * Extract metadata fields with caret prefix (^fieldName)

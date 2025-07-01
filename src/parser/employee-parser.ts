@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import { EmployeeDatabase, EmployeeParserResult } from '../types';
 
 export class EmployeeParser {
@@ -11,7 +10,6 @@ export class EmployeeParser {
       // Check if file exists and is readable
       if (!fs.existsSync(filePath)) {
         return {
-          success: false,
           error: `Employee file not found: ${filePath}`
         };
       }
@@ -24,7 +22,6 @@ export class EmployeeParser {
       const validationResult = this.validateEmployeeData(rawData);
       if (!validationResult.success) {
         return {
-          success: false,
           error: validationResult.error
         };
       }
@@ -33,12 +30,10 @@ export class EmployeeParser {
       const employeeDatabase = this.buildEmployeeDatabase(rawData);
 
       return {
-        success: true,
         data: employeeDatabase
       };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to parse employee file: ${error instanceof Error ? error.message : String(error)}`
       };
     }

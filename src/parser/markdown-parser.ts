@@ -20,9 +20,8 @@ export interface CodeBlock {
 }
 
 export interface MarkdownParseResult {
-  success: boolean;
   phases?: PhaseSection[];
-  error?: string;
+  error?: string; // If error is present, the operation failed
 }
 
 export class MarkdownParser {
@@ -33,9 +32,8 @@ export class MarkdownParser {
     try {
       // Read the markdown file
       const readResult = FileUtils.readFile(filePath);
-      if (!readResult.success) {
+      if (readResult.error) {
         return {
-          success: false,
           error: readResult.error
         };
       }
@@ -48,7 +46,6 @@ export class MarkdownParser {
 
       if (phases.length === 0) {
         return {
-          success: false,
           error: 'No phase sections found in markdown file'
         };
       }
@@ -64,12 +61,10 @@ export class MarkdownParser {
       }
 
       return {
-        success: true,
         phases
       };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to parse markdown file: ${error instanceof Error ? error.message : String(error)}`
       };
     }
@@ -271,9 +266,8 @@ export class MarkdownParser {
   private static processJsonBlock(block: CodeBlock): void {
     // Cleanse the JSON content
     const cleanseResult = JsonUtils.cleanseJson(block.content);
-    if (cleanseResult.success && cleanseResult.cleanedJson) {
+    if (!cleanseResult.error && cleanseResult.cleanedJson) {
       block.content = cleanseResult.cleanedJson;
-
       // Try to parse the cleansed JSON
       try {
         const data = JSON.parse(cleanseResult.cleanedJson);
@@ -289,19 +283,16 @@ export class MarkdownParser {
   /**
    * Parse JSON content from a code block
    */
-  static parseJsonBlock(block: CodeBlock): { success: boolean; data?: any; error?: string } {
+  static parseJsonBlock(block: CodeBlock): { data?: any; error?: string } {
     try {
       const data = JSON.parse(block.content);
-      return { success: true, data };
+      return { data };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`
       };
     }
   }
-
-
 
   /**
    * Get all metadata fields from all phases
@@ -319,8 +310,6 @@ export class MarkdownParser {
 
     return metadata;
   }
-
-
 
   /**
    * Get metadata fields for a specific phase
@@ -342,10 +331,9 @@ export class MarkdownParser {
   /**
    * Validate phase sections
    */
-  static validatePhases(phases: PhaseSection[]): { success: boolean; error?: string } {
+  static validatePhases(phases: PhaseSection[]): { error?: string } {
     if (phases.length === 0) {
       return {
-        success: false,
         error: 'No phases found'
       };
     }
@@ -355,7 +343,6 @@ export class MarkdownParser {
     const uniqueVersions = new Set(versions);
     if (uniqueVersions.size !== versions.length) {
       return {
-        success: false,
         error: 'Duplicate version numbers found in phases'
       };
     }
@@ -365,12 +352,11 @@ export class MarkdownParser {
     for (const phase of phases) {
       if (!versionPattern.test(phase.version)) {
         return {
-          success: false,
           error: `Invalid version format: ${phase.version}`
         };
       }
     }
 
-    return { success: true };
+    return {};
   }
 }

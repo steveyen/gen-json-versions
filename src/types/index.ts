@@ -6,7 +6,6 @@ export interface EmployeeDatabase {
 }
 
 export interface EmployeeParserResult {
-  success: boolean;
   data?: EmployeeDatabase;
-  error?: string;
+  error?: string; // If error is present, the operation failed
 }

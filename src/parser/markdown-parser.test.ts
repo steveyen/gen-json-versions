@@ -28,13 +28,12 @@ This is phase 2 content.
       // Mock FileUtils.readFile
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: true,
         content: mockContent
       });
 
       const result = MarkdownParser.parseMarkdownFile('test.md');
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.phases).toHaveLength(2);
       expect(result.phases![0].version).toBe('v1.0');
       expect(result.phases![1].version).toBe('v2.0');
@@ -46,13 +45,12 @@ This is phase 2 content.
     it('should handle file read errors', () => {
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: false,
         error: 'File not found'
       });
 
       const result = MarkdownParser.parseMarkdownFile('nonexistent.md');
 
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('File not found');
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
@@ -71,13 +69,12 @@ This is a regular markdown file without phase sections.
 
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: true,
         content: mockContent
       });
 
       const result = MarkdownParser.parseMarkdownFile('test.md');
 
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('No phase sections found in markdown file');
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
@@ -102,13 +99,12 @@ This is a regular markdown file without phase sections.
 
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: true,
         content: mockContent
       });
 
       const result = MarkdownParser.parseMarkdownFile('test.md');
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.phases).toHaveLength(1);
 
       const phase = result.phases![0];
@@ -133,13 +129,12 @@ Content here`;
 
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: true,
         content: mockContent
       });
 
       const result = MarkdownParser.parseMarkdownFile('test.md');
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v1.0');
       expect(result.phases![0].name).toBe('Data Version v1.0');
 
@@ -152,13 +147,12 @@ Content here`;
 
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: true,
         content: mockContent
       });
 
       const result = MarkdownParser.parseMarkdownFile('test.md');
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v2.0');
       expect(result.phases![0].name).toBe('Version v2.0');
 
@@ -171,13 +165,12 @@ Content here`;
 
       const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
       require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        success: true,
         content: mockContent
       });
 
       const result = MarkdownParser.parseMarkdownFile('test.md');
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v3.0');
       expect(result.phases![0].name).toBe('Version v3.0');
 
@@ -247,8 +240,6 @@ Content here`;
       expect(blocks).toHaveLength(2);
     });
 
-
-
     it('should get all metadata fields', () => {
       const metadata = MarkdownParser.getAllMetadataFields(mockPhases);
       expect(metadata).toEqual({
@@ -256,8 +247,6 @@ Content here`;
         'maxLength': 100
       });
     });
-
-
 
     it('should get metadata fields for specific phase', () => {
       const metadata = MarkdownParser.getMetadataFieldsForPhase(mockPhases, 'v2.0');
@@ -289,12 +278,12 @@ Content here`;
       ];
 
       const result = MarkdownParser.validatePhases(phases);
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
     });
 
     it('should reject empty phases', () => {
       const result = MarkdownParser.validatePhases([]);
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('No phases found');
     });
 
@@ -319,7 +308,7 @@ Content here`;
       ];
 
       const result = MarkdownParser.validatePhases(phases);
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('Duplicate version numbers found in phases');
     });
 
@@ -336,7 +325,7 @@ Content here`;
       ];
 
       const result = MarkdownParser.validatePhases(phases);
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('Invalid version format: invalid-version');
     });
   });

@@ -10,7 +10,7 @@ describe('JsonUtils', () => {
 
       const result = JsonUtils.cleanseJson(input);
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
         "name": "John",
         "age": 30
@@ -26,7 +26,7 @@ describe('JsonUtils', () => {
 
       const result = JsonUtils.cleanseJson(input);
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
         "name": "John",
         "age": 30
@@ -42,7 +42,7 @@ describe('JsonUtils', () => {
 
       const result = JsonUtils.cleanseJson(input);
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
         "name": "John // This should be preserved",
         "comment": "/* This should also be preserved */",
@@ -59,7 +59,7 @@ describe('JsonUtils', () => {
 
       const result = JsonUtils.cleanseJson(input);
 
-      expect(result.success).toBe(true);
+      expect(result.error).toBeFalsy();
       expect(result.cleanedJson).toBe(`{
         "path": "C:\\\\Users\\\\John",
         "quote": "He said \\"Hello\\"",
@@ -70,14 +70,14 @@ describe('JsonUtils', () => {
     it('should handle empty input', () => {
       const result = JsonUtils.cleanseJson('');
 
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('Invalid input: jsonContent must be a non-empty string');
     });
 
     it('should handle null input', () => {
       const result = JsonUtils.cleanseJson(null as any);
 
-      expect(result.success).toBe(false);
+      expect(result.error).toBeTruthy();
       expect(result.error).toBe('Invalid input: jsonContent must be a non-empty string');
     });
   });

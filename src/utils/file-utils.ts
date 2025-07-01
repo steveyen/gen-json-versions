@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface FileCheckResult {
-  success: boolean;
   error?: string;
   exists?: boolean;
   readable?: boolean;
@@ -19,7 +18,6 @@ export class FileUtils {
       // Check if file exists
       if (!fs.existsSync(filePath)) {
         return {
-          success: false,
           error: `File does not exist: ${filePath}`,
           exists: false
         };
@@ -31,7 +29,6 @@ export class FileUtils {
       // Check if it's a file (not a directory)
       if (!stats.isFile()) {
         return {
-          success: false,
           error: `Path is not a file: ${filePath}`,
           exists: true,
           isFile: false
@@ -43,7 +40,6 @@ export class FileUtils {
         fs.accessSync(filePath, fs.constants.R_OK);
       } catch (accessError) {
         return {
-          success: false,
           error: `File is not readable: ${filePath}`,
           exists: true,
           isFile: true,
@@ -54,7 +50,6 @@ export class FileUtils {
       // Check file size
       if (stats.size === 0) {
         return {
-          success: false,
           error: `File is empty: ${filePath}`,
           exists: true,
           isFile: true,
@@ -64,7 +59,6 @@ export class FileUtils {
       }
 
       return {
-        success: true,
         exists: true,
         isFile: true,
         readable: true,
@@ -72,7 +66,6 @@ export class FileUtils {
       };
     } catch (error) {
       return {
-        success: false,
         error: `Error checking file: ${error instanceof Error ? error.message : String(error)}`
       };
     }
@@ -86,7 +79,6 @@ export class FileUtils {
       // Check if directory exists
       if (!fs.existsSync(dirPath)) {
         return {
-          success: false,
           error: `Directory does not exist: ${dirPath}`,
           exists: false
         };
@@ -98,7 +90,6 @@ export class FileUtils {
       // Check if it's a directory
       if (!stats.isDirectory()) {
         return {
-          success: false,
           error: `Path is not a directory: ${dirPath}`,
           exists: true,
           isFile: false
@@ -110,7 +101,6 @@ export class FileUtils {
         fs.accessSync(dirPath, fs.constants.W_OK);
       } catch (accessError) {
         return {
-          success: false,
           error: `Directory is not writable: ${dirPath}`,
           exists: true,
           isFile: false,
@@ -119,14 +109,12 @@ export class FileUtils {
       }
 
       return {
-        success: true,
         exists: true,
         isFile: false,
         readable: true
       };
     } catch (error) {
       return {
-        success: false,
         error: `Error checking directory: ${error instanceof Error ? error.message : String(error)}`
       };
     }
@@ -145,14 +133,12 @@ export class FileUtils {
       fs.mkdirSync(dirPath, { recursive: true });
 
       return {
-        success: true,
         exists: true,
         isFile: false,
         readable: true
       };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to create directory: ${error instanceof Error ? error.message : String(error)}`
       };
     }
@@ -173,12 +159,11 @@ export class FileUtils {
 
     if (!allowedExtensions.includes(extension)) {
       return {
-        success: false,
         error: `Invalid file extension. Expected one of: ${allowedExtensions.join(', ')}, got: ${extension}`
       };
     }
 
-    return { success: true };
+    return { exists: true };
   }
 
   /**
@@ -187,7 +172,7 @@ export class FileUtils {
   static readFile(filePath: string): { success: boolean; content?: string; error?: string } {
     try {
       const checkResult = this.checkFile(filePath);
-      if (!checkResult.success) {
+      if (!checkResult.exists) {
         return { success: false, error: checkResult.error };
       }
 
@@ -209,7 +194,7 @@ export class FileUtils {
       // Ensure directory exists
       const dirPath = path.dirname(filePath);
       const dirResult = this.ensureDirectoryExists(dirPath);
-      if (!dirResult.success) {
+      if (!dirResult.exists) {
         return { success: false, error: dirResult.error };
       }
 
@@ -264,14 +249,14 @@ export class FileUtils {
   static copyFile(sourcePath: string, destPath: string): { success: boolean; error?: string } {
     try {
       const sourceCheck = this.checkFile(sourcePath);
-      if (!sourceCheck.success) {
+      if (!sourceCheck.exists) {
         return { success: false, error: sourceCheck.error };
       }
 
       // Ensure destination directory exists
       const destDir = path.dirname(destPath);
       const dirResult = this.ensureDirectoryExists(destDir);
-      if (!dirResult.success) {
+      if (!dirResult.exists) {
         return { success: false, error: dirResult.error };
       }
 
@@ -308,7 +293,7 @@ export class FileUtils {
   static listFiles(dirPath: string, extension?: string): { success: boolean; files?: string[]; error?: string } {
     try {
       const checkResult = this.checkDirectory(dirPath);
-      if (!checkResult.success) {
+      if (!checkResult.exists) {
         return { success: false, error: checkResult.error };
       }
 
