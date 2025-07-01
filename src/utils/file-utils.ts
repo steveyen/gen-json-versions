@@ -147,18 +147,17 @@ export class FileUtils {
   /**
    * Read file content as string
    */
-  static readFile(filePath: string): { success: boolean; content?: string; error?: string } {
+  static readFile(filePath: string): { content?: string; error?: string } {
     try {
       const checkResult = this.checkFile(filePath);
       if (!checkResult.exists) {
-        return { success: false, error: checkResult.error };
+        return { error: checkResult.error };
       }
 
       const content = fs.readFileSync(filePath, 'utf-8');
-      return { success: true, content };
+      return { content };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to read file: ${error instanceof Error ? error.message : String(error)}`
       };
     }
@@ -167,20 +166,19 @@ export class FileUtils {
   /**
    * Write content to file
    */
-  static writeFile(filePath: string, content: string): { success: boolean; error?: string } {
+  static writeFile(filePath: string, content: string): { error?: string } {
     try {
       // Ensure directory exists
       const dirPath = path.dirname(filePath);
       const dirResult = this.ensureDirectoryExists(dirPath);
       if (!dirResult.exists) {
-        return { success: false, error: dirResult.error };
+        return { error: dirResult.error };
       }
 
       fs.writeFileSync(filePath, content, 'utf-8');
-      return { success: true };
+      return { };
     } catch (error) {
       return {
-        success: false,
         error: `Failed to write file: ${error instanceof Error ? error.message : String(error)}`
       };
     }
