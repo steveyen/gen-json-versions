@@ -127,73 +127,42 @@ class CLI {
 
   private validateArguments(options: CLIOptions): void {
     // Validate employee file
-    this.validateEmployeeFile(options.employeeFile);
+    this.validateFile('Employee', options.employeeFile, 'json');
 
     // Validate phases file
-    this.validatePhasesFile(options.phasesFile);
+    this.validateFile('Phases', options.phasesFile, 'md');
 
     // Validate output directory
     this.validateOutputDirectory(options.outputDir);
   }
 
-  private validateEmployeeFile(employeeFile: string): void {
+  private validateFile(kind: string, filePath: string, suffix?: string): void {
     // Check if path is provided
-    if (!employeeFile || employeeFile.trim() === '') {
-      throw new Error('Employee file path is required and cannot be empty');
+    if (!filePath || filePath.trim() === '') {
+      throw new Error(`${kind} file path is required and cannot be empty`);
     }
 
     // Check if file exists
-    if (!fs.existsSync(employeeFile)) {
-      throw new Error(`Employee file not found: ${employeeFile}`);
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`${kind} file not found: ${filePath}`);
     }
 
     // Check if it's a regular file
-    const stats = fs.statSync(employeeFile);
+    const stats = fs.statSync(filePath);
     if (!stats.isFile()) {
-      throw new Error(`Employee file is not a regular file: ${employeeFile}`);
+      throw new Error(`${kind} file is not a regular file: ${filePath}`);
     }
 
     // Check if file is readable
     try {
-      fs.accessSync(employeeFile, fs.constants.R_OK);
+      fs.accessSync(filePath, fs.constants.R_OK);
     } catch (error) {
-      throw new Error(`Employee file is not readable: ${employeeFile}`);
+      throw new Error(`${kind} file is not readable: ${filePath}`);
     }
 
     // Check file extension
-    if (!employeeFile.toLowerCase().endsWith('.json')) {
-      throw new Error(`Employee file should have .json extension: ${employeeFile}`);
-    }
-  }
-
-  private validatePhasesFile(phasesFile: string): void {
-    // Check if path is provided
-    if (!phasesFile || phasesFile.trim() === '') {
-      throw new Error('Phases file path is required and cannot be empty');
-    }
-
-    // Check if file exists
-    if (!fs.existsSync(phasesFile)) {
-      throw new Error(`Phases file not found: ${phasesFile}`);
-    }
-
-    // Check if it's a regular file
-    const stats = fs.statSync(phasesFile);
-    if (!stats.isFile()) {
-      throw new Error(`Phases file is not a regular file: ${phasesFile}`);
-    }
-
-    // Check if file is readable
-    try {
-      fs.accessSync(phasesFile, fs.constants.R_OK);
-    } catch (error) {
-      throw new Error(`Phases file is not readable: ${phasesFile}`);
-    }
-
-    // Check file extension (allow .md or .markdown)
-    const lowerFile = phasesFile.toLowerCase();
-    if (!lowerFile.endsWith('.md') && !lowerFile.endsWith('.markdown')) {
-      throw new Error(`Phases file should have .md or .markdown extension: ${phasesFile}`);
+    if (suffix && !filePath.toLowerCase().endsWith(suffix)) {
+      throw new Error(`${kind} file should have ${suffix} extension: ${filePath}`);
     }
   }
 
