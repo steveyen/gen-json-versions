@@ -17,7 +17,7 @@ export interface CodeBlock {
   endLine: number;
 
   obj?: any;
-  metadata?: Record<string, any>;
+  objMetadata?: Record<string, any>;
 }
 
 export interface PhasesParseResult {
@@ -270,7 +270,7 @@ export class PhasesParser {
     try {
       const obj = JSON.parse(block.content);
 
-      block.metadata = this.extractMetadata(obj);
+      block.objMetadata = this.extractObjMetadata(obj);
     } catch (error) {
     }
   }
@@ -278,7 +278,7 @@ export class PhasesParser {
   /**
    * Extract metadata fields (fields starting with ^) from a JSON object
    */
-  private static extractMetadata(obj: any): Record<string, any> {
+  private static extractObjMetadata(obj: any): Record<string, any> {
     const metadata: Record<string, any> = {};
 
     const process = (obj: any, path: string = '') => {
@@ -325,8 +325,8 @@ export class PhasesParser {
 
     for (const phase of phases) {
       for (const block of phase.jsonBlocks) {
-        if (block.metadata) {
-          Object.assign(allMetadata, block.metadata);
+        if (block.objMetadata) {
+          Object.assign(allMetadata, block.objMetadata);
         }
       }
     }
@@ -345,8 +345,8 @@ export class PhasesParser {
 
     const metadata: Record<string, any> = {};
     for (const block of phase.jsonBlocks) {
-      if (block.metadata) {
-        Object.assign(metadata, block.metadata);
+      if (block.objMetadata) {
+        Object.assign(metadata, block.objMetadata);
       }
     }
 
