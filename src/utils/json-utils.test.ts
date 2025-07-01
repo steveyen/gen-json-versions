@@ -11,7 +11,7 @@ describe('JsonUtils', () => {
       const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
-      expect(result.cleanedJson).toBe(`{
+      expect(result.result).toBe(`{
         "name": "John",
         "age": 30
       }`);
@@ -27,7 +27,7 @@ describe('JsonUtils', () => {
       const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
-      expect(result.cleanedJson).toBe(`{
+      expect(result.result).toBe(`{
         "name": "John",
         "age": 30
       }`);
@@ -43,7 +43,7 @@ describe('JsonUtils', () => {
       const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
-      expect(result.cleanedJson).toBe(`{
+      expect(result.result).toBe(`{
         "name": "John // This should be preserved",
         "comment": "/* This should also be preserved */",
         "age": 30
@@ -60,7 +60,7 @@ describe('JsonUtils', () => {
       const result = JsonUtils.jsonCleanse(input);
 
       expect(result.error).toBeFalsy();
-      expect(result.cleanedJson).toBe(`{
+      expect(result.result).toBe(`{
         "path": "C:\\\\Users\\\\John",
         "quote": "He said \\"Hello\\"",
         "age": 30

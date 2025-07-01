@@ -3,7 +3,7 @@
  */
 
 export interface JsonCleanseResult {
-  cleanedJson?: string;
+  result?: string;
   error?: string; // If error is present, the operation failed
 }
 
@@ -101,7 +101,7 @@ export class JsonUtils {
       }
 
       return {
-        cleanedJson: result
+        result: result
       };
     } catch (error) {
       return {
@@ -109,6 +109,4 @@ export class JsonUtils {
       };
     }
   }
-
-
 }

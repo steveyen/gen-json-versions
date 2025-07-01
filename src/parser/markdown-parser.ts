@@ -266,11 +266,11 @@ export class MarkdownParser {
   private static processJsonBlock(block: CodeBlock): void {
     // Cleanse the JSON content
     const cleanseResult = JsonUtils.jsonCleanse(block.content);
-    if (!cleanseResult.error && cleanseResult.cleanedJson) {
-      block.content = cleanseResult.cleanedJson;
+    if (!cleanseResult.error && cleanseResult.result) {
+      block.content = cleanseResult.result;
       // Try to parse the cleansed JSON
       try {
-        const data = JSON.parse(cleanseResult.cleanedJson);
+        const data = JSON.parse(cleanseResult.result);
         // Extract metadata fields
         block.metadataFields = this.extractMetadata(data);
       } catch (error) {
