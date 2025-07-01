@@ -24,8 +24,7 @@ link an `employeeName` to a `shift`.
 
 #### Example JSON v1.0:
 
-```json
-{
+```json {
   "sched": [
     {
       "id": "sched-000001",
@@ -259,7 +258,7 @@ roles are suitable for that shift."
   ],
   "sched": [
     // ... (structure remains the same, but assignments now implicitly link to
-    employees with roles and shifts with eligible roles)
+    // employees with roles and shifts with eligible roles)
   ]
 }
 ```
@@ -453,6 +452,7 @@ for the assignment)."
             }
 	        ]
 	      } // ... more assignments
+      ]
     }
 	]
 }
@@ -877,8 +877,7 @@ the change history to track any pending changes or requests."
 
 #### Example JSON v10.0:
 
-```json
-{
+```json {
   "sched": [
     {
       "id": "sched-000010",

@@ -8,6 +8,7 @@ interface CLIOptions {
   employeeFile: string;
   phasesFile: string;
   outputDir: string;
+  verbose?: boolean;
 }
 
 class CLI {
@@ -30,6 +31,7 @@ class CLI {
       .requiredOption('-e, --employee-file <path>', 'Path to employee JSON file')
       .requiredOption('-p, --phases-file <path>', 'Path to markdown phases file')
       .requiredOption('-o, --output-dir <path>', 'Output directory for generated files')
+      .option('-v, --verbose', 'Enable verbose output with pretty-printed JSON blocks')
       .action(this.handleGenerate.bind(this));
   }
 
@@ -59,6 +61,21 @@ class CLI {
       console.log(`✅ Successfully loaded ${phases.length} phase(s):`);
       phases.forEach((phase, index) => {
         console.log(`   ${index + 1}. ${phase.name} (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
+
+        // Pretty-print JSON blocks if verbose mode is enabled
+        if (options.verbose) {
+          console.log(`\n📄 JSON Blocks for phase "${phase.name}":`);
+          phase.jsonBlocks.forEach((block, blockIndex) => {
+            console.log(`\n   Block ${blockIndex + 1}:`);
+            try {
+              const parsedJson = JSON.parse(block.content);
+              console.log(JSON.stringify(parsedJson, null, 2));
+            } catch (parseError) {
+              console.log(`   ⚠️  Invalid JSON in block ${blockIndex + 1}:`);
+              console.log(`   ${block.content}`);
+            }
+          });
+        }
       });
 
       // Validate phases
