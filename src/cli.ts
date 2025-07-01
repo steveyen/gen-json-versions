@@ -65,8 +65,10 @@ class CLI {
         // Pretty-print JSON blocks if verbose mode is enabled
         if (options.verbose) {
           console.log(`\n📄 JSON Blocks for phase "${phase.name}":`);
+
           phase.jsonBlocks.forEach((block, blockIndex) => {
             console.log(`\n   Block ${blockIndex + 1}:`);
+
             try {
               const parsedJson = JSON.parse(block.content);
               console.log(JSON.stringify(parsedJson, null, 2));
@@ -86,7 +88,6 @@ class CLI {
 
       console.log('\n✅ Phase validation passed');
       console.log('\n🚀 Ready to proceed with data generation...');
-
     } catch (error) {
       this.handleError(error);
     }
@@ -118,7 +119,7 @@ class CLI {
       console.error('   - Phases file should have .md or .markdown extension');
     }
 
-    console.error('\nFor help, run: json-data-generator --help');
+    console.error(`\nFor help, run: ${this.program.name()} --help`);
     process.exit(1);
   }
 
