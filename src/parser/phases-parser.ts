@@ -276,7 +276,8 @@ export class PhasesParser {
   }
 
   /**
-   * Extract metadata fields (fields starting with ^) from a JSON object
+   * Extract metadata fields (fields starting with ^) from a JSON object,
+   * and remove these metadata fields from the object.
    */
   private static extractObjMetadata(obj: any): Record<string, any> {
     const metadata: Record<string, any> = {};
@@ -289,7 +290,10 @@ export class PhasesParser {
           if (key.startsWith('^')) {
             // This is a metadata field
             const metadataKey = key.substring(1); // Remove the ^ prefix
+
             metadata[metadataKey] = value;
+
+            delete obj[key];
           } else if (typeof value === 'object' && value !== null) {
             // Recursively process nested objects
             process(value, currentPath);
