@@ -1,1 +1,267 @@
-// JSON processing utilities (cleansing, validation) will be implemented here.
+/**
+ * JSON processing utilities for cleansing and validation
+ */
+
+export interface JsonCleanseResult {
+  success: boolean;
+  cleanedJson?: string;
+  error?: string;
+}
+
+export interface JsonValidationResult {
+  success: boolean;
+  isValid?: boolean;
+  error?: string;
+}
+
+export class JsonUtils {
+  /**
+   * Cleanse JSON content by removing C/C++ style comments
+   * Supports:
+   * - Single line comments: // comment
+   * - Multi-line comments: /* comment *\/
+   * - Handles comments within strings properly
+   */
+  static cleanseJson(jsonContent: string): JsonCleanseResult {
+    try {
+      if (!jsonContent || typeof jsonContent !== 'string') {
+        return {
+          success: false,
+          error: 'Invalid input: jsonContent must be a non-empty string'
+        };
+      }
+
+      let cleaned = jsonContent;
+      let inString = false;
+      let escapeNext = false;
+      let result = '';
+
+      // Process character by character to handle comments within strings properly
+      for (let i = 0; i < cleaned.length; i++) {
+        const char = cleaned[i];
+        const nextChar = cleaned[i + 1] || '';
+        const nextNextChar = cleaned[i + 2] || '';
+
+        // Handle string escaping
+        if (escapeNext) {
+          result += char;
+          escapeNext = false;
+          continue;
+        }
+
+        // Handle escape sequences
+        if (char === '\\') {
+          result += char;
+          escapeNext = true;
+          continue;
+        }
+
+        // Handle string boundaries
+        if (char === '"' && !escapeNext) {
+          inString = !inString;
+          result += char;
+          continue;
+        }
+
+        // If we're in a string, just add the character
+        if (inString) {
+          result += char;
+          continue;
+        }
+
+        // Check for single-line comment start
+        if (char === '/' && nextChar === '/') {
+          // Remove trailing spaces before the comment
+          while (result.length > 0 && result[result.length - 1] === ' ') {
+            result = result.slice(0, -1);
+          }
+          // Skip until end of line
+          while (i < cleaned.length && cleaned[i] !== '\n') {
+            i++;
+          }
+          // Add the newline character if we found one
+          if (i < cleaned.length && cleaned[i] === '\n') {
+            result += '\n';
+          }
+          continue;
+        }
+
+        // Check for multi-line comment start
+        if (char === '/' && nextChar === '*') {
+          // Remove trailing spaces before the comment
+          while (result.length > 0 && result[result.length - 1] === ' ') {
+            result = result.slice(0, -1);
+          }
+          // Skip until comment end
+          i += 2; // Skip /*
+          while (i < cleaned.length - 1) {
+            if (cleaned[i] === '*' && cleaned[i + 1] === '/') {
+              i++; // Skip the closing /
+              break;
+            }
+            i++;
+          }
+          continue;
+        }
+
+        // Regular character
+        result += char;
+      }
+
+      return {
+        success: true,
+        cleanedJson: result
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to cleanse JSON: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Validate if a string is valid JSON
+   */
+  static validateJson(jsonString: string): JsonValidationResult {
+    try {
+      if (!jsonString || typeof jsonString !== 'string') {
+        return {
+          success: false,
+          error: 'Invalid input: jsonString must be a non-empty string'
+        };
+      }
+
+      JSON.parse(jsonString);
+      return {
+        success: true,
+        isValid: true
+      };
+    } catch (error) {
+      return {
+        success: true,
+        isValid: false,
+        error: `Invalid JSON: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Parse JSON with automatic cleansing
+   */
+  static parseJsonWithCleansing(jsonContent: string): { success: boolean; data?: any; error?: string } {
+    try {
+      // First cleanse the JSON
+      const cleanseResult = this.cleanseJson(jsonContent);
+      if (!cleanseResult.success) {
+        return {
+          success: false,
+          error: cleanseResult.error
+        };
+      }
+
+      // Then parse the cleaned JSON
+      const data = JSON.parse(cleanseResult.cleanedJson!);
+      return {
+        success: true,
+        data
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to parse JSON: ${error instanceof Error ? error.message : String(error)}`
+      };
+    }
+  }
+
+  /**
+   * Extract value enumerations from JSON schema
+   * Looks for patterns like arrays of values that could be used for data generation
+   */
+  static extractValueEnumerations(jsonData: any): Record<string, any[]> {
+    const enumerations: Record<string, any[]> = {};
+
+    const extractFromObject = (obj: any, path: string = '') => {
+      if (typeof obj !== 'object' || obj === null) {
+        return;
+      }
+
+      for (const [key, value] of Object.entries(obj)) {
+        const currentPath = path ? `${path}.${key}` : key;
+
+        // Check if this is an array of primitive values (potential enumeration)
+        if (Array.isArray(value) && value.length > 0) {
+          const firstItem = value[0];
+          if (typeof firstItem === 'string' || typeof firstItem === 'number' || typeof firstItem === 'boolean') {
+            // Check if all items are of the same primitive type
+            const allSameType = value.every(item => typeof item === typeof firstItem);
+            if (allSameType) {
+              enumerations[currentPath] = value;
+            }
+          }
+        }
+
+        // Recursively process nested objects and arrays
+        if (typeof value === 'object' && value !== null) {
+          extractFromObject(value, currentPath);
+        }
+      }
+    };
+
+    extractFromObject(jsonData);
+    return enumerations;
+  }
+
+  /**
+   * Extract metadata fields with caret prefix (^fieldName)
+   */
+  static extractMetadataFields(jsonData: any): Record<string, any> {
+    const metadata: Record<string, any> = {};
+
+    const extractFromObject = (obj: any, path: string = '') => {
+      if (typeof obj !== 'object' || obj === null) {
+        return;
+      }
+
+      for (const [key, value] of Object.entries(obj)) {
+        const currentPath = path ? `${path}.${key}` : key;
+
+        // Check if this is a metadata field (starts with ^)
+        if (key.startsWith('^')) {
+          const metadataKey = key.substring(1); // Remove the ^ prefix
+          metadata[metadataKey] = value;
+        }
+
+        // Recursively process nested objects and arrays
+        if (typeof value === 'object' && value !== null) {
+          extractFromObject(value, currentPath);
+        }
+      }
+    };
+
+    extractFromObject(jsonData);
+    return metadata;
+  }
+
+  /**
+   * Pretty format JSON with consistent indentation
+   */
+  static formatJson(data: any, indent: number = 2): string {
+    try {
+      return JSON.stringify(data, null, indent);
+    } catch (error) {
+      throw new Error(`Failed to format JSON: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  /**
+   * Deep clone JSON data
+   */
+  static cloneJson<T>(data: T): T {
+    try {
+      return JSON.parse(JSON.stringify(data));
+    } catch (error) {
+      throw new Error(`Failed to clone JSON: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+}

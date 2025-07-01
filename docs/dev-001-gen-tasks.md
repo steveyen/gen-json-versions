@@ -41,14 +41,14 @@
   - [x] 2.4 Add file existence and readability checks for input files
   - [x] 2.5 Create utility functions for file I/O operations
 
-- [ ] 3.0 Markdown Phase Detection and JSON Extraction
+- [x] 3.0 Markdown Phase Detection and JSON Extraction
   - [x] 3.1 Implement markdown parser to identify phase sections (e.g., "Version v1.0")
   - [x] 3.2 Create JSON code block extraction logic from markdown content
   - [x] 3.3 Add command-line logging to print loaded versions for early sanity checking
-  - [ ] 3.4 Implement JSON cleansing to remove C/C++ style comments from extracted JSON
-  - [ ] 3.5 Build phase metadata extraction (version numbers, phase names)
-  - [ ] 3.6 Extract valid value enumerations from JSON examples for data generation
-  - [ ] 3.7 Value metadata is available in related fields with a prefix caret ('^'), like "^fieldName".
+  - [x] 3.4 Implement JSON cleansing to remove C/C++ style comments from extracted JSON
+  - [x] 3.5 Build phase metadata extraction (version numbers, phase names)
+  - [x] 3.6 Extract valid value enumerations from JSON examples for data generation
+  - [x] 3.7 Value metadata is available in related fields with a prefix caret ('^'), like "^fieldName".
 
 - [ ] 4.0 Data Generation Engine
   - [ ] 4.1 Create core data generator that uses employee data consistently

@@ -1,4 +1,5 @@
 import { FileUtils } from '../utils/file-utils';
+import { JsonUtils } from '../utils/json-utils';
 
 export interface PhaseSection {
   version: string;
@@ -15,6 +16,8 @@ export interface JsonCodeBlock {
   startLine: number;
   endLine: number;
   metadata: Record<string, any>;
+  valueEnumerations?: Record<string, any[]>;
+  metadataFields?: Record<string, any>;
 }
 
 export interface MarkdownParseResult {
@@ -54,6 +57,11 @@ export class MarkdownParser {
       // Extract JSON code blocks from each phase
       for (const phase of phases) {
         phase.jsonBlocks = this.extractJsonCodeBlocks(phase.content, phase.startLine);
+
+        // Process each JSON block for cleansing and metadata extraction
+        for (const block of phase.jsonBlocks) {
+          this.processJsonBlock(block);
+        }
       }
 
       return {
@@ -173,21 +181,12 @@ export class MarkdownParser {
     if (language && language.toLowerCase() === 'json') {
       return true;
     }
-
     // Check if content looks like JSON (starts with { or [)
     const trimmedContent = content.trim();
     if (trimmedContent.startsWith('{') || trimmedContent.startsWith('[')) {
       return true;
     }
-
-    // Try to parse as JSON to validate
-    try {
-      JSON.parse(trimmedContent);
-      return true;
-    } catch {
-      // Not valid JSON
-      return false;
-    }
+    return false;
   }
 
   /**
@@ -263,6 +262,27 @@ export class MarkdownParser {
   }
 
   /**
+   * Process JSON block for cleansing and metadata extraction
+   */
+  private static processJsonBlock(block: JsonCodeBlock): void {
+    // Cleanse the JSON content
+    const cleanseResult = JsonUtils.cleanseJson(block.content);
+    if (cleanseResult.success && cleanseResult.cleanedJson) {
+      block.content = cleanseResult.cleanedJson;
+
+      // Try to parse the cleansed JSON
+      const parseResult = JsonUtils.parseJsonWithCleansing(block.content);
+      if (parseResult.success && parseResult.data) {
+        // Extract value enumerations
+        block.valueEnumerations = JsonUtils.extractValueEnumerations(parseResult.data);
+
+        // Extract metadata fields
+        block.metadataFields = JsonUtils.extractMetadataFields(parseResult.data);
+      }
+    }
+  }
+
+  /**
    * Parse JSON content from a code block
    */
   static parseJsonBlock(block: JsonCodeBlock): { success: boolean; data?: any; error?: string } {
@@ -275,6 +295,74 @@ export class MarkdownParser {
         error: `Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`
       };
     }
+  }
+
+  /**
+   * Get all value enumerations from all phases
+   */
+  static getAllValueEnumerations(phases: PhaseSection[]): Record<string, any[]> {
+    const enumerations: Record<string, any[]> = {};
+
+    for (const phase of phases) {
+      for (const block of phase.jsonBlocks) {
+        if (block.valueEnumerations) {
+          Object.assign(enumerations, block.valueEnumerations);
+        }
+      }
+    }
+
+    return enumerations;
+  }
+
+  /**
+   * Get all metadata fields from all phases
+   */
+  static getAllMetadataFields(phases: PhaseSection[]): Record<string, any> {
+    const metadata: Record<string, any> = {};
+
+    for (const phase of phases) {
+      for (const block of phase.jsonBlocks) {
+        if (block.metadataFields) {
+          Object.assign(metadata, block.metadataFields);
+        }
+      }
+    }
+
+    return metadata;
+  }
+
+  /**
+   * Get value enumerations for a specific phase
+   */
+  static getValueEnumerationsForPhase(phases: PhaseSection[], version: string): Record<string, any[]> {
+    const phase = this.getPhaseByVersion(phases, version);
+    if (!phase) return {};
+
+    const enumerations: Record<string, any[]> = {};
+    for (const block of phase.jsonBlocks) {
+      if (block.valueEnumerations) {
+        Object.assign(enumerations, block.valueEnumerations);
+      }
+    }
+
+    return enumerations;
+  }
+
+  /**
+   * Get metadata fields for a specific phase
+   */
+  static getMetadataFieldsForPhase(phases: PhaseSection[], version: string): Record<string, any> {
+    const phase = this.getPhaseByVersion(phases, version);
+    if (!phase) return {};
+
+    const metadata: Record<string, any> = {};
+    for (const block of phase.jsonBlocks) {
+      if (block.metadataFields) {
+        Object.assign(metadata, block.metadataFields);
+      }
+    }
+
+    return metadata;
   }
 
   /**

@@ -1,1 +1,307 @@
-// Unit tests for JSON utilities will be implemented here.
+import { JsonUtils, JsonCleanseResult, JsonValidationResult } from './json-utils';
+
+describe('JsonUtils', () => {
+  describe('cleanseJson', () => {
+    it('should remove single-line comments', () => {
+      const input = `{
+        "name": "John", // This is a comment
+        "age": 30
+      }`;
+
+      const result = JsonUtils.cleanseJson(input);
+
+      expect(result.success).toBe(true);
+      expect(result.cleanedJson).toBe(`{
+        "name": "John",
+        "age": 30
+      }`);
+    });
+
+    it('should remove multi-line comments', () => {
+      const input = `{
+        "name": "John", /* This is a
+        multi-line comment */
+        "age": 30
+      }`;
+
+      const result = JsonUtils.cleanseJson(input);
+
+      expect(result.success).toBe(true);
+      expect(result.cleanedJson).toBe(`{
+        "name": "John",
+        "age": 30
+      }`);
+    });
+
+    it('should preserve comments within strings', () => {
+      const input = `{
+        "name": "John // This should be preserved",
+        "comment": "/* This should also be preserved */",
+        "age": 30
+      }`;
+
+      const result = JsonUtils.cleanseJson(input);
+
+      expect(result.success).toBe(true);
+      expect(result.cleanedJson).toBe(`{
+        "name": "John // This should be preserved",
+        "comment": "/* This should also be preserved */",
+        "age": 30
+      }`);
+    });
+
+    it('should handle escape sequences in strings', () => {
+      const input = `{
+        "path": "C:\\\\Users\\\\John", // Windows path
+        "quote": "He said \\"Hello\\"",
+        "age": 30
+      }`;
+
+      const result = JsonUtils.cleanseJson(input);
+
+      expect(result.success).toBe(true);
+      expect(result.cleanedJson).toBe(`{
+        "path": "C:\\\\Users\\\\John",
+        "quote": "He said \\"Hello\\"",
+        "age": 30
+      }`);
+    });
+
+    it('should handle empty input', () => {
+      const result = JsonUtils.cleanseJson('');
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('Invalid input: jsonContent must be a non-empty string');
+    });
+
+    it('should handle null input', () => {
+      const result = JsonUtils.cleanseJson(null as any);
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('Invalid input: jsonContent must be a non-empty string');
+    });
+  });
+
+  describe('validateJson', () => {
+    it('should validate correct JSON', () => {
+      const input = '{"name": "John", "age": 30}';
+
+      const result = JsonUtils.validateJson(input);
+
+      expect(result.success).toBe(true);
+      expect(result.isValid).toBe(true);
+    });
+
+    it('should reject invalid JSON', () => {
+      const input = '{"name": "John", "age": 30,}'; // Trailing comma
+
+      const result = JsonUtils.validateJson(input);
+
+      expect(result.success).toBe(true);
+      expect(result.isValid).toBe(false);
+      expect(result.error).toContain('Invalid JSON');
+    });
+
+    it('should handle empty input', () => {
+      const result = JsonUtils.validateJson('');
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('Invalid input: jsonString must be a non-empty string');
+    });
+  });
+
+  describe('parseJsonWithCleansing', () => {
+    it('should parse JSON with comments', () => {
+      const input = `{
+        "name": "John", // Comment
+        "age": 30 /* Another comment */
+      }`;
+
+      const result = JsonUtils.parseJsonWithCleansing(input);
+
+      expect(result.success).toBe(true);
+      expect(result.data).toEqual({
+        name: "John",
+        age: 30
+      });
+    });
+
+    it('should handle invalid JSON after cleansing', () => {
+      const input = `{
+        "name": "John", // Comment
+        "age": 30, // Trailing comma
+      }`;
+
+      const result = JsonUtils.parseJsonWithCleansing(input);
+
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('Failed to parse JSON');
+    });
+  });
+
+  describe('extractValueEnumerations', () => {
+    it('should extract string enumerations', () => {
+      const input = {
+        status: ["active", "inactive", "pending"],
+        user: {
+          roles: ["admin", "user", "guest"]
+        }
+      };
+
+      const result = JsonUtils.extractValueEnumerations(input);
+
+      expect(result).toEqual({
+        'status': ["active", "inactive", "pending"],
+        'user.roles': ["admin", "user", "guest"]
+      });
+    });
+
+    it('should extract number enumerations', () => {
+      const input = {
+        priorities: [1, 2, 3, 4, 5],
+        scores: [0, 10, 20, 30]
+      };
+
+      const result = JsonUtils.extractValueEnumerations(input);
+
+      expect(result).toEqual({
+        'priorities': [1, 2, 3, 4, 5],
+        'scores': [0, 10, 20, 30]
+      });
+    });
+
+    it('should not extract mixed type arrays', () => {
+      const input = {
+        mixed: ["string", 123, true],
+        valid: ["a", "b", "c"]
+      };
+
+      const result = JsonUtils.extractValueEnumerations(input);
+
+      expect(result).toEqual({
+        'valid': ["a", "b", "c"]
+      });
+    });
+
+    it('should not extract empty arrays', () => {
+      const input = {
+        empty: [],
+        valid: ["a", "b"]
+      };
+
+      const result = JsonUtils.extractValueEnumerations(input);
+
+      expect(result).toEqual({
+        'valid': ["a", "b"]
+      });
+    });
+  });
+
+  describe('extractMetadataFields', () => {
+    it('should extract metadata fields with caret prefix', () => {
+      const input = {
+        name: "John",
+        "^description": "User metadata",
+        "^maxLength": 50,
+        address: {
+          street: "123 Main St",
+          "^required": true
+        }
+      };
+
+      const result = JsonUtils.extractMetadataFields(input);
+
+      expect(result).toEqual({
+        'description': "User metadata",
+        'maxLength': 50,
+        'required': true
+      });
+    });
+
+    it('should handle nested metadata fields', () => {
+      const input = {
+        user: {
+          "^type": "object",
+          name: "John",
+          settings: {
+            "^default": "enabled",
+            theme: "dark"
+          }
+        }
+      };
+
+      const result = JsonUtils.extractMetadataFields(input);
+
+      expect(result).toEqual({
+        'type': "object",
+        'default': "enabled"
+      });
+    });
+
+    it('should return empty object when no metadata fields', () => {
+      const input = {
+        name: "John",
+        age: 30,
+        address: {
+          street: "123 Main St"
+        }
+      };
+
+      const result = JsonUtils.extractMetadataFields(input);
+
+      expect(result).toEqual({});
+    });
+  });
+
+  describe('formatJson', () => {
+    it('should format JSON with default indentation', () => {
+      const input = { name: "John", age: 30 };
+
+      const result = JsonUtils.formatJson(input);
+
+      expect(result).toBe('{\n  "name": "John",\n  "age": 30\n}');
+    });
+
+    it('should format JSON with custom indentation', () => {
+      const input = { name: "John", age: 30 };
+
+      const result = JsonUtils.formatJson(input, 4);
+
+      expect(result).toBe('{\n    "name": "John",\n    "age": 30\n}');
+    });
+
+    it('should throw error for invalid data', () => {
+      const input: any = { circular: null };
+      input.circular = input; // Create circular reference
+
+      expect(() => JsonUtils.formatJson(input)).toThrow('Failed to format JSON');
+    });
+  });
+
+  describe('cloneJson', () => {
+    it('should deep clone JSON data', () => {
+      const input = {
+        name: "John",
+        age: 30,
+        address: {
+          street: "123 Main St",
+          city: "New York"
+        },
+        hobbies: ["reading", "swimming"]
+      };
+
+      const result = JsonUtils.cloneJson(input);
+
+      expect(result).toEqual(input);
+      expect(result).not.toBe(input); // Should be a different reference
+      expect(result.address).not.toBe(input.address); // Nested objects should also be cloned
+    });
+
+    it('should throw error for circular references', () => {
+      const input: any = { name: "John" };
+      input.self = input; // Create circular reference
+
+      expect(() => JsonUtils.cloneJson(input)).toThrow('Failed to clone JSON');
+    });
+  });
+});
