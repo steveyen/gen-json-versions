@@ -127,10 +127,10 @@ class CLI {
 
   private validateArguments(options: CLIOptions): void {
     // Validate employee file
-    this.validateFile('Employee', options.employeeFile, 'json');
+    this.validateFile('Employee', options.employeeFile, '.json');
 
     // Validate phases file
-    this.validateFile('Phases', options.phasesFile, 'md');
+    this.validateFile('Phases', options.phasesFile, '.md');
 
     // Validate output directory
     this.validateOutputDirectory(options.outputDir);
