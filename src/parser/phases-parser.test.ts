@@ -136,7 +136,6 @@ Content here`;
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v1.0');
-      expect(result.phases![0].name).toBe('Data Version v1.0');
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
     });
@@ -154,7 +153,6 @@ Content here`;
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v2.0');
-      expect(result.phases![0].name).toBe('Version v2.0');
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
     });
@@ -172,7 +170,6 @@ Content here`;
 
       expect(result.error).toBeFalsy();
       expect(result.phases![0].version).toBe('v3.0');
-      expect(result.phases![0].name).toBe('Version v3.0');
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
     });
@@ -185,10 +182,10 @@ Content here`;
       mockPhases = [
         {
           version: 'v1.0',
-          name: 'Data Version v1.0',
           begLine: 1,
           endLine: 10,
           content: 'Phase 1 content',
+          codeBlocks: [],
           jsonBlocks: [
             {
               language: 'json',
@@ -201,10 +198,10 @@ Content here`;
         },
         {
           version: 'v2.0',
-          name: 'Data Version v2.0',
           begLine: 11,
           endLine: 20,
           content: 'Phase 2 content',
+          codeBlocks: [],
           jsonBlocks: [
             {
               language: 'json',
@@ -221,11 +218,6 @@ Content here`;
     it('should get phase by version', () => {
       const phase = PhasesParser.getPhaseByVersion(mockPhases, 'v1.0');
       expect(phase).toBe(mockPhases[0]);
-    });
-
-    it('should get phase by name', () => {
-      const phase = PhasesParser.getPhaseByName(mockPhases, 'Data Version v2.0');
-      expect(phase).toBe(mockPhases[1]);
     });
 
     it('should get all JSON blocks', () => {
@@ -253,10 +245,10 @@ Content here`;
       const phases: Phase[] = [
         {
           version: 'v1.0',
-          name: 'Phase 1',
           begLine: 1,
           endLine: 10,
           content: 'Content',
+          codeBlocks: [],
           jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, objMetadata: {} }]
         }
       ];
@@ -274,18 +266,18 @@ Content here`;
       const phases: Phase[] = [
         {
           version: 'v1.0',
-          name: 'Phase 1',
           begLine: 1,
           endLine: 10,
           content: 'Content',
+          codeBlocks: [],
           jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, objMetadata: {} }]
         },
         {
           version: 'v1.0',
-          name: 'Phase 2',
           begLine: 11,
           endLine: 20,
           content: 'Content',
+          codeBlocks: [],
           jsonBlocks: [{ language: 'json', content: '{}', begLine: 11, endLine: 11, objMetadata: {} }]
         }
       ];
@@ -298,10 +290,10 @@ Content here`;
       const phases: Phase[] = [
         {
           version: 'v1.0',
-          name: 'Phase 1',
           begLine: 1,
           endLine: 10,
           content: 'Content',
+          codeBlocks: [],
           jsonBlocks: []
         }
       ];

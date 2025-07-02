@@ -3,13 +3,13 @@ import { JsonUtils } from '../utils/json-utils';
 
 export interface Phase {
     version: string;
-    name: string;
 
     content: string;
     begLine: number;
     endLine: number;
 
-    jsonBlocks: CodeBlock[];
+    codeBlocks: CodeBlock[]; // All code blocks in the phase
+    jsonBlocks: CodeBlock[]; // All JSON blocks in the phase
 }
 
 export interface PhasesParseResult {
@@ -56,11 +56,14 @@ export class PhasesParser {
 
             // Extract JSON code blocks from each phase
             for (const phase of phases) {
-                phase.jsonBlocks = this.extractJsonBlocks(phase.content, phase.begLine);
+                const result = this.processCodeBlocks(phase.content, phase.begLine);
+
+                phase.codeBlocks = result.codeBlocks;
+                phase.jsonBlocks = result.jsonBlocks;
 
                 // Process each JSON block for cleansing and metadata extraction
-                for (const block of phase.jsonBlocks) {
-                    this.processJsonBlock(block);
+                for (const jsonBlock of phase.jsonBlocks) {
+                    this.processJsonBlock(jsonBlock);
                 }
             }
 
@@ -88,8 +91,8 @@ export class PhasesParser {
             const line = lines[i];
 
             // Check if this line starts a new phase section
-            const phaseMatch = this.matchPhaseHeader(line);
-            if (phaseMatch) {
+            const version = this.matchPhaseHeader(line);
+            if (version) {
                 // Save previous phase if exists
                 if (currentPhase) {
                     currentPhase.endLine = i - 1;
@@ -99,11 +102,11 @@ export class PhasesParser {
 
                 // Start new phase
                 currentPhase = {
-                    version: phaseMatch.version,
-                    name: phaseMatch.name,
+                    version,
                     begLine: i,
                     endLine: lines.length - 1, // Will be updated when next phase is found
                     content: '',
+                    codeBlocks: [],
                     jsonBlocks: []
                 };
 
@@ -122,14 +125,16 @@ export class PhasesParser {
             phases.push(currentPhase);
         }
 
-        return phases;
+        return phases
     }
 
     /**
      * Extract JSON code blocks from markdown content
      */
-    private static extractJsonBlocks(content: string, startOffset: number): CodeBlock[] {
-        const blocks: CodeBlock[] = [];
+    private static processCodeBlocks(content: string, startOffset: number): { codeBlocks: CodeBlock[], jsonBlocks: CodeBlock[] } {
+        const codeBlocks: CodeBlock[] = [];
+        const jsonBlocks: CodeBlock[] = [];
+
         const lines = content.split('\n');
 
         let inCodeBlock = false;
@@ -163,8 +168,12 @@ export class PhasesParser {
                 currentBlock.content = blockContent.join('\n');
 
                 // Only include JSON blocks
-                if (currentBlock.content && this.isJsonBlock(currentBlock.language, currentBlock.content)) {
-                    blocks.push(currentBlock as CodeBlock);
+                if (currentBlock.content) {
+                    codeBlocks.push(currentBlock as CodeBlock);
+
+                    if (this.isJsonBlock(currentBlock.language, currentBlock.content)) {
+                        jsonBlocks.push(currentBlock as CodeBlock);
+                    }
                 }
 
                 currentBlock = null;
@@ -177,7 +186,7 @@ export class PhasesParser {
             }
         }
 
-        return blocks;
+        return { codeBlocks, jsonBlocks };
     }
 
     /**
@@ -199,37 +208,28 @@ export class PhasesParser {
     /**
      * Match phase header patterns like "Version v1.0", "Phase 1", etc.
      */
-    private static matchPhaseHeader(line: string): { version: string; name: string } | null {
+    private static matchPhaseHeader(line: string): string | null {
         const trimmedLine = line.trim();
 
         // Pattern 1: "Data Version v1.0" - these are the actual version phases we want
         const dataVersionPattern = /^###\s+data\s+version\s+(v?\d+\.\d+(?:\.\d+)?)/i;
         const dataVersionMatch = trimmedLine.match(dataVersionPattern);
         if (dataVersionMatch) {
-            return {
-                version: dataVersionMatch[1],
-                name: `Data Version ${dataVersionMatch[1]}`
-            };
+            return dataVersionMatch[1];
         }
 
         // Pattern 2: "Version v1.0" - alternative format
         const versionPattern = /^###\s+version\s+(v?\d+\.\d+(?:\.\d+)?)/i;
         const versionMatch = trimmedLine.match(versionPattern);
         if (versionMatch) {
-            return {
-                version: versionMatch[1],
-                name: `Version ${versionMatch[1]}`
-            };
+            return versionMatch[1];
         }
 
         // Pattern 3: "v1.0" - simple version format
         const simpleVersionPattern = /^###\s+(v?\d+\.\d+(?:\.\d+)?)/i;
         const simpleVersionMatch = trimmedLine.match(simpleVersionPattern);
         if (simpleVersionMatch) {
-            return {
-                version: simpleVersionMatch[1],
-                name: `Version ${simpleVersionMatch[1]}`
-            };
+            return simpleVersionMatch[1];
         }
 
         return null;
@@ -243,13 +243,6 @@ export class PhasesParser {
     }
 
     /**
-     * Get a specific phase by name
-     */
-    static getPhaseByName(phases: Phase[], name: string): Phase | null {
-        return phases.find(phase => phase.name === name) || null;
-    }
-
-    /**
      * Get all JSON blocks from all phases
      */
     static getAllJsonBlocks(phases: Phase[]): CodeBlock[] {
@@ -259,20 +252,20 @@ export class PhasesParser {
     /**
      * Process a JSON block to cleanse it and extract metadata
      */
-    private static processJsonBlock(block: CodeBlock): void {
+    private static processJsonBlock(jsonBlock: CodeBlock): void {
         // Cleanse the JSON content (remove comments, etc.)
-        const cleanseResult = JsonUtils.jsonCleanse(block.content);
+        const cleanseResult = JsonUtils.jsonCleanse(jsonBlock.content);
         if (cleanseResult.error) {
             // If cleansing fails, keep original content
             return;
         }
 
-        block.content = cleanseResult.result!;
+        jsonBlock.content = cleanseResult.result!;
 
         // Parse the JSON and extract metadata fields (fields starting with ^)
         try {
-            block.obj = JSON.parse(block.content);
-            block.objMetadata = this.extractObjMetadata(block.obj);
+            jsonBlock.obj = JSON.parse(jsonBlock.content);
+            jsonBlock.objMetadata = this.extractObjMetadata(jsonBlock.obj);
         } catch (error) {
         }
     }

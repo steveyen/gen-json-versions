@@ -62,15 +62,16 @@ class CLI {
       console.log(`✅ Successfully loaded ${phases.length} phase(s):`);
 
       phases.forEach((phase, index) => {
-        console.log(` ${index + 1}. ${phase.name} (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
+        console.log(` ${index + 1}. (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
 
         // Pretty-print JSON blocks if verbose mode is enabled
         if (options.verbose) {
-          console.log(`\n    📄 JSON Blocks for phase "${phase.name}":`);
+          console.log(`\n    📄 JSON Blocks for version "${phase.version}":`);
 
           phase.jsonBlocks.forEach((block, blockIndex) => {
             console.log(`\nJSON Block ${blockIndex + 1}:`);
             console.log(JSON.stringify(block.obj, null, 1));
+            console.log(JSON.stringify(block.objMetadata, null, 1));
           });
         }
       });
