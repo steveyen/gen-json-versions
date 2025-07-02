@@ -236,20 +236,6 @@ export class PhasesParser {
     }
 
     /**
-     * Get a specific phase by version
-     */
-    static getPhaseByVersion(phases: Phase[], version: string): Phase | null {
-        return phases.find(phase => phase.version === version) || null;
-    }
-
-    /**
-     * Get all JSON blocks from all phases
-     */
-    static getAllJsonBlocks(phases: Phase[]): CodeBlock[] {
-        return phases.flatMap(phase => phase.jsonBlocks);
-    }
-
-    /**
      * Process a JSON block to cleanse it and extract metadata
      */
     private static processJsonBlock(jsonBlock: CodeBlock): void {
@@ -323,5 +309,19 @@ export class PhasesParser {
         }
 
         return {}; // No errors
+    }
+
+    /**
+     * Get a specific phase by version
+     */
+    static getPhaseByVersion(phases: Phase[], version: string): Phase | null {
+        return phases.find(phase => phase.version === version) || null;
+    }
+
+    /**
+     * Get all JSON blocks from all phases
+     */
+    static getAllJsonBlocks(phases: Phase[]): CodeBlock[] {
+        return phases.flatMap(phase => phase.jsonBlocks);
     }
 }
