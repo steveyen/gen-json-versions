@@ -9,7 +9,7 @@ export interface Phase {
     endLine: number;
 
     codeBlocks: CodeBlock[]; // All code blocks in the phase
-    jsonBlocks: CodeBlock[]; // All JSON blocks in the phase
+    jsonBlocks: CodeBlock[]; // All JSON blocks in the phase (subset of codeBlocks)
 }
 
 export interface PhasesParseResult {
