@@ -225,9 +225,17 @@ Content here`;
       expect(blocks).toHaveLength(2);
     });
 
-    it('should get all metadata', () => {
-      const metadata = PhasesParser.getAllMetadata(mockPhases);
-      expect(metadata).toEqual({
+    it('should collect metadata from all phases', () => {
+      const allMetadata: Record<string, any> = {};
+      for (const phase of mockPhases) {
+        for (const block of phase.jsonBlocks) {
+          if (block.objMetadata) {
+            Object.assign(allMetadata, block.objMetadata);
+          }
+        }
+      }
+
+      expect(allMetadata).toEqual({
         'description': 'Employee data' // Last one wins
       });
     });

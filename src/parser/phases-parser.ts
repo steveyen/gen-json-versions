@@ -302,25 +302,6 @@ export class PhasesParser {
         return metadata;
     }
 
-
-
-    /**
-     * Get all metadata from all phases
-     */
-    static getAllMetadata(phases: Phase[]): Record<string, any> {
-        const allMetadata: Record<string, any> = {};
-
-        for (const phase of phases) {
-            for (const block of phase.jsonBlocks) {
-                if (block.objMetadata) {
-                    Object.assign(allMetadata, block.objMetadata);
-                }
-            }
-        }
-
-        return allMetadata;
-    }
-
     /**
      * Validate phases for consistency and completeness
      */
