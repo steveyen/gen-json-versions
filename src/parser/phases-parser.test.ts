@@ -303,35 +303,7 @@ Content here`;
     });
   });
 
-  describe('JSON block parsing', () => {
-    it('should parse valid JSON block', () => {
-      const block = {
-        language: 'json',
-        content: '{"name": "John", "age": 30}',
-        begLine: 1,
-        endLine: 1,
-        metadata: {}
-      };
 
-      const result = PhasesParser.parseJsonBlock(block);
-      expect(result.error).toBeFalsy();
-      expect(result.data).toEqual({ name: 'John', age: 30 });
-    });
-
-    it('should handle invalid JSON block', () => {
-      const block = {
-        language: 'json',
-        content: '{"name": "John", "age": 30,}', // Invalid trailing comma
-        begLine: 1,
-        endLine: 1,
-        metadata: {}
-      };
-
-      const result = PhasesParser.parseJsonBlock(block);
-      expect(result.error).toBeTruthy();
-      expect(result.data).toBeFalsy();
-    });
-  });
 
   describe('metadata extraction', () => {
     it('should extract metadata fields with ^ prefix', () => {

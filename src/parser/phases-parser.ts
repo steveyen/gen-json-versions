@@ -302,19 +302,7 @@ export class PhasesParser {
         return metadata;
     }
 
-    /**
-     * Parse a JSON block and return the parsed data
-     */
-    static parseJsonBlock(block: CodeBlock): { data?: any; error?: string } {
-        try {
-            const data = JSON.parse(block.content);
-            return { data };
-        } catch (error) {
-            return {
-                error: `Failed to parse JSON block: ${error instanceof Error ? error.message : String(error)}`
-            };
-        }
-    }
+
 
     /**
      * Get all metadata from all phases
