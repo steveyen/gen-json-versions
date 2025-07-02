@@ -55,30 +55,6 @@ This is phase 2 content.
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
     });
-
-    it('should handle markdown files without phase sections', () => {
-      const mockContent = `# Test Document
-
-This is a regular markdown file without phase sections.
-
-\`\`\`json
-{
-  "name": "John"
-}
-\`\`\``;
-
-      const originalReadFile = require('../utils/file-utils').FileUtils.readFile;
-      require('../utils/file-utils').FileUtils.readFile = jest.fn().mockReturnValue({
-        content: mockContent
-      });
-
-      const result = PhasesParser.parseFile('test.md');
-
-      expect(result.error).toBeTruthy();
-      expect(result.error).toBe('No phase sections found in markdown file');
-
-      require('../utils/file-utils').FileUtils.readFile = originalReadFile;
-    });
   });
 
   describe('JSON cleansing and metadata extraction', () => {

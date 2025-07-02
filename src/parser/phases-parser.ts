@@ -47,12 +47,6 @@ export class PhasesParser {
             // Find all phase sections
             const phases = this.extractPhases(lines);
 
-            if (phases.length === 0) {
-                return {
-                    error: 'No phase sections found in markdown file'
-                };
-            }
-
             // Extract JSON code blocks from each phase
             for (const phase of phases) {
                 const result = this.processCodeBlocks(phase.content, phase.begLine);
