@@ -257,7 +257,7 @@ export class PhasesParser {
             if (obj !== null && typeof obj === 'object') {
                 const isArray = Array.isArray(obj);
 
-                for (let [key, value] of Object.entries(obj)) {
+                for (let [key, val] of Object.entries(obj)) {
                     if (isArray) {
                         key = '[]';
                     }
@@ -269,13 +269,21 @@ export class PhasesParser {
                                 .join('.')
                                 .replace(/\.\[\]/g, '[]'); // Replace .[] with just []
 
-                        metadata[metadataKeyPath] = value;
+                        metadata[metadataKeyPath] = val;
 
                         // Remove the metadata field from the object
                         delete obj[key];
-                    } else if (typeof value === 'object' && value !== null) {
+                    }
+                }
+
+                for (let [key, val] of Object.entries(obj)) {
+                    if (isArray) {
+                        key = '[]';
+                    }
+
+                    if (typeof val === 'object' && val !== null) {
                         // Recursively process nested objects
-                        processObj(value, path.concat(key));
+                        processObj(val, path.concat(key));
                     }
                 }
             }
