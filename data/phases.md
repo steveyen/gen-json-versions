@@ -96,15 +96,15 @@ and a `fullName`.
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
-      "contactNumber": "555-1234" // Added for more complete employee info
+      "contactPhone": "555-1234" // Added for more complete employee info
     }, {
       "id": "emp-0002",
       "fullName": "Bob The Baker",
-      "contactNumber": "555-5678"
+      "contactPhone": "555-5678"
     }, {
       "id": "emp-0003",
       "fullName": "Charlie Chocolatier",
-      "contactNumber": "555-8765"
+      "contactPhone": "555-8765"
     }
   ],
   "sched": [
@@ -219,7 +219,7 @@ roles are suitable for that shift."
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
-      "contactNumber": "555-1234",
+      "contactPhone": "555-1234",
       "roles": ["Baker", "Cake Decorator"], // New field
       "^roles": {
         "values": ["Baker", "Cake Decorator", "Lead Baker", "Cashier", "Barista", "Utility"]
@@ -227,12 +227,12 @@ roles are suitable for that shift."
     }, {
       "id": "emp-0002",
       "fullName": "Bob The Baker",
-      "contactNumber": "555-5678",
+      "contactPhone": "555-5678",
       "roles": ["Baker"] // New field
     }, {
       "id": "emp-0004", // New employee
       "fullName": "Diana Dishwasher",
-      "contactNumber": "555-1122",
+      "contactPhone": "555-1122",
       "roles": ["Cashier", "Utility"] // New field
     }
   ],
@@ -283,7 +283,7 @@ scheduling someone when they are unavailable."
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
-      "contactNumber": "555-1234",
+      "contactPhone": "555-1234",
       "roles": ["Baker", "Cake Decorator"],
       "unavailability": [ // New field
         {
@@ -483,7 +483,7 @@ should warn me if a schedule exceeds the budget."
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
-      "contactNumber": "555-1234",
+      "contactPhone": "555-1234",
       "roles": [
         {
           "name": "Baker",
@@ -550,7 +550,7 @@ different rates based on experience level or performance."
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
-      "contactNumber": "555-1234",
+      "contactPhone": "555-1234",
       "roles": [
         {
           "name": "Baker",
