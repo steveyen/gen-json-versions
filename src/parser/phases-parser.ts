@@ -267,7 +267,7 @@ export class PhasesParser {
                         const metadataKeyPath =
                             path.concat(key.substring(1)) // Remove the ^ prefix
                                 .join('.')
-                                .replace('.[]', '[]');
+                                .replace(/\.\[\]/g, '[]'); // Replace .[] with just []
 
                         metadata[metadataKeyPath] = value;
 
