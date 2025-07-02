@@ -346,7 +346,7 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'items.[].category': 'books' // Last one wins
+        'items[].category': 'books' // Last one wins
       });
     });
 

@@ -264,10 +264,14 @@ export class PhasesParser {
 
                     if (key.startsWith('^')) {
                         // This is a metadata field
-                        const metadataKeyPath = path.concat(key.substring(1)); // Remove the ^ prefix
+                        const metadataKeyPath =
+                            path.concat(key.substring(1)) // Remove the ^ prefix
+                                .join('.')
+                                .replace('.[]', '[]');
 
-                        metadata[metadataKeyPath.join('.')] = value;
+                        metadata[metadataKeyPath] = value;
 
+                        // Remove the metadata field from the object
                         delete obj[key];
                     } else if (typeof value === 'object' && value !== null) {
                         // Recursively process nested objects
