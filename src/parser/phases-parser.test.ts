@@ -233,7 +233,16 @@ Content here`;
     });
 
     it('should get metadata fields for specific phase', () => {
-      const metadata = PhasesParser.getMetadataForPhase(mockPhases, 'v2.0');
+      const phase = PhasesParser.getPhaseByVersion(mockPhases, 'v2.0');
+      expect(phase).toBeTruthy();
+
+      const metadata: Record<string, any> = {};
+      for (const block of phase!.jsonBlocks) {
+        if (block.objMetadata) {
+          Object.assign(metadata, block.objMetadata);
+        }
+      }
+
       expect(metadata).toEqual({
         'description': 'Employee data'
       });

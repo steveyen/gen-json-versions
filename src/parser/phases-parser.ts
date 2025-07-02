@@ -322,25 +322,6 @@ export class PhasesParser {
     }
 
     /**
-     * Get metadata for a specific phase
-     */
-    static getMetadataForPhase(phases: Phase[], version: string): Record<string, any> {
-        const phase = this.getPhaseByVersion(phases, version);
-        if (!phase) {
-            return {};
-        }
-
-        const metadata: Record<string, any> = {};
-        for (const block of phase.jsonBlocks) {
-            if (block.objMetadata) {
-                Object.assign(metadata, block.objMetadata);
-            }
-        }
-
-        return metadata;
-    }
-
-    /**
      * Validate phases for consistency and completeness
      */
     static validatePhases(phases: Phase[]): { error?: string } {
