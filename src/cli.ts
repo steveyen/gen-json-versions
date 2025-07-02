@@ -71,6 +71,8 @@ class CLI {
           phase.jsonBlocks.forEach((block, blockIndex) => {
             console.log(`\nJSON Block ${blockIndex + 1}:`);
             console.log(JSON.stringify(block.obj, null, 1));
+
+            console.log(`\nmetadata ${blockIndex + 1}:`);
             console.log(JSON.stringify(block.objMetadata, null, 1));
           });
         }
