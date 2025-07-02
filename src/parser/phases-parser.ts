@@ -262,8 +262,7 @@ export class PhasesParser {
                         key = '[]';
                     }
 
-                    if (key.startsWith('^')) {
-                        // This is a metadata field
+                    if (key.startsWith('^')) { // Process metadata fields like ^fieldName first
                         const metadataKeyPath =
                             path.concat(key.substring(1)) // Remove the ^ prefix
                                 .join('.')
@@ -271,14 +270,36 @@ export class PhasesParser {
 
                         metadata[metadataKeyPath] = val;
 
-                        // Remove the metadata field from the object
-                        delete obj[key];
+                        delete obj[key]; // Remove the metadata field from the object
                     }
                 }
 
                 for (let [key, val] of Object.entries(obj)) {
                     if (isArray) {
                         key = '[]';
+                    }
+
+                    if (typeof val === 'string') {
+                        const v = (val as string).trim();
+
+                        const metadataKeyPath =
+                            path.concat(key)
+                                .join('.')
+                                .replace(/\.\[\]/g, '[]'); // Replace .[] with just []
+
+                        let m = metadata[metadataKeyPath];
+                        if (!m) {
+                            m = metadata[metadataKeyPath] = { values: [] };
+                        }
+                        if (typeof m === 'object' && m !== null) {
+                            if (!m.values) {
+                                m.values = [];
+                            }
+
+                            if (!m.values.includes(v)) {
+                                m.values.push(v);
+                            }
+                        }
                     }
 
                     if (typeof val === 'object' && val !== null) {

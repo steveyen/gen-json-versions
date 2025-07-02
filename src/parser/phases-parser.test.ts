@@ -91,7 +91,13 @@ This is phase 2 content.
       expect(block.content).not.toContain('/* User age */');
       expect(block.objMetadata).toEqual({
         'description': "User data schema",
-        'maxLength': 50
+        'maxLength': 50,
+        'name': {
+          'values': ['John']
+        },
+        'status[]': {
+          'values': ['active', 'inactive', 'pending']
+        }
       });
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
@@ -315,7 +321,13 @@ Content here`;
       expect(result).toEqual({
         'description': 'User data',
         'maxLength': 50,
-        'address.city': 'New York'
+        'address.city': 'New York',
+        'name': {
+          'values': ['John']
+        },
+        'address.street': {
+          'values': ['123 Main St']
+        }
       });
     });
 
@@ -346,7 +358,10 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'items[].category': 'books' // Last one wins
+        'items[].category': 'books', // Last one wins
+        'items[].name': {
+          'values': ['item1', 'item2']
+        }
       });
     });
 
