@@ -42,8 +42,7 @@ export class PhasesParser {
                 };
             }
 
-            const content = readResult.content!;
-            const lines = content.split('\n');
+            const lines = readResult.content!.split('\n');
 
             // Find all phase sections
             const phases = this.extractPhases(lines);
