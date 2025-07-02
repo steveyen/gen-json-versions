@@ -253,7 +253,7 @@ export class PhasesParser {
     private static extractObjMetadata(obj: any): Record<string, any> {
         const metadata: Record<string, any> = {};
 
-        const processObj = (obj: any, path: string) => {
+        const processObj = (obj: any, path: string[]) => {
             if (obj !== null && typeof obj === 'object') {
                 const isArray = Array.isArray(obj);
 
@@ -264,22 +264,20 @@ export class PhasesParser {
 
                     if (key.startsWith('^')) {
                         // This is a metadata field
-                        const metadataKeyPath = `${path}.${key.substring(1)}`; // Remove the ^ prefix
+                        const metadataKeyPath = path.concat(key.substring(1)); // Remove the ^ prefix
 
-                        metadata[metadataKeyPath] = value;
+                        metadata[metadataKeyPath.join('.')] = value;
 
                         delete obj[key];
                     } else if (typeof value === 'object' && value !== null) {
-                        const keyPath = `${path}.${key}`;
-
                         // Recursively process nested objects
-                        processObj(value, keyPath);
+                        processObj(value, path.concat(key));
                     }
                 }
             }
         };
 
-        processObj(obj, '');
+        processObj(obj, []);
 
         return metadata;
     }

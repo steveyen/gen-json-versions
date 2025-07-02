@@ -90,8 +90,8 @@ This is phase 2 content.
       expect(block.content).not.toContain('// User name');
       expect(block.content).not.toContain('/* User age */');
       expect(block.objMetadata).toEqual({
-        '.description': "User data schema",
-        '.maxLength': 50
+        'description': "User data schema",
+        'maxLength': 50
       });
 
       require('../utils/file-utils').FileUtils.readFile = originalReadFile;
@@ -168,7 +168,7 @@ Content here`;
               content: '{"name": "John", "status": ["active", "inactive"]}',
               begLine: 3,
               endLine: 5,
-              objMetadata: { '.description': 'User data' }
+              objMetadata: { 'description': 'User data' }
             }
           ]
         },
@@ -184,7 +184,7 @@ Content here`;
               content: '{"name": "Jane", "age": 25}',
               begLine: 13,
               endLine: 15,
-              objMetadata: { '.description': 'Employee data' }
+              objMetadata: { 'description': 'Employee data' }
             }
           ]
         }
@@ -212,7 +212,7 @@ Content here`;
       }
 
       expect(allMetadata).toEqual({
-        '.description': 'Employee data' // Last one wins
+        'description': 'Employee data' // Last one wins
       });
     });
 
@@ -228,7 +228,7 @@ Content here`;
       }
 
       expect(metadata).toEqual({
-        '.description': 'Employee data'
+        'description': 'Employee data'
       });
     });
   });
@@ -313,9 +313,9 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        '.description': 'User data',
-        '.maxLength': 50,
-        '.address.city': 'New York'
+        'description': 'User data',
+        'maxLength': 50,
+        'address.city': 'New York'
       });
     });
 
@@ -331,8 +331,8 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        '.user.type': 'admin',
-        '.user.profile.version': '1.0'
+        'user.type': 'admin',
+        'user.profile.version': '1.0'
       });
     });
 
@@ -346,7 +346,7 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        '.items.[].category': 'books' // Last one wins
+        'items.[].category': 'books' // Last one wins
       });
     });
 
