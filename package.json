@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
-    "generate": "tsc && node dist/cli.js generate",
+    "dev": "tsc && node dist/cli.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

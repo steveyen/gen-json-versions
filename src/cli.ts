@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import * as fs from 'fs';
-import { name } from '../package.json';
+import { name, version } from '../package.json';
 import { PhasesParser } from './parser/phases-parser';
 
 interface CLIOptions {
@@ -23,16 +23,16 @@ class CLI {
   private setupCommands(): void {
     this.program
       .name(name)
-      .description('Generate JSON data for sample app versioning')
-      .version('1.0.0');
+      .description('generate JSON data for sample app versioning')
+      .version(version);
 
     this.program
       .command('generate')
-      .description('Generate JSON data for sample app versioning')
-      .requiredOption('-e, --employees-file <path>', 'Path to employees JSON file')
-      .requiredOption('-p, --phases-file <path>', 'Path to phases markdown file')
-      .requiredOption('-o, --output-dir <path>', 'Output directory for generated files')
-      .option('-v, --verbose', 'Enable verbose output with pretty-printed JSON blocks')
+      .description('generate JSON data for sample app versioning')
+      .requiredOption('-e, --employees-file <path>', 'path to employees JSON file')
+      .requiredOption('-p, --phases-file <path>', 'path to phases markdown file')
+      .requiredOption('-o, --output-dir <path>', 'output directory for generated files')
+      .option('-v, --verbose', 'enable verbose debgging output')
       .action(this.handleGenerate.bind(this));
   }
 
