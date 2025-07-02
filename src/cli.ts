@@ -30,7 +30,7 @@ class CLI {
       .command('generate')
       .description('Generate JSON data for sample app versioning')
       .requiredOption('-e, --employees-file <path>', 'Path to employees JSON file')
-      .requiredOption('-p, --phases-file <path>', 'Path to markdown phases file')
+      .requiredOption('-p, --phases-file <path>', 'Path to phases markdown file')
       .requiredOption('-o, --output-dir <path>', 'Output directory for generated files')
       .option('-v, --verbose', 'Enable verbose output with pretty-printed JSON blocks')
       .action(this.handleGenerate.bind(this));
