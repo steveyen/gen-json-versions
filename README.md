@@ -1,4 +1,4 @@
-# Sample Data Generator for evolving apps.
+# Generate JSON Versions for sample app versioning
 
 ## Installation
 

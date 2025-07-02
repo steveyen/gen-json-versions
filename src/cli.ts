@@ -23,12 +23,12 @@ class CLI {
   private setupCommands(): void {
     this.program
       .name(name)
-      .description('Generate JSON data from employee and phase files')
+      .description('Generate JSON data for sample app versioning')
       .version('1.0.0');
 
     this.program
       .command('generate')
-      .description('Generate JSON data files')
+      .description('Generate JSON data for sample app versioning')
       .requiredOption('-e, --employees-file <path>', 'Path to employees JSON file')
       .requiredOption('-p, --phases-file <path>', 'Path to markdown phases file')
       .requiredOption('-o, --output-dir <path>', 'Output directory for generated files')
