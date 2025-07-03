@@ -282,15 +282,24 @@ export class PhasesParser {
                     if (typeof val === 'string') {
                         const v = (val as string).trim();
 
+                        const collName = path[0];
+
+                        let mc = metadata[collName];
+                        if (!mc) {
+                            mc = metadata[collName] = {};
+                        }
+
                         const metadataKeyPath =
-                            path.concat(key)
+                            path.slice(2) // Skip collName and the first []
+                                .concat(key)
                                 .join('.')
                                 .replace(/\.\[\]/g, '[]'); // Replace .[] with just []
 
-                        let m = metadata[metadataKeyPath];
+                        let m = mc[metadataKeyPath];
                         if (!m) {
-                            m = metadata[metadataKeyPath] = { values: [] };
+                            m = mc[metadataKeyPath] = { values: [] };
                         }
+
                         if (typeof m === 'object' && m !== null) {
                             if (!m.values) {
                                 m.values = [];

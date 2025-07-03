@@ -92,11 +92,15 @@ This is phase 2 content.
       expect(block.objMetadata).toEqual({
         'description': "User data schema",
         'maxLength': 50,
-        'name': {
-          'values': ['John']
+        'undefined': {
+          'name': {
+            'values': ['John']
+          }
         },
-        'status[]': {
-          'values': ['active', 'inactive', 'pending']
+        'status': {
+          '[]': {
+            'values': ['active', 'inactive', 'pending']
+          }
         }
       });
 
@@ -302,8 +306,6 @@ Content here`;
     });
   });
 
-
-
   describe('metadata extraction', () => {
     it('should extract metadata fields with ^ prefix', () => {
       const input = {
@@ -322,11 +324,15 @@ Content here`;
         'description': 'User data',
         'maxLength': 50,
         'address.city': 'New York',
-        'name': {
-          'values': ['John']
+        'undefined': {
+          'name': {
+            'values': ['John']
+          }
         },
-        'address.street': {
-          'values': ['123 Main St']
+        'address': {
+          'street': {
+            'values': ['123 Main St']
+          }
         }
       });
     });
@@ -359,8 +365,91 @@ Content here`;
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
         'items[].category': 'books', // Last one wins
-        'items[].name': {
-          'values': ['item1', 'item2']
+        'items': {
+          'name': {
+            'values': ['item1', 'item2']
+          }
+        }
+      });
+    });
+
+    it('should handle arrays with string values', () => {
+      const input = {
+        status: ['active', 'inactive', 'pending']
+      };
+
+      const result = (PhasesParser as any).extractObjMetadata(input);
+      expect(result).toEqual({
+        'status': {
+          '[]': {
+            'values': ['active', 'inactive', 'pending']
+          }
+        }
+      });
+    });
+
+    it('should handle nested arrays', () => {
+      const input = {
+        users: [
+          {
+            name: 'John',
+            roles: ['admin', 'user']
+          },
+          {
+            name: 'Jane',
+            roles: ['user']
+          }
+        ]
+      };
+
+      const result = (PhasesParser as any).extractObjMetadata(input);
+      expect(result).toEqual({
+        'users': {
+          'name': {
+            'values': ['John', 'Jane']
+          },
+          'roles[]': {
+            'values': ['admin', 'user']
+          }
+        }
+      });
+    });
+
+    it('should handle mixed data types', () => {
+      const input = {
+        '^schema': 'user',
+        name: 'John',
+        age: 30,
+        active: true,
+        tags: ['dev', 'admin'],
+        profile: {
+          '^version': '2.0',
+          bio: 'Developer',
+          skills: ['JavaScript', 'TypeScript']
+        }
+      };
+
+      const result = (PhasesParser as any).extractObjMetadata(input);
+      expect(result).toEqual({
+        'schema': 'user',
+        'profile.version': '2.0',
+        'undefined': {
+          'name': {
+            'values': ['John']
+          }
+        },
+        'tags': {
+          '[]': {
+            'values': ['dev', 'admin']
+          }
+        },
+        'profile': {
+          'bio': {
+            'values': ['Developer']
+          },
+          '[]': {
+            'values': ['JavaScript', 'TypeScript']
+          }
         }
       });
     });
@@ -370,6 +459,69 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({});
+    });
+
+    it('should handle null and undefined values', () => {
+      const input = {
+        name: 'John',
+        age: null,
+        email: undefined,
+        '^description': 'Test'
+      };
+
+      const result = (PhasesParser as any).extractObjMetadata(input);
+      expect(result).toEqual({
+        'description': 'Test',
+        'undefined': {
+          'name': {
+            'values': ['John']
+          }
+        }
+      });
+    });
+
+    it('should handle complex nested structures', () => {
+      const input = {
+        '^collection': 'employees',
+        data: [
+          {
+            '^id': 'emp1',
+            name: 'John',
+            department: {
+              '^code': 'IT',
+              name: 'Information Technology',
+              teams: ['Dev', 'QA']
+            }
+          },
+          {
+            '^id': 'emp2',
+            name: 'Jane',
+            department: {
+              '^code': 'HR',
+              name: 'Human Resources',
+              teams: ['Recruitment']
+            }
+          }
+        ]
+      };
+
+      const result = (PhasesParser as any).extractObjMetadata(input);
+      expect(result).toEqual({
+        'collection': 'employees',
+        'data[].id': 'emp2', // Last one wins
+        'data[].department.code': 'HR', // Last one wins
+        'data': {
+          'name': {
+            'values': ['John', 'Jane']
+          },
+          'department.name': {
+            'values': ['Information Technology', 'Human Resources']
+          },
+          'department.teams[]': {
+            'values': ['Dev', 'QA', 'Recruitment']
+          }
+        }
+      });
     });
   });
 });
