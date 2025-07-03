@@ -405,7 +405,7 @@ for the assignment)."
   - Add an `status` (e.g., "Scheduled",
     "SwapRequested", "CoverRequested", "SwapApproved", "CoverApproved").
   - Add a `changeHistory` array. Each item in this array could be
-    an object with `timestamp`, `changedByEmpId` (who initiated/approved),
+    an object with `datetime`, `changedByEmpId` (who initiated/approved),
     `previousEmpId`, `newEmpId`, `action` (e.g., "Swap Request",
     "Cover Approved by Manager"), and `notes`.
 
@@ -430,21 +430,21 @@ for the assignment)."
           // New field
           "changeHistory": [
             {
-              "timestamp": "2026-01-28T10:00:00Z",
+              "datetime": "2026-01-28T10:00:00Z",
               "action": "Initial Assignment",
               "empId": "emp-0001", // Employee assigned
               "changedByEmpId": "schedulerBot" // Or manager's ID
             }, {
-              "timestamp": "2026-01-30T14:30:00Z",
+              "datetime": "2026-01-30T14:30:00Z",
               "action": "Cover Requested",
               "requestingEmpId": "emp-0001",
               "notes": "Feeling unwell."
             }, {
-              "timestamp": "2026-01-30T17:00:00Z",
+              "datetime": "2026-01-30T17:00:00Z",
               "action": "Cover Offered",
               "offeringEmpId": "emp-0002"
             }, {
-              "timestamp": "2026-01-31T09:00:00Z",
+              "datetime": "2026-01-31T09:00:00Z",
               "action": "Cover Approved by Manager",
               "approvingManagerId": "emp-0001", // Assuming a manager role/ID
               "previousEmpId": "emp-0001",
@@ -468,7 +468,7 @@ operations and analyze performance.
 
 "As we've grown, I need to track labor costs more precisely.
 Each role should have an associated hourly rate, and I want to
-be able to set weekly labor budgets per location. The system
+be able to set weekly labor budgets per location. The systemx
 should warn me if a schedule exceeds the budget."
 
 - Add `hourlyRate` to each `role` in the `roles` array
@@ -682,7 +682,7 @@ to confirm when shifts are actually worked. Also, we want to plan
 schedules for longer periods, not just week by week."
 
 - Add `status` field to each schedule object
-- Add `published_at` and `confirmed_at` timestamps
+- Add `publishedAt` and `confirmedAt` datetimes
 - Add `version` tracking for schedule revisions
 
 #### Example JSON v8.0:
@@ -722,14 +722,14 @@ schedules for longer periods, not just week by week."
           "originalEmpId": "emp-0001",
           "changeHistory": [
             {
-              "timestamp": "2025-03-01T10:00:00Z",
+              "datetime": "2025-03-01T10:00:00Z",
               "action": "Initial Draft",
               "empId": "emp-0001",
               "changedByEmpId": "schedulerBot",
               "version": 1
             },
             {
-              "timestamp": "2025-03-15T14:30:00Z",
+              "datetime": "2025-03-15T14:30:00Z",
               "action": "Schedule Published",
               "empId": "emp-0001",
               "changedByEmpId": "emp-0001",
@@ -804,28 +804,28 @@ the change history to track any pending changes or requests."
           "status": "Scheduled", // Simplified status
           "pendingChanges": { // New field to track active requests
             "type": "SwapRequest",
-            "requestedBy": "emp-0001",
+            "requestedByEmpId": "emp-0001",
             "requestedAt": "2026-04-20T10:00:00Z",
-            "proposedSwapWith": "emp-0002",
+            "proposedSwapWithEmpId": "emp-0002",
             "status": "PendingApproval"
           },
           "originalEmpId": "emp-0001",
           "changeHistory": [
             {
-              "timestamp": "2026-04-15T14:30:00Z",
+              "datetime": "2026-04-15T14:30:00Z",
               "action": "Initial Assignment",
               "empId": "emp-0001",
               "changedByEmpId": "schedulerBot",
               "version": 1
             },
             {
-              "timestamp": "2026-04-20T10:00:00Z",
+              "datetime": "2026-04-20T10:00:00Z",
               "action": "Swap Request Initiated",
               "empId": "emp-0001",
               "changedByEmpId": "emp-0001",
               "requestDetails": {
                 "type": "SwapRequest",
-                "proposedSwapWith": "emp-0002",
+                "proposedSwapWithEmpId": "emp-0002",
                 "reason": "Personal appointment"
               }
             }
