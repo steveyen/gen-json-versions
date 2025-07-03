@@ -569,104 +569,7 @@ different rates based on experience level or performance."
 }
 ```
 
-## Phase 7: Naming Convention Standardization
 
-As The Sweet Spot grows, they hear that a best practice is
-to use snake_case for naming fields.
-
-### Data Version v7.0: Consistent Snake Case Field Names
-
-"Our boss heard that systems often use snake_case as their standard.
-To maintain consistency and reduce confusion, we need to convert all
-our JSON field names to use snake_case instead of camelCase."
-
-- Convert all field names to lowercase snake_case format
-- Maintain the same data structure and relationships
-- Update all references to use the new field names
-
-#### Example JSON v7.0:
-
-```json {
-  "emp": [
-    {
-      "id": "emp-0001",
-      "full_name": "Alice Wonderland",
-      "contact_number": "555-1234",
-      "roles": [
-        {
-          "name": "Baker",
-          "max_hourly_rate": 25.50,
-          "effective_date": "2025-01-01"
-        },
-        {
-          "name": "Cake Decorator",
-          "max_hourly_rate": 28.75,
-          "effective_date": "2025-01-01"
-        }
-      ]
-    }
-  ],
-  "loc": [
-    {
-      "id": "loc-0001",
-      "name": "Main Bakery",
-      "address": "123 Main St",
-      "labor_budget": {
-        "weekly": 5000.00,
-        "effective_date": "2025-01-01"
-      }
-    }
-  ],
-  "defined_shifts": [
-    {
-      "id": "shift-msb001",
-      "location_id": "loc-0001",
-      "name": "Morning Baker - Main",
-      "start_time": "06:00",
-      "end_time": "14:00",
-      "description": "Primary baking shift for breads and morning pastries at the main bakery.",
-      "eligible_roles": ["Baker", "Lead Baker"]
-    }
-  ],
-  "sched": [
-    {
-      "id": "sched-000007",
-      "date": "2026-03-01",
-      "actual_cost": 1250.75,
-      "assignments": [
-        {
-          "emp_id": "emp-0001",
-          "shift_id": "shift-msb001",
-          "hours_worked": 8.0,
-          "calculated_cost": 204.00,
-          "status": "Completed",
-          "original_emp_id": "emp-0001",
-          "change_history": [
-            {
-              "timestamp": "2026-01-28T10:00:00Z",
-              "action": "Initial Assignment",
-              "emp_id": "emp-0001",
-              "changed_by_emp_id": "schedulerBot"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-This standardization makes the schema more consistent with
-common database naming conventions and reduces the cognitive
-overhead of switching between different naming styles when
-working with various systems. It also makes the schema more
-maintainable as new team members join the project.
-
-## Phase 8: International Expansion & Multi-Currency Support
-
-The Sweet Spot has expanded internationally! Well, they've opened a location
-in Canada, right across the border. This brings new challenges in managing
-costs and budgets across different currencies.
 
 ### Data Version v8.0: Multi-Currency Support
 
@@ -676,7 +579,7 @@ need to show everything converted to USD for company-wide analysis. We also
 need to handle currency conversion rates that change over time."
 
 - Add `currency` field to `location` objects
-- Add `exchange_rates` as a new top-level array to track historical rates
+- Add `exchangeRates` as a new top-level array to track historical rates
 - Modify cost-related fields to include both local and converted amounts
 - Add currency conversion tracking to cost calculations
 
@@ -689,9 +592,9 @@ need to handle currency conversion rates that change over time."
       "name": "Main Bakery",
       "address": "123 Main St",
       "currency": "USD",
-      "labor_budget": {
+      "laborBudget": {
         "weekly": 5000.00,
-        "effective_date": "2025-01-01"
+        "effectiveDate": "2025-01-01"
       }
     },
     {
@@ -699,53 +602,53 @@ need to handle currency conversion rates that change over time."
       "name": "Canadian Bakery",
       "address": "456 Maple Street, Vancouver",
       "currency": "CAD",
-      "labor_budget": {
+      "laborBudget": {
         "weekly": 6500.00,
-        "effective_date": "2025-01-01"
+        "effectiveDate": "2025-01-01"
       }
     }
   ],
-  "exchange_rates": [
+  "exchangeRates": [
     {
-      "from_currency": "CAD",
-      "to_currency": "USD",
+      "fromCurrency": "CAD",
+      "toCurrency": "USD",
       "rate": 0.75,
-      "effective_date": "2025-01-01",
-      "end_date": "2025-03-31"
+      "effectiveDate": "2025-01-01",
+      "endDate": "2025-03-31"
     },
     {
-      "from_currency": "CAD",
-      "to_currency": "USD",
+      "fromCurrency": "CAD",
+      "toCurrency": "USD",
       "rate": 0.73,
-      "effective_date": "2025-04-01",
-      "end_date": null
+      "effectiveDate": "2025-04-01",
+      "endDate": null
     }
   ],
   "sched": [
     {
       "id": "sched-000008",
       "date": "2026-04-01",
-      "location_id": "loc-0003",
-      "actual_cost": {
-        "local_amount": 1500.00,
-        "local_currency": "CAD",
-        "converted_amount": 1095.00,
-        "converted_currency": "USD",
-        "exchange_rate": 0.73,
-        "exchange_rate_date": "2026-04-01"
+      "locationId": "loc-0003",
+      "actualCost": {
+        "localAmount": 1500.00,
+        "localCurrency": "CAD",
+        "convertedAmount": 1095.00,
+        "convertedCurrency": "USD",
+        "exchangeRate": 0.73,
+        "exchangeRateDate": "2026-04-01"
       },
       "assignments": [
         {
-          "emp_id": "emp-0005",
-          "shift_id": "shift-cab001",
-          "hours_worked": 8.0,
-          "calculated_cost": {
-            "local_amount": 204.00,
-            "local_currency": "CAD",
-            "converted_amount": 148.92,
-            "converted_currency": "USD",
-            "exchange_rate": 0.73,
-            "exchange_rate_date": "2026-04-01"
+          "empId": "emp-0005",
+          "shiftId": "shift-cab001",
+          "hoursWorked": 8.0,
+          "calculatedCost": {
+            "localAmount": 204.00,
+            "localCurrency": "CAD",
+            "convertedAmount": 148.92,
+            "convertedCurrency": "USD",
+            "exchangeRate": 0.73,
+            "exchangeRateDate": "2026-04-01"
           },
           "status": "Completed"
         }
@@ -793,45 +696,45 @@ schedules for longer periods, not just week by week."
       "date": "2025-04-01",
       "version": 2,
       "status": "Published", // "Draft", "Published", "Confirmed"
-      "published_at": "2025-03-15T14:30:00Z",
-      "confirmed_at": null,
-      "location_id": "loc-0001",
-      "actual_cost": {
-        "local_amount": 1500.00,
-        "local_currency": "USD",
-        "converted_amount": 1500.00,
-        "converted_currency": "USD",
-        "exchange_rate": 1.0,
-        "exchange_rate_date": "2025-04-01"
+      "publishedAt": "2025-03-15T14:30:00Z",
+      "confirmedAt": null,
+      "locationId": "loc-0001",
+      "actualCost": {
+        "localAmount": 1500.00,
+        "localCurrency": "USD",
+        "convertedAmount": 1500.00,
+        "convertedCurrency": "USD",
+        "exchangeRate": 1.0,
+        "exchangeRateDate": "2025-04-01"
       },
       "assignments": [
         {
-          "emp_id": "emp-0001",
-          "shift_id": "shift-msb001",
-          "hours_worked": 8.0,
-          "calculated_cost": {
-            "local_amount": 204.00,
-            "local_currency": "USD",
-            "converted_amount": 204.00,
-            "converted_currency": "USD",
-            "exchange_rate": 1.0,
-            "exchange_rate_date": "2025-04-01"
+          "empId": "emp-0001",
+          "shiftId": "shift-msb001",
+          "hoursWorked": 8.0,
+          "calculatedCost": {
+            "localAmount": 204.00,
+            "localCurrency": "USD",
+            "convertedAmount": 204.00,
+            "convertedCurrency": "USD",
+            "exchangeRate": 1.0,
+            "exchangeRateDate": "2025-04-01"
           },
           "status": "Scheduled",
-          "original_emp_id": "emp-0001",
-          "change_history": [
+          "originalEmpId": "emp-0001",
+          "changeHistory": [
             {
               "timestamp": "2025-03-01T10:00:00Z",
               "action": "Initial Draft",
-              "emp_id": "emp-0001",
-              "changed_by_emp_id": "schedulerBot",
+              "empId": "emp-0001",
+              "changedByEmpId": "schedulerBot",
               "version": 1
             },
             {
               "timestamp": "2025-03-15T14:30:00Z",
               "action": "Schedule Published",
-              "emp_id": "emp-0001",
-              "changed_by_emp_id": "emp-0001",
+              "empId": "emp-0001",
+              "changedByEmpId": "emp-0001",
               "version": 2
             }
           ]
@@ -872,8 +775,8 @@ no longer scheduled. We should keep the main status as 'Scheduled' and use
 the change history to track any pending changes or requests."
 
 - Simplify the `status` field in assignments to only use "Scheduled" or "Completed"
-- Add a `pending_changes` object to track any active requests or proposed changes
-- Enhance the `change_history` to better reflect the current state of requests
+- Add a `pendingChanges` object to track any active requests or proposed changes
+- Enhance the `changeHistory` to better reflect the current state of requests
 
 #### Example JSON v10.0:
 
@@ -884,47 +787,47 @@ the change history to track any pending changes or requests."
       "date": "2026-05-01",
       "version": 1,
       "status": "Published",
-      "published_at": "2026-04-15T14:30:00Z",
-      "confirmed_at": null,
-      "location_id": "loc-0001",
+      "publishedAt": "2026-04-15T14:30:00Z",
+      "confirmedAt": null,
+      "locationId": "loc-0001",
       "assignments": [
         {
-          "emp_id": "emp-0001",
-          "shift_id": "shift-msb001",
-          "hours_worked": 8.0,
-          "calculated_cost": {
-            "local_amount": 204.00,
-            "local_currency": "USD",
-            "converted_amount": 204.00,
-            "converted_currency": "USD",
-            "exchange_rate": 1.0,
-            "exchange_rate_date": "2026-05-01"
+          "empId": "emp-0001",
+          "shiftId": "shift-msb001",
+          "hoursWorked": 8.0,
+          "calculatedCost": {
+            "localAmount": 204.00,
+            "localCurrency": "USD",
+            "convertedAmount": 204.00,
+            "convertedCurrency": "USD",
+            "exchangeRate": 1.0,
+            "exchangeRateDate": "2026-05-01"
           },
           "status": "Scheduled", // Simplified status
-          "pending_changes": { // New field to track active requests
+          "pendingChanges": { // New field to track active requests
             "type": "SwapRequest",
-            "requested_by": "emp-0001",
-            "requested_at": "2026-04-20T10:00:00Z",
-            "proposed_swap_with": "emp-0002",
+            "requestedBy": "emp-0001",
+            "requestedAt": "2026-04-20T10:00:00Z",
+            "proposedSwapWith": "emp-0002",
             "status": "PendingApproval"
           },
-          "original_emp_id": "emp-0001",
-          "change_history": [
+          "originalEmpId": "emp-0001",
+          "changeHistory": [
             {
               "timestamp": "2026-04-15T14:30:00Z",
               "action": "Initial Assignment",
-              "emp_id": "emp-0001",
-              "changed_by_emp_id": "schedulerBot",
+              "empId": "emp-0001",
+              "changedByEmpId": "schedulerBot",
               "version": 1
             },
             {
               "timestamp": "2026-04-20T10:00:00Z",
               "action": "Swap Request Initiated",
-              "emp_id": "emp-0001",
-              "changed_by_emp_id": "emp-0001",
-              "request_details": {
+              "empId": "emp-0001",
+              "changedByEmpId": "emp-0001",
+              "requestDetails": {
                 "type": "SwapRequest",
-                "proposed_swap_with": "emp-0002",
+                "proposedSwapWith": "emp-0002",
                 "reason": "Personal appointment"
               }
             }
