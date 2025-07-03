@@ -68,8 +68,8 @@ This is phase 2 content.
   "name": "John", // User name
   "age": 30, /* User age */
   "status": ["active", "inactive", "pending"],
-  "^description": "User data schema",
-  "^maxLength": 50
+  "^description": {"about": "User data schema"},
+  "^maxLength": {"num": 50}
 }
 \`\`\``;
 
@@ -90,12 +90,10 @@ This is phase 2 content.
       expect(block.content).not.toContain('// User name');
       expect(block.content).not.toContain('/* User age */');
       expect(block.objMetadata).toEqual({
-        'description': "User data schema",
-        'maxLength': 50,
-        'undefined': {
-          'name': {
-            'values': ['John']
-          }
+        'description': {'about': 'User data schema'},
+        'maxLength': {'num': 50},
+        'name': {
+          'values': ['John']
         },
         'status': {
           '[]': {
@@ -311,27 +309,27 @@ Content here`;
       const input = {
         name: 'John',
         age: 30,
-        '^description': 'User data',
-        '^maxLength': 50,
+        '^description': {'about': 'User data'},
+        '^maxLength': {num: 50},
         address: {
           street: '123 Main St',
-          '^city': 'New York'
+          '^city': {'name': 'New York'}
         }
       };
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'description': 'User data',
-        'maxLength': 50,
-        'address.city': 'New York',
-        'undefined': {
-          'name': {
-            'values': ['John']
-          }
+        'description': {'about': 'User data'},
+        'maxLength': {'num': 50},
+        'name': {
+          'values': ['John']
         },
         'address': {
           'street': {
             'values': ['123 Main St']
+          },
+          'city': {
+            'name': 'New York'
           }
         }
       });
@@ -340,34 +338,42 @@ Content here`;
     it('should handle nested metadata fields', () => {
       const input = {
         user: {
-          '^type': 'admin',
+          '^type': {'level': 'admin'},
           profile: {
-            '^version': '1.0'
+            '^version': {'semver': '1.0'}
           }
         }
       };
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'user.type': 'admin',
-        'user.profile.version': '1.0'
+        'user': {
+          'type': {'level': 'admin'},
+          'profile': {
+            'version': {'semver': '1.0'}
+          }
+        }
       });
     });
 
     it('should handle arrays with metadata', () => {
       const input = {
         items: [
-          { name: 'item1', '^category': 'electronics' },
-          { name: 'item2', '^category': 'books' }
+          { name: 'item1', '^category': {'val': 'electronics'} },
+          { name: 'item2', '^category': {'val': 'books'} }
         ]
       };
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'items[].category': 'books', // Last one wins
         'items': {
-          'name': {
-            'values': ['item1', 'item2']
+          '[]': {
+            'category': {
+              'val': 'books'
+            },
+            'name': {
+              'values': ['item1', 'item2']
+            }
           }
         }
       });
@@ -405,11 +411,15 @@ Content here`;
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
         'users': {
-          'name': {
-            'values': ['John', 'Jane']
-          },
-          'roles[]': {
-            'values': ['admin', 'user']
+          '[]': {
+            'name': {
+              'values': ['John', 'Jane']
+            },
+            'roles': {
+              '[]': {
+                'values': ['admin', 'user']
+              }
+            }
           }
         }
       });
@@ -417,13 +427,13 @@ Content here`;
 
     it('should handle mixed data types', () => {
       const input = {
-        '^schema': 'user',
+        '^schema': {'name': 'user'},
         name: 'John',
         age: 30,
         active: true,
         tags: ['dev', 'admin'],
         profile: {
-          '^version': '2.0',
+          '^version': {'semver': '2.0'},
           bio: 'Developer',
           skills: ['JavaScript', 'TypeScript']
         }
@@ -431,24 +441,24 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'schema': 'user',
-        'profile.version': '2.0',
-        'undefined': {
-          'name': {
-            'values': ['John']
+        'schema': {'name': 'user'},
+        'name': {
+          'values': ['John']
+        },
+        'profile': {
+          'version': {'semver': '2.0'},
+          'bio': {
+            'values': ['Developer']
+          },
+          'skills': {
+            '[]': {
+              'values': ['JavaScript', 'TypeScript']
+            }
           }
         },
         'tags': {
           '[]': {
             'values': ['dev', 'admin']
-          }
-        },
-        'profile': {
-          'bio': {
-            'values': ['Developer']
-          },
-          '[]': {
-            'values': ['JavaScript', 'TypeScript']
           }
         }
       });
@@ -466,38 +476,36 @@ Content here`;
         name: 'John',
         age: null,
         email: undefined,
-        '^description': 'Test'
+        '^description': {'about': 'Test'}
       };
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'description': 'Test',
-        'undefined': {
-          'name': {
-            'values': ['John']
-          }
+        'description': {'about': 'Test'},
+        'name': {
+          'values': ['John']
         }
       });
     });
 
     it('should handle complex nested structures', () => {
       const input = {
-        '^collection': 'employees',
+        '^collection': {'name': 'employees'},
         data: [
           {
-            '^id': 'emp1',
+            '^id': {'value': 'emp1'},
             name: 'John',
             department: {
-              '^code': 'IT',
+              '^code': {'value': 'IT'},
               name: 'Information Technology',
               teams: ['Dev', 'QA']
             }
           },
           {
-            '^id': 'emp2',
+            '^id': {'value': 'emp2'},
             name: 'Jane',
             department: {
-              '^code': 'HR',
+              '^code': {'value': 'HR'},
               name: 'Human Resources',
               teams: ['Recruitment']
             }
@@ -507,18 +515,24 @@ Content here`;
 
       const result = (PhasesParser as any).extractObjMetadata(input);
       expect(result).toEqual({
-        'collection': 'employees',
-        'data[].id': 'emp2', // Last one wins
-        'data[].department.code': 'HR', // Last one wins
+        'collection': {'name': 'employees'},
         'data': {
-          'name': {
-            'values': ['John', 'Jane']
-          },
-          'department.name': {
-            'values': ['Information Technology', 'Human Resources']
-          },
-          'department.teams[]': {
-            'values': ['Dev', 'QA', 'Recruitment']
+          '[]': {
+            'id': {'value': 'emp2'},
+            'name': {
+              'values': ['John', 'Jane']
+            },
+            'department': {
+              'code': {'value': 'HR'},
+              'name': {
+                'values': ['Information Technology', 'Human Resources']
+              },
+              'teams': {
+                '[]': {
+                  'values': ['Dev', 'QA', 'Recruitment']
+                }
+              }
+            }
           }
         }
       });

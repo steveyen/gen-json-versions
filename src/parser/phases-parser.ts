@@ -253,6 +253,20 @@ export class PhasesParser {
     private static extractObjMetadata(obj: any): Record<string, any> {
         const metadata: Record<string, any> = {};
 
+        function metadataPathChild(path: string[]): Record<string, any> {
+            let m = metadata;
+
+            for (let p of path) {
+                if (!m[p]) {
+                    m[p] = {};
+                }
+
+                m = m[p];
+            }
+
+            return m;
+        }
+
         const processObj = (obj: any, path: string[]) => {
             if (obj !== null && typeof obj === 'object') {
                 const isArray = Array.isArray(obj);
@@ -263,12 +277,9 @@ export class PhasesParser {
                     }
 
                     if (key.startsWith('^')) { // Process metadata fields like ^fieldName first
-                        const metadataKeyPath =
-                            path.concat(key.substring(1)) // Remove the ^ prefix
-                                .join('.')
-                                .replace(/\.\[\]/g, '[]'); // Replace .[] with just []
+                        let m = metadataPathChild(path.concat(key.substring(1)));
 
-                        metadata[metadataKeyPath] = val;
+                        Object.assign(m, val);
 
                         delete obj[key]; // Remove the metadata field from the object
                     }
@@ -280,34 +291,15 @@ export class PhasesParser {
                     }
 
                     if (typeof val === 'string') {
+                        let m = metadataPathChild(path.concat(key));
+                        if (!m.values) {
+                            m.values = [];
+                        }
+
                         const v = (val as string).trim();
 
-                        const collName = path[0];
-
-                        let mc = metadata[collName];
-                        if (!mc) {
-                            mc = metadata[collName] = {};
-                        }
-
-                        const metadataKeyPath =
-                            path.slice(2) // Skip collName and the first []
-                                .concat(key)
-                                .join('.')
-                                .replace(/\.\[\]/g, '[]'); // Replace .[] with just []
-
-                        let m = mc[metadataKeyPath];
-                        if (!m) {
-                            m = mc[metadataKeyPath] = { values: [] };
-                        }
-
-                        if (typeof m === 'object' && m !== null) {
-                            if (!m.values) {
-                                m.values = [];
-                            }
-
-                            if (!m.values.includes(v)) {
-                                m.values.push(v);
-                            }
+                        if (!m.values.includes(v)) {
+                            m.values.push(v);
                         }
                     }
 
