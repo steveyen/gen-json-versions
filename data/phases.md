@@ -569,9 +569,7 @@ different rates based on experience level or performance."
 }
 ```
 
-
-
-### Data Version v8.0: Multi-Currency Support
+### Data Version v7.0: Multi-Currency Support
 
 "With our new Canadian location, we need to track costs in both USD and CAD.
 Some of our reports need to show costs in the local currency, while others
@@ -583,7 +581,7 @@ need to handle currency conversion rates that change over time."
 - Modify cost-related fields to include both local and converted amounts
 - Add currency conversion tracking to cost calculations
 
-#### Example JSON v8.0:
+#### Example JSON v7.0:
 
 ```json {
   "loc": [
@@ -669,13 +667,13 @@ This enhancement allows The Sweet Spot to:
 The system can now support future international expansion by
 simply adding new locations with their respective currencies and exchange rates.
 
-## Phase 9: Planning Enhancement
+## Phase 8: Planning Enhancement
 
 Planning just one week at a time isn't cutting it anymore,
 and they need better control over the schedule
 publication process.
 
-### Data Version v9.0: Schedule Status & Extended Planning
+### Data Version v8.0: Schedule Status & Extended Planning
 
 "We need to plan schedules further in advance and have better control
 over when schedules are visible to staff. Sometimes we need to make
@@ -687,7 +685,7 @@ schedules for longer periods, not just week by week."
 - Add `published_at` and `confirmed_at` timestamps
 - Add `version` tracking for schedule revisions
 
-#### Example JSON v9.0:
+#### Example JSON v8.0:
 
 ```json {
   "sched": [
@@ -757,7 +755,7 @@ This enhancement provides several benefits:
 The system can now support more sophisticated scheduling workflows while
 maintaining backward compatibility with existing features.
 
-## Phase 10: Status Clarification
+## Phase 9: Status Clarification
 
 The `status` field has confused folks. When an employee requests
 an assignment swap or cover, they think they're done as the `status`
@@ -766,7 +764,7 @@ the main `status` as "Scheduled", but track the proposed changes
 in other ways. Perhaps the change history already tells us the
 proposal status?
 
-### Data Version v10.0: Simplified Status Management
+### Data Version v9.0: Simplified Status Management
 
 "We need to simplify how we track assignment status. Currently, when someone
 requests a swap or cover, the status changes from 'Scheduled' to something
@@ -778,7 +776,7 @@ the change history to track any pending changes or requests."
 - Add a `pendingChanges` object to track any active requests or proposed changes
 - Enhance the `changeHistory` to better reflect the current state of requests
 
-#### Example JSON v10.0:
+#### Example JSON v9.0:
 
 ```json {
   "sched": [
