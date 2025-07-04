@@ -468,7 +468,7 @@ operations and analyze performance.
 
 "As we've grown, I need to track labor costs more precisely.
 Each role should have an associated hourly rate, and I want to
-be able to set weekly labor budgets per location. The systemx
+be able to set weekly labor budgets per location. The system
 should warn me if a schedule exceeds the budget."
 
 - Add `hourlyRate` to each `role` in the `roles` array
