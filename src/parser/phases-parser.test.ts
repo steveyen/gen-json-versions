@@ -93,10 +93,12 @@ This is phase 2 content.
         'description': {'about': 'User data schema'},
         'maxLength': {'num': 50},
         'name': {
+          'valueKinds': {'string': 1},
           'values': ['John']
         },
         'status': {
           '[]': {
+            'valueKinds': {'string': 3},
             'values': ['active', 'inactive', 'pending']
           }
         }
@@ -322,10 +324,12 @@ Content here`;
         'description': {'about': 'User data'},
         'maxLength': {'num': 50},
         'name': {
+          'valueKinds': {'string': 1},
           'values': ['John']
         },
         'address': {
           'street': {
+            'valueKinds': {'string': 1},
             'values': ['123 Main St']
           },
           'city': {
@@ -372,6 +376,7 @@ Content here`;
               'val': 'books'
             },
             'name': {
+              'valueKinds': {'string': 2},
               'values': ['item1', 'item2']
             }
           }
@@ -388,6 +393,7 @@ Content here`;
       expect(result).toEqual({
         'status': {
           '[]': {
+            'valueKinds': {'string': 3},
             'values': ['active', 'inactive', 'pending']
           }
         }
@@ -413,10 +419,12 @@ Content here`;
         'users': {
           '[]': {
             'name': {
+              'valueKinds': {'string': 2},
               'values': ['John', 'Jane']
             },
             'roles': {
               '[]': {
+                'valueKinds': {'string': 3},
                 'values': ['admin', 'user']
               }
             }
@@ -443,21 +451,25 @@ Content here`;
       expect(result).toEqual({
         'schema': {'name': 'user'},
         'name': {
+          'valueKinds': {'string': 1},
           'values': ['John']
         },
         'profile': {
           'version': {'semver': '2.0'},
           'bio': {
+            'valueKinds': {'string': 1},
             'values': ['Developer']
           },
           'skills': {
             '[]': {
+              'valueKinds': {'string': 2},
               'values': ['JavaScript', 'TypeScript']
             }
           }
         },
         'tags': {
           '[]': {
+            'valueKinds': {'string': 2},
             'values': ['dev', 'admin']
           }
         }
@@ -483,6 +495,7 @@ Content here`;
       expect(result).toEqual({
         'description': {'about': 'Test'},
         'name': {
+          'valueKinds': {'string': 1},
           'values': ['John']
         }
       });
@@ -520,18 +533,21 @@ Content here`;
           '[]': {
             'id': {'value': 'emp2'},
             'name': {
+              'valueKinds': {'string': 2},
               'values': ['John', 'Jane']
             },
             'department': {
               'code': {'value': 'HR'},
               'name': {
+                'valueKinds': {'string': 2},
                 'values': ['Information Technology', 'Human Resources']
               },
-              'teams': {
-                '[]': {
-                  'values': ['Dev', 'QA', 'Recruitment']
+                              'teams': {
+                  '[]': {
+                    'valueKinds': {'string': 3},
+                    'values': ['Dev', 'QA', 'Recruitment']
+                  }
                 }
-              }
             }
           }
         }
