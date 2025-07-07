@@ -1,6 +1,6 @@
 interface ValueKind {
     kind: string;
-    val_re: RegExp;
+    val_re?: RegExp;
     key_re?: RegExp;
     examples: string[];
     description: string;
@@ -74,16 +74,17 @@ let VALUE_KINDS: ValueKind[] = [
         description: 'UUID/GUID format'
     },
     {
-        kind: 'emp',
-        val_re: /^emp-\d+$|^employee-\d+$/i,
-        examples: ['emp-12345', 'employee-67890'],
-        description: 'Employee IDs with emp- or employee- prefix'
+        kind: 'emp-id',
+        val_re: /^emp-[\da-zA-Z]+$/,
+        key_re: /^.*EmpId$/,
+        examples: ['emp-12345'],
+        description: 'Emp IDs based on key name'
     },
     {
         kind: 'id',
-        val_re: /^[a-f0-9]{24}$|^id-\d+$/i,
-        examples: ['507f1f77bcf86cd799439011', 'id-12345'],
-        description: 'Object IDs or generic IDs'
+        key_re: /^.*Id$|^.*-id$/,
+        examples: ['emp-12345'],
+        description: 'Primary key IDs based on key name'
     },
     {
         kind: 'duration',
@@ -128,9 +129,14 @@ let VALUE_KINDS: ValueKind[] = [
 export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, any>, v: string, valueKinds?: ValueKind[]): string {
     valueKinds ||= VALUE_KINDS;
 
+    const pathKeyJoined = pathKey.join('.');
+
     // Check each kind in priority order
     for (const x of valueKinds) {
-        if (x.val_re.test(v)) {
+        if (x.val_re && x.val_re.test(v)) {
+            return x.kind;
+        }
+        if (x.key_re && x.key_re.test(pathKeyJoined)) {
             return x.kind;
         }
     }
