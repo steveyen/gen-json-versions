@@ -25,13 +25,13 @@ let VALUE_KINDS: ValueKind[] = [
         description: 'Time in HH:MM:SS or HH:MM format'
     },
     {
-        kind: 'currency',
+        kind: 'monetary',
         pattern: /^\$[\d,]+(\.\d{2})?$|^[\d,]+(\.\d{2})?\s*USD$/,
         examples: ['$1,234.56', '1234.56 USD'],
         description: 'Currency amounts with dollar sign or USD suffix'
     },
     {
-        kind: 'percentage',
+        kind: 'pct',
         pattern: /^\d+(\.\d+)?%$/,
         examples: ['25%', '12.5%'],
         description: 'Percentage values with % symbol'
@@ -82,7 +82,7 @@ let VALUE_KINDS: ValueKind[] = [
         kind: 'id',
         pattern: /^[a-f0-9]{24}$|^id-\d+$/i,
         examples: ['507f1f77bcf86cd799439011', 'id-12345'],
-        description: 'Object IDs (MongoDB-style) or generic IDs'
+        description: 'Object IDs or generic IDs'
     },
     {
         kind: 'duration',
@@ -91,7 +91,7 @@ let VALUE_KINDS: ValueKind[] = [
         description: 'Duration in hours/minutes/seconds or time format'
     },
     {
-        kind: 'location',
+        kind: 'latlon',
         pattern: /^-?\d+\.\d+,\s*-?\d+\.\d+$/,
         examples: ['40.7128, -74.0060', '51.5074, -0.1278'],
         description: 'Geographic coordinates (latitude, longitude)'
@@ -105,7 +105,7 @@ let VALUE_KINDS: ValueKind[] = [
     {
         kind: 'boolean',
         pattern: /^(true|false|yes|no|1|0)$/i,
-        examples: ['true', 'false', 'yes', 'no', '1', '0'],
+        examples: ['true', 'false', 'yes', 'no', '1', '0', 't', 'f', 'y', 'n'],
         description: 'Boolean values (true/false, yes/no, 1/0)'
     },
     {
