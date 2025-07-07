@@ -74,15 +74,20 @@ let VALUE_KINDS: ValueKind[] = [
         description: 'UUID/GUID format'
     },
     {
-        kind: 'emp-id',
-        val_re: /^emp-[\da-zA-Z]+$/,
+        kind: 'id',
+        key_re: /^id$/,
+        examples: ['emp-12345'],
+        description: 'Primary key IDs based on key name'
+    },
+    {
+        kind: 'secondary-id-emp',
         key_re: /^.*EmpId$/,
         examples: ['emp-12345'],
         description: 'Emp IDs based on key name'
     },
     {
-        kind: 'id',
-        key_re: /^.*Id$|^.*-id$/,
+        kind: 'secondary-id',
+        key_re: /^.*Id$|^.*-id$/, // TODO: Need to record the foreign name, like 'emp'?
         examples: ['emp-12345'],
         description: 'Primary key IDs based on key name'
     },
@@ -129,14 +134,14 @@ let VALUE_KINDS: ValueKind[] = [
 export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, any>, v: string, valueKinds?: ValueKind[]): string {
     valueKinds ||= VALUE_KINDS;
 
-    const pathKeyJoined = pathKey.join('.');
+    const pathKeyStr = pathKey.join('.');
 
     // Check each kind in priority order
     for (const x of valueKinds) {
         if (x.val_re && x.val_re.test(v)) {
             return x.kind;
         }
-        if (x.key_re && x.key_re.test(pathKeyJoined)) {
+        if (x.key_re && x.key_re.test(pathKeyStr)) {
             return x.kind;
         }
     }
