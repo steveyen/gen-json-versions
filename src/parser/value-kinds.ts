@@ -152,5 +152,40 @@ export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, 
     return 'unknown';
 }
 
+/**
+ * Returns the target field name for a secondary key, e.g. 'reportToEmpId' -> 'emp'
+ */
+export function secondaryKeyTarget(fieldName: string): string | null {
+    let a = splitSnakeCase(fieldName);
+    if (a.length > 1) {
+        return a[a.length - 2];
+    }
+
+    a = splitCamelCase(fieldName);
+    if (a.length > 1) {
+        return a[a.length - 2];
+    }
+
+    return null;
+}
+
+/**
+ * Splits a snake case string into an array of words
+ * @param s - The snake case string to split, e.g. 'emp_id' -> ['emp', 'id']
+ * @returns An array of words
+ */
+export function splitSnakeCase(s: string): string[] {
+    return s.split('_');
+}
+
+/**
+ * Splits a camel case string into an array of words
+ * @param s - The camel case string to split, e.g. 'empId' -> ['emp', 'id']
+ * @returns An array of words
+ */
+export function splitCamelCase(s: string): string[] {
+    return s.split(/(?=[A-Z])/).map(x => x.toLowerCase());
+}
+
 // Export the kind definitions for potential use elsewhere
 export { VALUE_KINDS };
