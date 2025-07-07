@@ -89,7 +89,7 @@ let VALUE_KINDS: ValueKind[] = [
         kind: 'secondary-id',
         key_re: /^.*Id$|^.*-id$/, // TODO: Need to record the foreign name, like 'emp'?
         examples: ['emp-12345'],
-        description: 'Primary key IDs based on key name'
+        description: 'Foreign key IDs based on key name'
     },
     {
         kind: 'duration',
