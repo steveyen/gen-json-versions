@@ -306,10 +306,11 @@ export class PhasesParser {
                         }
 
                         const valueKind = analyzeValueKind(obj, pathKey, m, v);
-
-                        m.valueKinds ||= {}
-                        m.valueKinds[valueKind] ||= 0;
-                        m.valueKinds[valueKind]++;
+                        if (valueKind) {
+                            m.valueKinds ||= {}
+                            m.valueKinds[valueKind] ||= 0;
+                            m.valueKinds[valueKind]++;
+                        }
                     }
 
                     if (typeof val === 'object' && val !== null) {

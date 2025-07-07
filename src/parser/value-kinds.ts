@@ -80,14 +80,8 @@ let VALUE_KINDS: ValueKind[] = [
         description: 'Primary key IDs based on key name'
     },
     {
-        kind: 'secondary-id-emp',
-        key_re: /^.*EmpId$/,
-        examples: ['emp-12345'],
-        description: 'Emp IDs based on key name'
-    },
-    {
         kind: 'secondary-id',
-        key_re: /^.*Id$|^.*-id$/, // TODO: Need to record the foreign name, like 'emp'?
+        key_re: /^(.+)Id$|^(.+)-id$/,
         examples: ['emp-12345'],
         description: 'Foreign key IDs based on key name'
     },
@@ -138,10 +132,13 @@ export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, 
 
     // Check each kind in priority order
     for (const x of valueKinds) {
-        if (x.val_re && x.val_re.test(v)) {
+        const mv = x.val_re && x.val_re.exec(v)
+        if (mv) {
             return x.kind;
         }
-        if (x.key_re && x.key_re.test(pathKeyStr)) {
+
+        const mk = x.key_re && x.key_re.exec(pathKeyStr)
+        if (mk) {
             return x.kind;
         }
     }
