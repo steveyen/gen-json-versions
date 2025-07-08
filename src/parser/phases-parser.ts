@@ -25,8 +25,8 @@ export interface CodeBlock {
     begLine: number;
     endLine: number;
 
-    obj?: any;
-    objMetadata?: Record<string, any>;
+    colls?: any;
+    collsMetadata?: Record<string, any>;
 }
 
 export class PhasesParser {
@@ -242,16 +242,16 @@ export class PhasesParser {
 
         jsonBlock.content = cleanseResult.result!;
 
-        jsonBlock.obj = JSON.parse(jsonBlock.content);
+        jsonBlock.colls = JSON.parse(jsonBlock.content);
 
-        jsonBlock.objMetadata = this.extractObjMetadata(jsonBlock.obj);
+        jsonBlock.collsMetadata = this.extractCollsMetadata(jsonBlock.colls);
     }
 
     /**
      * Extract metadata fields (fields starting with ^) from a JSON object,
      * and remove these metadata fields from the object.
      */
-    private static extractObjMetadata(obj: any): Record<string, any> {
+    private static extractCollsMetadata(colls: any): Record<string, any> {
         const metadata: Record<string, any> = {};
 
         function metadataPathChild(path: string[]): Record<string, any> {
@@ -321,7 +321,7 @@ export class PhasesParser {
             }
         };
 
-        processObj(obj, []);
+        processObj(colls, []);
 
         return metadata;
     }

@@ -4,7 +4,7 @@ import { EmpDatabase } from '../parser/emp-parser';
 import { Phase } from '../parser/phases-parser';
 
 export class DataGenerator {
-    constructor(private phases: Phase[], private employees: EmpDatabase) {
+    constructor(private phases: Phase[], private emps: EmpDatabase) {
     }
 
     generateData(): any[] {
@@ -16,8 +16,7 @@ export class DataGenerator {
             const data: any[] = [];
 
             for (const jsonBlock of phase.jsonBlocks) {
-                const obj = jsonBlock.obj;
-                const objMetadata = jsonBlock.objMetadata;
+                const obj = jsonBlock.colls;
 
                 for (const key in obj) {
                     const value = obj[key];

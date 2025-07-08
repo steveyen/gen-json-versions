@@ -89,7 +89,7 @@ This is phase 2 content.
       const block = phase.jsonBlocks[0];
       expect(block.content).not.toContain('// User name');
       expect(block.content).not.toContain('/* User age */');
-      expect(block.objMetadata).toEqual({
+      expect(block.collsMetadata).toEqual({
         'description': {'about': 'User data schema'},
         'maxLength': {'num': 50},
         'name': {
@@ -178,7 +178,7 @@ Content here`;
               content: '{"name": "John", "status": ["active", "inactive"]}',
               begLine: 3,
               endLine: 5,
-              objMetadata: { 'description': 'User data' }
+              collsMetadata: { 'description': 'User data' }
             }
           ]
         },
@@ -194,7 +194,7 @@ Content here`;
               content: '{"name": "Jane", "age": 25}',
               begLine: 13,
               endLine: 15,
-              objMetadata: { 'description': 'Employee data' }
+              collsMetadata: { 'description': 'Employee data' }
             }
           ]
         }
@@ -215,8 +215,8 @@ Content here`;
       const allMetadata: Record<string, any> = {};
       for (const phase of mockPhases) {
         for (const block of phase.jsonBlocks) {
-          if (block.objMetadata) {
-            Object.assign(allMetadata, block.objMetadata);
+          if (block.collsMetadata) {
+            Object.assign(allMetadata, block.collsMetadata);
           }
         }
       }
@@ -232,8 +232,8 @@ Content here`;
 
       const metadata: Record<string, any> = {};
       for (const block of phase!.jsonBlocks) {
-        if (block.objMetadata) {
-          Object.assign(metadata, block.objMetadata);
+        if (block.collsMetadata) {
+          Object.assign(metadata, block.collsMetadata);
         }
       }
 
@@ -252,7 +252,7 @@ Content here`;
           endLine: 10,
           content: 'Content',
           codeBlocks: [],
-          jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, objMetadata: {} }]
+          jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, collsMetadata: {} }]
         }
       ];
 
@@ -273,7 +273,7 @@ Content here`;
           endLine: 10,
           content: 'Content',
           codeBlocks: [],
-          jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, objMetadata: {} }]
+          jsonBlocks: [{ language: 'json', content: '{}', begLine: 1, endLine: 1, collsMetadata: {} }]
         },
         {
           version: 'v1.0',
@@ -281,7 +281,7 @@ Content here`;
           endLine: 20,
           content: 'Content',
           codeBlocks: [],
-          jsonBlocks: [{ language: 'json', content: '{}', begLine: 11, endLine: 11, objMetadata: {} }]
+          jsonBlocks: [{ language: 'json', content: '{}', begLine: 11, endLine: 11, collsMetadata: {} }]
         }
       ];
 
@@ -319,7 +319,7 @@ Content here`;
         }
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'description': {'about': 'User data'},
         'maxLength': {'num': 50},
@@ -349,7 +349,7 @@ Content here`;
         }
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'user': {
           'type': {'level': 'admin'},
@@ -368,7 +368,7 @@ Content here`;
         ]
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'items': {
           '[]': {
@@ -389,7 +389,7 @@ Content here`;
         status: ['active', 'inactive', 'pending']
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'status': {
           '[]': {
@@ -414,7 +414,7 @@ Content here`;
         ]
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'users': {
           '[]': {
@@ -447,7 +447,7 @@ Content here`;
         }
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'schema': {'name': 'user'},
         'name': {
@@ -479,7 +479,7 @@ Content here`;
     it('should handle empty objects', () => {
       const input = {};
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({});
     });
 
@@ -491,7 +491,7 @@ Content here`;
         '^description': {'about': 'Test'}
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'description': {'about': 'Test'},
         'name': {
@@ -526,7 +526,7 @@ Content here`;
         ]
       };
 
-      const result = (PhasesParser as any).extractObjMetadata(input);
+      const result = (PhasesParser as any).extractCollsMetadata(input);
       expect(result).toEqual({
         'collection': {'name': 'employees'},
         'data': {
