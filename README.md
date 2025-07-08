@@ -9,8 +9,8 @@ npm install
 ## Usage
 
 ```bash
-npm run dev -- generate -e data/employees.json -p data/phases.md -o tmp/output
-npm run dev -- generate -e data/employees.json -p data/phases.md -o tmp/output --verbose
+npm run dev -- generate -e data/emps.json -p data/phases.md -o tmp/output
+npm run dev -- generate -e data/emps.json -p data/phases.md -o tmp/output --verbose
 ```
 
 ## Development

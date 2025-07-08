@@ -6,12 +6,12 @@ import { Command } from 'commander';
 
 import { name, version } from '../package.json';
 
-import { EmployeeParser } from './parser/employee-parser';
+import { EmpParser } from './parser/emp-parser';
 import { PhasesParser } from './parser/phases-parser';
 import { DataGenerator } from './generator/data-generator';
 
 interface CLIOptions {
-  employeesFile: string;
+  empsFile: string;
   phasesFile: string;
   outputDir: string;
   verbose?: boolean;
@@ -34,7 +34,7 @@ class CLI {
     this.program
       .command('generate')
       .description('generate JSON data for sample app versioning')
-      .requiredOption('-e, --employees-file <path>', 'path to employees JSON file')
+      .requiredOption('-e, --emps-file <path>', 'path to emps JSON file')
       .requiredOption('-p, --phases-file <path>', 'path to phases markdown file')
       .requiredOption('-o, --output-dir <path>', 'output directory for generated files')
       .option('-v, --verbose', 'enable verbose debgging output')
@@ -49,7 +49,7 @@ class CLI {
       // Validate arguments
       this.validateArguments(options);
 
-      console.log(`Employee file: ${options.employeesFile}`);
+      console.log(`Emp file: ${options.empsFile}`);
       console.log(`Phases file: ${options.phasesFile}`);
       console.log(`Output dir: ${options.outputDir}`);
 
@@ -93,18 +93,18 @@ class CLI {
 
       console.log('\n🚀 Ready to proceed with data generation...');
 
-      // Load and validate employees for early sanity checking
-      console.log('\n📋 Loading employees...');
+      // Load and validate emps for early sanity checking
+      console.log('\n📋 Loading emps...');
 
-      const employeesResult = EmployeeParser.parseEmployeesFile(options.employeesFile);
-      if (employeesResult.error) {
-        throw new Error(`Failed to parse employees file: ${employeesResult.error}`);
+      const empsResult = EmpParser.parseEmpsFile(options.empsFile);
+      if (empsResult.error) {
+        throw new Error(`Failed to parse emps file: ${empsResult.error}`);
       }
 
-      const employees = employeesResult.result!;
+      const emps = empsResult.result!;
 
       // Generate data
-      const dataGenerator = new DataGenerator(phases, employees);
+      const dataGenerator = new DataGenerator(phases, emps);
       const data = dataGenerator.generateData();
 
       console.log('\n✅ Data generation completed');
@@ -137,7 +137,7 @@ class CLI {
       console.error('   - Ensure you have write access to the output directory');
     } else if (errorMessage.includes('extension')) {
       console.error('\n💡 Suggestions:');
-      console.error('   - Employee file should have .json extension');
+      console.error('   - Emp file should have .json extension');
       console.error('   - Phases file should have .md or .markdown extension');
     }
 
@@ -147,8 +147,8 @@ class CLI {
   }
 
   private validateArguments(options: CLIOptions): void {
-    // Validate employee file
-    this.validateFile('Employee', options.employeesFile, '.json');
+    // Validate emp file
+    this.validateFile('Emp', options.empsFile, '.json');
 
     // Validate phases file
     this.validateFile('Phases', options.phasesFile, '.md');
