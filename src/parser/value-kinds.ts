@@ -200,13 +200,7 @@ export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, 
         }
     }
 
-    // If it looks like a string, return 'string'
-    if (typeof v === 'string' && v.length > 0) {
-        return 'string';
-    }
-
-    // Default fallback
-    return 'unknown';
+    return typeof v;
 }
 
 /**
