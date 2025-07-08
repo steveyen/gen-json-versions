@@ -93,7 +93,7 @@ class CLI {
 
       console.log('\n🚀 Ready to proceed with data generation...');
 
-      // Load and validate emps for early sanity checking
+      // Load and validate emps
       console.log('\n📋 Loading emps...');
 
       const empsResult = EmpParser.parseEmpsFile(options.empsFile);
@@ -105,7 +105,10 @@ class CLI {
 
       // Generate data
       const dataGenerator = new DataGenerator(phases, emps);
+
       const data = dataGenerator.generateData();
+
+      console.log(JSON.stringify(data, null, 1));
 
       console.log('\n✅ Data generation completed');
 
