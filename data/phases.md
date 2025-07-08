@@ -25,7 +25,7 @@ link an `employeeName` to a `shift`.
 #### Example JSON v1.0:
 
 ```json {
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000001",
       "date": "2025-05-19",
@@ -92,7 +92,7 @@ and a `fullName`.
 #### Example JSON v2.0:
 
 ```json {
-  "emp": [
+  "emps": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -107,7 +107,7 @@ and a `fullName`.
       "contactPhone": "555-8765"
     }
   ],
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000003",
       "date": "2025-07-21",
@@ -145,7 +145,7 @@ e.g., "shift-ms001"), a `name` (e.g., "Morning Baker"),
 #### Example JSON v2.1:
 
 ```json {
-  "emp": [
+  "emps": [
     // ... (as in v2.0)
   ],
   "definedShifts": [
@@ -175,7 +175,7 @@ e.g., "shift-ms001"), a `name` (e.g., "Morning Baker"),
       "description": "Preparing ingredients and doughs for the next day."
     }
   ],
-  "sched": [
+  "scheds": [
 	  {
       "id": "sched-000004",
 	    "date": "2025-09-15",
@@ -215,7 +215,7 @@ roles are suitable for that shift."
 #### Example JSON v3.0:
 
 ```json {
-  "emp": [
+  "emps": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -256,7 +256,7 @@ roles are suitable for that shift."
       "eligibleRoles": ["Cashier"] // New field
     } // ...
   ],
-  "sched": [
+  "scheds": [
     // ... (structure remains the same, but assignments now implicitly link to
     // employees with roles and shifts with eligible roles)
   ]
@@ -279,7 +279,7 @@ scheduling someone when they are unavailable."
 #### Example JSON v3.1:
 
 ```json {
-  "emp": [
+  "emps": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -311,7 +311,7 @@ scheduling someone when they are unavailable."
   "definedShifts": [
     // ... (as in v3.0)
   ],
-  "sched": [
+  "scheds": [
     // ... (structure remains the same,
     //      but scheduling logic now needs to check unavailability)
   ]
@@ -340,10 +340,10 @@ at specific locations."
 #### Example JSON v4.0:
 
 ```json {
-  "emp": [
+  "emps": [
     // ... (as in v3.1)
   ],
-  "loc": [ // New top-level entity
+  "locs": [ // New top-level entity
     {
       "id": "loc-0001",
       "name": "Main Bakery",
@@ -373,7 +373,7 @@ at specific locations."
       "eligibleRoles": ["Cashier", "Barista"]
     } // ...
   ],
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000006",
       "date": "2025-12-01",
@@ -414,7 +414,7 @@ for the assignment)."
 ```json {
   // ... emp, loc, definedShifts as in v4.0
 
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000005",
       "date": "2026-02-02",
@@ -479,7 +479,7 @@ should warn me if a schedule exceeds the budget."
 #### Example JSON v5.0:
 
 ```json {
-  "emp": [
+  "emps": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -498,7 +498,7 @@ should warn me if a schedule exceeds the budget."
       ]
     }
   ],
-  "loc": [
+  "locs": [
     {
       "id": "loc-0001",
       "name": "Main Bakery",
@@ -509,7 +509,7 @@ should warn me if a schedule exceeds the budget."
       }
     }
   ],
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000007",
       "date": "2026-03-01",
@@ -546,7 +546,7 @@ different rates based on experience level or performance."
 #### Example JSON v6.0:
 
 ```json {
-  "emp": [
+  "emps": [
     {
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
@@ -584,7 +584,7 @@ need to handle currency conversion rates that change over time."
 #### Example JSON v7.0:
 
 ```json {
-  "loc": [
+  "locs": [
     {
       "id": "loc-0001",
       "name": "Main Bakery",
@@ -622,7 +622,7 @@ need to handle currency conversion rates that change over time."
       "endDate": null
     }
   ],
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000008",
       "date": "2026-04-01",
@@ -688,7 +688,7 @@ schedules for longer periods, not just week by week."
 #### Example JSON v8.0:
 
 ```json {
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000009",
       "date": "2025-04-01",
@@ -779,7 +779,7 @@ the change history to track any pending changes or requests."
 #### Example JSON v9.0:
 
 ```json {
-  "sched": [
+  "scheds": [
     {
       "id": "sched-000010",
       "date": "2026-05-01",
