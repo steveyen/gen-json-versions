@@ -15,7 +15,7 @@ export class DataGenerator {
 
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, coll] of Object.entries(jsonBlock.colls)) {
-                    const objObjs: any[] = [];
+                    const objObjs = outColls[collName] || [];
 
                     for (const obj of coll as any[]) {
                         objObjs.push(obj);
