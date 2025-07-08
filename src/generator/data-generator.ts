@@ -14,18 +14,18 @@ export class DataGenerator {
             const outColls: Record<string, any> = {};
 
             for (const jsonBlock of phase.jsonBlocks) {
-                for (const [collName, coll] of Object.entries(jsonBlock.colls)) {
+                for (const [collName, collExamples] of Object.entries(jsonBlock.colls)) {
                     if (collName === 'emps') {
                         continue;
                     }
 
-                    const objObjs = outColls[collName] || [];
+                    const outObjs = outColls[collName] || [];
 
-                    for (const obj of coll as any[]) {
-                        objObjs.push(obj);
+                    for (const objExample of collExamples as any[]) {
+                        outObjs.push(objExample);
                     }
 
-                    outColls[collName] = objObjs;
+                    outColls[collName] = outObjs;
                 }
             }
 
