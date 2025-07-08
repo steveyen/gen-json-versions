@@ -49,9 +49,21 @@ class CLI {
       // Validate arguments
       this.validateArguments(options);
 
-      console.log(`Emp file: ${options.empsFile}`);
+      console.log(`Emps file: ${options.empsFile}`);
       console.log(`Phases file: ${options.phasesFile}`);
       console.log(`Output dir: ${options.outputDir}`);
+
+      // Load and validate emps
+      console.log('\n📋 Loading emps...');
+
+      const empsResult = EmpParser.parseEmpsFile(options.empsFile);
+      if (empsResult.error) {
+        throw new Error(`Failed to parse emps file: ${empsResult.error}`);
+      }
+
+      const emps = empsResult.result!;
+
+      console.log('\n✅ Loading emps... done');
 
       // Load and validate phases for early sanity checking
       console.log('\n📋 Loading phases...');
@@ -64,7 +76,7 @@ class CLI {
       const phases = phasesResult.phases!;
 
       // Log loaded versions for sanity checking
-      console.log(`✅ Successfully loaded ${phases.length} phase(s):`);
+      console.log(`✅ Loading phases... done, loaded ${phases.length} phase(s):`);
 
       phases.forEach((phase, index) => {
         console.log(`\n ${index + 1}. (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
@@ -86,22 +98,12 @@ class CLI {
       // Validate phases
       const validationResult = PhasesParser.validatePhases(phases);
       if (validationResult.error) {
-        throw new Error(`Phase validation failed: ${validationResult.error}`);
+        throw new Error(`Validaing phases failed: ${validationResult.error}`);
       }
 
-      console.log('\n✅ Phase validation passed');
+      console.log('\n✅ Validaing phases... done');
 
-      console.log('\n🚀 Ready to proceed with data generation...');
-
-      // Load and validate emps
-      console.log('\n📋 Loading emps...');
-
-      const empsResult = EmpParser.parseEmpsFile(options.empsFile);
-      if (empsResult.error) {
-        throw new Error(`Failed to parse emps file: ${empsResult.error}`);
-      }
-
-      const emps = empsResult.result!;
+      console.log('\n📋 Data generation...');
 
       // Generate data
       const dataGenerator = new DataGenerator(phases, emps);
@@ -110,7 +112,7 @@ class CLI {
 
       console.log(JSON.stringify(data, null, 1));
 
-      console.log('\n✅ Data generation completed');
+      console.log('\n✅ Data generation... done');
 
       // Save data to output directory
     } catch (error) {

@@ -15,6 +15,10 @@ export class DataGenerator {
 
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, coll] of Object.entries(jsonBlock.colls)) {
+                    if (collName === 'emps') {
+                        continue;
+                    }
+
                     const objObjs = outColls[collName] || [];
 
                     for (const obj of coll as any[]) {
