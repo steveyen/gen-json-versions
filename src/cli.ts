@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
 import * as fs from 'fs';
+
+import { Command } from 'commander';
+
 import { name, version } from '../package.json';
+
+import { EmployeeParser } from './parser/employee-parser';
 import { PhasesParser } from './parser/phases-parser';
+import { DataGenerator } from './generator/data-generator';
 
 interface CLIOptions {
   employeesFile: string;
@@ -85,7 +90,26 @@ class CLI {
       }
 
       console.log('\n✅ Phase validation passed');
+
       console.log('\n🚀 Ready to proceed with data generation...');
+
+      // Load and validate employees for early sanity checking
+      console.log('\n📋 Loading employees...');
+
+      const employeesResult = EmployeeParser.parseEmployeesFile(options.employeesFile);
+      if (employeesResult.error) {
+        throw new Error(`Failed to parse employees file: ${employeesResult.error}`);
+      }
+
+      const employees = employeesResult.result!;
+
+      // Generate data
+      const dataGenerator = new DataGenerator(phases, employees);
+      const data = dataGenerator.generateData();
+
+      console.log('\n✅ Data generation completed');
+
+      // Save data to output directory
     } catch (error) {
       this.handleError(error);
     }
