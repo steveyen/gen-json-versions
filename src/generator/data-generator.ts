@@ -8,32 +8,29 @@ export class DataGenerator {
     }
 
     generateData(): any[] {
-        const result: any[] = [];
+        const outPhases: any[] = [];
 
         for (const phase of this.phases) {
-            const version = phase.version;
-
-            const data: any[] = [];
+            const outColls: Record<string, any> = {};
 
             for (const jsonBlock of phase.jsonBlocks) {
-                const obj = jsonBlock.colls;
+                for (const [collName, coll] of Object.entries(jsonBlock.colls)) {
+                    const objObjs: any[] = [];
 
-                for (const key in obj) {
-                    const value = obj[key];
+                    for (const obj of coll as any[]) {
+                        objObjs.push(obj);
+                    }
 
-                    data.push({
-                        key,
-                        value
-                    });
+                    outColls[collName] = objObjs;
                 }
             }
 
-            result.push({
-                version,
-                data
+            outPhases.push({
+                version: phase.version,
+                colls: outColls
             });
         }
 
-        return result;
+        return outPhases;
     }
 }
