@@ -20,7 +20,7 @@ export class DataGenerator {
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, collExamples] of Object.entries(jsonBlock.colls)) {
                     if (collName === 'emps') {
-                        continue;
+                        continue; // TODO: add emps to the output.
                     }
 
                     const outObjs = outColls[collName] || [];
