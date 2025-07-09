@@ -7,7 +7,11 @@ export class DataGenerator {
     constructor(private phases: Phase[], private emps: EmpDatabase) {
     }
 
-    generateData(): any[] {
+    generateData(numExamples?: number): any[] {
+        if (!numExamples) {
+            numExamples = 3;
+        }
+
         const outPhases: any[] = [];
 
         for (const phase of this.phases) {
@@ -22,7 +26,9 @@ export class DataGenerator {
                     const outObjs = outColls[collName] || [];
 
                     for (const objExample of collExamples as any[]) {
-                        outObjs.push(objExample);
+                        for (let i = 0; i < numExamples; i++) {
+                            outObjs.push(objExample);
+                        }
                     }
 
                     outColls[collName] = outObjs;
