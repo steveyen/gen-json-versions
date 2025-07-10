@@ -14,6 +14,25 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['2023-12-25T14:30:00Z', '2023-12-25 14:30:00'],
         description: 'ISO datetime or datetime with space separator',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            // Try to get the current value from the object path
+            const currentKey = pathKey[pathKey.length - 1];
+
+            const values = m && m[currentKey]?.values;
+            if (values) {
+                const value = values[n % values.length];
+                if (value && typeof value === 'string') {
+                    const d = new Date(value);
+                    if (!isNaN(d.getTime())) {
+                        // Add n days to the date
+                        d.setDate(d.getDate() + n);
+                        // Add n minutes to the date
+                        d.setMinutes(d.getMinutes() + n);
+
+                        return [true, d.toISOString()];
+                    }
+                }
+            }
+
             return [true, (new Date(n)).toISOString()];
         }
     },
@@ -156,9 +175,9 @@ let VALUE_KINDS: ValueKind[] = [
     },
     {
         kind: 'boolean',
-        val_re: /^(true|false|yes|no|1|0)$/i,
+        val_re: /^(true|false|yes|no|1|0|t|f|y|n)$/i,
         examples: ['true', 'false', 'yes', 'no', '1', '0', 't', 'f', 'y', 'n'],
-        description: 'Boolean values (true/false, yes/no, 1/0)',
+        description: 'Boolean values (true/false, yes/no, 1/0, t/f, y/n)',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
             return [true, n === 1];
         }

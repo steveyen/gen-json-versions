@@ -70,9 +70,10 @@ export class DataGenerator {
                         const kind: string = valueKindsEntries[0][0];
                         const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
 
-                        const pathKey = [fieldName]; // TODO: correct this.
+                        // TODO: The pathKey should be the full path to the field
+                        const pathKey = [fieldName];
 
-                        const okV: [boolean, any] | undefined = valueKind?.generate?.(outObj, pathKey, valueKind, exampleNum);
+                        const okV: [boolean, any] | undefined = valueKind?.generate?.(outObj, pathKey, collExampleMetadata, exampleNum);
                         if (okV) {
                             const [ok, v] = okV;
                             if (ok && v) {
