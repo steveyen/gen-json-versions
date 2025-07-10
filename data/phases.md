@@ -326,14 +326,14 @@ kiosk location! They need more robust scheduling features.
 ### Data Version v4.0: Multiple Locations
 
 "We're opening a kiosk at the farmer's market! I need to create schedules for
-different locations ('Main Bakery', 'Market Kiosk') and assign staff to shifts
-at specific locations."
+different locs ('Main Bakery', 'Market Kiosk') and assign staff to shifts
+at specific locs."
 
-- We'll introduce a new top-level array `locations`. Each location
-  will have `locationId` (e.g., "loc01") and
+- We'll introduce a new top-level array `locs`. Each location
+  will have `locId` (e.g., "loc01") and
   a `locationName` (e.g., "Main Bakery").
 
-- Add `locationId` to each `definedShift` object. This means a
+- Add `locId` to each `definedShift` object. This means a
   shift definition is now tied to a location (e.g., "Morning Baker
   at Main Bakery" is different from "Morning Kiosk Seller at Market Kiosk").
 
@@ -357,7 +357,7 @@ at specific locations."
   "definedShifts": [
     {
       "id": "shift-msb001", // More specific ID
-      "locationId": "loc-0001", // New field
+      "locId": "loc-0001", // New field
       "name": "Morning Baker - Main",
       "startTime": "06:00",
       "endTime": "14:00",
@@ -365,7 +365,7 @@ at specific locations."
       "eligibleRoles": ["Baker", "Lead Baker"]
     }, {
       "id": "shift-mkm001", // More specific ID
-      "locationId": "loc-0002", // New field
+      "locId": "loc-0002", // New field
       "name": "Morning Seller - Kiosk",
       "startTime": "08:00",
       "endTime": "13:00",
@@ -626,7 +626,7 @@ need to handle currency conversion rates that change over time."
     {
       "id": "sched-000008",
       "date": "2026-04-01",
-      "locationId": "loc-0003",
+      "locId": "loc-0003",
       "actualCost": {
         "localAmount": 1500.00,
         "localCurrency": "CAD",
@@ -665,7 +665,7 @@ This enhancement allows The Sweet Spot to:
 - Handle currency fluctuations over time while maintaining historical accuracy
 
 The system can now support future international expansion by
-simply adding new locations with their respective currencies and exchange rates.
+simply adding new locs with their respective currencies and exchange rates.
 
 ## Phase 8: Planning Enhancement
 
@@ -696,7 +696,7 @@ schedules for longer periods, not just week by week."
       "status": "Published", // "Draft", "Published", "Confirmed"
       "publishedAt": "2025-03-15T14:30:00Z",
       "confirmedAt": null,
-      "locationId": "loc-0001",
+      "locId": "loc-0001",
       "actualCost": {
         "localAmount": 1500.00,
         "localCurrency": "USD",
@@ -749,7 +749,7 @@ This enhancement provides several benefits:
 - Version tracking for schedule revisions
 - Audit trail of when schedules are published and confirmed
 - Better control over when staff can see their schedules
-- Support for planning multiple locations in advance
+- Support for planning multiple locs in advance
 - Maintains all previous functionality while adding new capabilities
 
 The system can now support more sophisticated scheduling workflows while
@@ -787,7 +787,7 @@ the change history to track any pending changes or requests."
       "status": "Published",
       "publishedAt": "2026-04-15T14:30:00Z",
       "confirmedAt": null,
-      "locationId": "loc-0001",
+      "locId": "loc-0001",
       "assignments": [
         {
           "empId": "emp-0001",

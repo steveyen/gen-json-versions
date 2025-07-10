@@ -1,82 +1,82 @@
-import { secondaryKeyTarget, splitCamelCase, splitSnakeCase } from './value-kinds';
+import { parseCollNameFromFieldName, splitCamelCase, splitSnakeCase } from './value-kinds';
 
 describe('value-kinds', () => {
     describe('secondaryKeyTarget', () => {
         describe('camelCase field names', () => {
             it('should extract target from camelCase with Id suffix', () => {
-                expect(secondaryKeyTarget('reportToEmpId')).toBe('emp');
-                expect(secondaryKeyTarget('userManagerId')).toBe('manager');
-                expect(secondaryKeyTarget('projectLeadId')).toBe('lead');
+                expect(parseCollNameFromFieldName('reportToEmpId')).toBe('emp');
+                expect(parseCollNameFromFieldName('userManagerId')).toBe('manager');
+                expect(parseCollNameFromFieldName('projectLeadId')).toBe('lead');
             });
 
             it('should extract target from camelCase with multiple words', () => {
-                expect(secondaryKeyTarget('employeeDepartmentId')).toBe('department');
-                expect(secondaryKeyTarget('customerAccountId')).toBe('account');
-                expect(secondaryKeyTarget('productCategoryId')).toBe('category');
+                expect(parseCollNameFromFieldName('employeeDepartmentId')).toBe('department');
+                expect(parseCollNameFromFieldName('customerAccountId')).toBe('account');
+                expect(parseCollNameFromFieldName('productCategoryId')).toBe('category');
             });
 
             it('should handle camelCase with single word before Id', () => {
-                expect(secondaryKeyTarget('empId')).toBe('emp');
-                expect(secondaryKeyTarget('userId')).toBe('user');
-                expect(secondaryKeyTarget('projectId')).toBe('project');
+                expect(parseCollNameFromFieldName('empId')).toBe('emp');
+                expect(parseCollNameFromFieldName('userId')).toBe('user');
+                expect(parseCollNameFromFieldName('projectId')).toBe('project');
             });
 
             it('should return null for camelCase with only Id', () => {
-                expect(secondaryKeyTarget('id')).toBeNull();
+                expect(parseCollNameFromFieldName('id')).toBeNull();
             });
 
             it('should return null for camelCase with single word', () => {
-                expect(secondaryKeyTarget('employee')).toBeNull();
-                expect(secondaryKeyTarget('user')).toBeNull();
+                expect(parseCollNameFromFieldName('employee')).toBeNull();
+                expect(parseCollNameFromFieldName('user')).toBeNull();
             });
         });
 
         describe('snake_case field names', () => {
             it('should extract target from snake_case with _id suffix', () => {
-                expect(secondaryKeyTarget('report_to_emp_id')).toBe('emp');
-                expect(secondaryKeyTarget('user_manager_id')).toBe('manager');
-                expect(secondaryKeyTarget('project_lead_id')).toBe('lead');
+                expect(parseCollNameFromFieldName('report_to_emp_id')).toBe('emp');
+                expect(parseCollNameFromFieldName('user_manager_id')).toBe('manager');
+                expect(parseCollNameFromFieldName('project_lead_id')).toBe('lead');
             });
 
             it('should extract target from snake_case with multiple words', () => {
-                expect(secondaryKeyTarget('employee_department_id')).toBe('department');
-                expect(secondaryKeyTarget('customer_account_id')).toBe('account');
-                expect(secondaryKeyTarget('product_category_id')).toBe('category');
+                expect(parseCollNameFromFieldName('employee_department_id')).toBe('department');
+                expect(parseCollNameFromFieldName('customer_account_id')).toBe('account');
+                expect(parseCollNameFromFieldName('product_category_id')).toBe('category');
             });
 
             it('should handle snake_case with single word before _id', () => {
-                expect(secondaryKeyTarget('emp_id')).toBe('emp');
-                expect(secondaryKeyTarget('user_id')).toBe('user');
-                expect(secondaryKeyTarget('project_id')).toBe('project');
+                expect(parseCollNameFromFieldName('emp_id')).toBe('emp');
+                expect(parseCollNameFromFieldName('user_id')).toBe('user');
+                expect(parseCollNameFromFieldName('project_id')).toBe('project');
             });
 
             it('should return null for snake_case with only id', () => {
-                expect(secondaryKeyTarget('id')).toBeNull();
+                expect(parseCollNameFromFieldName('id')).toBeNull();
             });
 
             it('should return null for snake_case with single word', () => {
-                expect(secondaryKeyTarget('employee')).toBeNull();
-                expect(secondaryKeyTarget('user')).toBeNull();
+                expect(parseCollNameFromFieldName('employee')).toBeNull();
+                expect(parseCollNameFromFieldName('user')).toBeNull();
             });
         });
 
         describe('edge cases', () => {
             it('should handle empty string', () => {
-                expect(secondaryKeyTarget('')).toBeNull();
+                expect(parseCollNameFromFieldName('')).toBeNull();
             });
 
             it('should handle single character', () => {
-                expect(secondaryKeyTarget('a')).toBeNull();
+                expect(parseCollNameFromFieldName('a')).toBeNull();
             });
 
             it('should handle mixed case scenarios', () => {
-                expect(secondaryKeyTarget('ReportToEmpId')).toBe('emp');
-                expect(secondaryKeyTarget('REPORT_TO_EMP_ID')).toBe('EMP');
+                expect(parseCollNameFromFieldName('ReportToEmpId')).toBe('emp');
+                expect(parseCollNameFromFieldName('REPORT_TO_EMP_ID')).toBe('EMP');
             });
 
             it('should handle numbers in field names', () => {
-                expect(secondaryKeyTarget('user123Id')).toBe('user123');
-                expect(secondaryKeyTarget('user_123_id')).toBe('123');
+                expect(parseCollNameFromFieldName('user123Id')).toBe('user123');
+                expect(parseCollNameFromFieldName('user_123_id')).toBe('123');
             });
         });
     });

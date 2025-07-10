@@ -128,7 +128,9 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['emp-12345'],
         description: 'Primary key IDs based on key name',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
-            return [true, `id-${n}`];
+            const collName = 'emp';
+
+            return [true, `${collName}-${n}`];
         }
     },
     {
@@ -137,7 +139,9 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['emp-12345'],
         description: 'Foreign key IDs based on key name',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
-            return [true, `emp-${n}`];
+            const collName = 'emp';
+
+            return [true, `${collName}-${n}`];
         }
     },
     {
@@ -226,7 +230,7 @@ export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, 
 /**
  * Returns the target field name for a secondary key, e.g. 'reportToEmpId' -> 'emp'
  */
-export function secondaryKeyTarget(fieldName: string): string | null {
+export function parseCollNameFromFieldName(fieldName: string): string | null {
     let a = splitSnakeCase(fieldName);
     if (a.length > 1) {
         return a[a.length - 2];
