@@ -14,23 +14,9 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['2023-12-25T14:30:00Z', '2023-12-25 14:30:00'],
         description: 'ISO datetime or datetime with space separator',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
-            // Try to get the current value from the object path
-            const currentKey = pathKey[pathKey.length - 1];
-
-            const values = m && m[currentKey]?.values;
-            if (values) {
-                const value = values[n % values.length];
-                if (value && typeof value === 'string') {
-                    const d = new Date(value);
-                    if (!isNaN(d.getTime())) {
-                        // Add n days to the date
-                        d.setDate(d.getDate() + n);
-                        // Add n minutes to the date
-                        d.setMinutes(d.getMinutes() + n);
-
-                        return [true, d.toISOString()];
-                    }
-                }
+            const d = dateTimeBump(valuesPickOne(m && m[pathKey[pathKey.length - 1]]?.values, n), n);
+            if (d) {
+                return [true, d.toISOString()];
             }
 
             return [true, (new Date(n)).toISOString()];
@@ -42,6 +28,11 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['2023-12-25', '12/25/2023'],
         description: 'Date in YYYY-MM-DD or MM/DD/YYYY format',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            const d = dateTimeBump(valuesPickOne(m && m[pathKey[pathKey.length - 1]]?.values, n), n);
+            if (d) {
+                return [true, d.toISOString().slice(0, 10)];
+            }
+
             return [true, (new Date(n)).toISOString().slice(0, 10)];
         }
     },
@@ -51,6 +42,11 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['14:30:00', '14:30'],
         description: 'Time in HH:MM:SS or HH:MM format',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            const d = dateTimeBump(valuesPickOne(m && m[pathKey[pathKey.length - 1]]?.values, n), n);
+            if (d) {
+                return [true, d.toISOString().slice(11, 16)];
+            }
+
             return [true, (new Date(n)).toISOString().slice(11, 16)];
         }
     },
@@ -262,5 +258,28 @@ export function splitCamelCase(s: string): string[] {
     return s.split(/(?=[A-Z])/).map(x => x.toLowerCase());
 }
 
+function valuesPickOne(values: any[], n: number): any | null {
+    if (values) {
+        return values[n % values.length];
+    }
+
+    return null;
+}
+
+function dateTimeBump(d: Date | string, n: number): Date | null {
+    if (typeof d === 'string') {
+        d = new Date(d);
+    }
+
+    if (d && !isNaN(d.getTime())) {
+        d.setDate(d.getDate() + n);
+        d.setMinutes(d.getMinutes() + n);
+        return d;
+    }
+
+    return null;
+}
+
 // Export the kind definitions for potential use elsewhere
 export { ValueKind, VALUE_KINDS, VALUE_KINDS_MAP };
+
