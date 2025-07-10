@@ -7,7 +7,7 @@ export class DataGenerator {
     constructor(private phases: Phase[], private emps: EmpDatabase) {
     }
 
-    generateData(numExamples?: number): any[] {
+    generatePhasesExampleObjs(numExamples?: number): any[] {
         if (!numExamples) {
             numExamples = 3;
         }
@@ -33,7 +33,7 @@ export class DataGenerator {
                         const collExample = collExamplesArr[i];
 
                         for (let i = 0; i < numExamples; i++) {
-                            let objExample = this.generateObjExample(phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample);
+                            let objExample = this.generatePhaseCollObj(phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample);
 
                             outObjs.push(objExample);
                         }
@@ -52,7 +52,8 @@ export class DataGenerator {
         return outPhases;
     }
 
-    private generateObjExample(phaseIndex: number, phase: Phase, jsonBlock: CodeBlock, collName: string, collExamples: any[], i: number, collExample: any): any {
+    private generatePhaseCollObj(phaseIndex: number, phase: Phase, jsonBlock: CodeBlock,
+        collName: string, collExamples: any[], collExampleIndexi: number, collExample: any): any {
         return collExample;
     }
 }

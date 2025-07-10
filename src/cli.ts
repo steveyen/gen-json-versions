@@ -108,7 +108,7 @@ class CLI {
       // Generate data
       const dataGenerator = new DataGenerator(phases, emps);
 
-      const data = dataGenerator.generateData();
+      const data = dataGenerator.generatePhasesExampleObjs();
 
       console.log(JSON.stringify(data, null, 1));
 
