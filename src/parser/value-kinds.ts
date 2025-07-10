@@ -4,7 +4,7 @@ interface ValueKind {
     key_re?: RegExp;
     examples: string[];
     description: string;
-    generate?: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => [boolean, any];
+    generate?: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => [boolean, any];
 }
 
 let VALUE_KINDS: ValueKind[] = [
@@ -13,8 +13,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})?$|^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d+)?$/,
         examples: ['2023-12-25T14:30:00Z', '2023-12-25 14:30:00'],
         description: 'ISO datetime or datetime with space separator',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, (new Date(seed)).toISOString()];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, (new Date(n)).toISOString()];
         }
     },
     {
@@ -22,8 +22,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\d{4}-\d{2}-\d{2}$|^\d{2}\/\d{2}\/\d{4}$/,
         examples: ['2023-12-25', '12/25/2023'],
         description: 'Date in YYYY-MM-DD or MM/DD/YYYY format',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, (new Date(seed)).toISOString().slice(0, 10)];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, (new Date(n)).toISOString().slice(0, 10)];
         }
     },
     {
@@ -31,8 +31,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\d{2}:\d{2}:\d{2}(\.\d+)?$|^\d{2}:\d{2}$/,
         examples: ['14:30:00', '14:30'],
         description: 'Time in HH:MM:SS or HH:MM format',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, (new Date(seed)).toISOString().slice(11, 16)];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, (new Date(n)).toISOString().slice(11, 16)];
         }
     },
     {
@@ -40,8 +40,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\$[\d,]+(\.\d{2})?$|^[\d,]+(\.\d{2})?\s*USD$/,
         examples: ['$1,234.56', '1234.56 USD'],
         description: 'Currency amounts with dollar sign or USD suffix',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `$${seed.toFixed(2)}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `$${n.toFixed(2)}`];
         }
     },
     {
@@ -49,8 +49,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\d+(\.\d+)?%$/,
         examples: ['25%', '12.5%'],
         description: 'Percentage values with % symbol',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `${seed.toFixed(2)}%`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `${n.toFixed(2)}%`];
         }
     },
     {
@@ -58,8 +58,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\+?[\d\s\-\(\)]{10,}$/,
         examples: ['+1-555-123-4567', '(555) 123-4567'],
         description: 'Phone numbers with various formatting',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `+1-555-123-${seed.toString().padStart(3, '0')}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `+1-555-123-${n.toString().padStart(3, '0')}`];
         }
     },
     {
@@ -67,8 +67,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         examples: ['user@example.com', 'john.doe@company.org'],
         description: 'Email addresses',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `user${seed}@example.com`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `user${n}@example.com`];
         }
     },
     {
@@ -76,8 +76,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^https?:\/\/.+|^www\..+/,
         examples: ['https://example.com', 'www.google.com'],
         description: 'URLs starting with http/https or www',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `https://example.com/${seed}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `https://example.com/${n}`];
         }
     },
     {
@@ -85,8 +85,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^(\d{1,3}\.){3}\d{1,3}$/,
         examples: ['192.168.1.1', '10.0.0.1'],
         description: 'IPv4 addresses',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `192.168.1.${seed}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `192.168.1.${n}`];
         }
     },
     {
@@ -94,8 +94,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/,
         examples: ['00:1B:44:11:3A:B7', '00-1B-44-11-3A-B7'],
         description: 'MAC addresses with colon or dash separators',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `00:1B:44:11:3A:B${seed.toString().padStart(2, '0')}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `00:1B:44:11:3A:B${n.toString().padStart(2, '0')}`];
         }
     },
     {
@@ -103,8 +103,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
         examples: ['550e8400-e29b-41d4-a716-446655440000'],
         description: 'UUID/GUID format',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `550e8400-e29b-41d4-a716-446655${seed.toString().padStart(6, '0')}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `550e8400-e29b-41d4-a716-446655${n.toString().padStart(6, '0')}`];
         }
     },
     {
@@ -112,8 +112,8 @@ let VALUE_KINDS: ValueKind[] = [
         key_re: /^id$/,
         examples: ['emp-12345'],
         description: 'Primary key IDs based on key name',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `id-${seed}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `id-${n}`];
         }
     },
     {
@@ -121,8 +121,8 @@ let VALUE_KINDS: ValueKind[] = [
         key_re: /^(.+)Id$|^(.+)-id$/,
         examples: ['emp-12345'],
         description: 'Foreign key IDs based on key name',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, `emp-${seed}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, `emp-${n}`];
         }
     },
     {
@@ -130,9 +130,9 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\d+[dhms]$|^\d+:\d+:\d+$/,
         examples: ['2h30m', '1:30:45'],
         description: 'Duration in hours/minutes/seconds or time format',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            seed = Math.max(0, Math.min(seed, 24));
-            return [true, `${seed}h${seed}m${seed}s`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            n = Math.max(0, Math.min(n, 24));
+            return [true, `${n}h${n}m${n}s`];
         }
     },
     {
@@ -140,9 +140,9 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^-?\d+\.\d+,\s*-?\d+\.\d+$/,
         examples: ['40.7128, -74.0060', '51.5074, -0.1278'],
         description: 'Geographic coordinates (latitude, longitude)',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            seed = Math.max(-90, Math.min(seed, 90));
-            return [true, `${seed}, ${seed}`];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            n = Math.max(-90, Math.min(n, 90));
+            return [true, `${n}, ${n}`];
         }
     },
     {
@@ -150,8 +150,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^\d+(\.\d+)?$/,
         examples: ['123', '3.14159'],
         description: 'Numeric values (integers and decimals)',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, seed];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, n];
         }
     },
     {
@@ -159,8 +159,8 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^(true|false|yes|no|1|0)$/i,
         examples: ['true', 'false', 'yes', 'no', '1', '0', 't', 'f', 'y', 'n'],
         description: 'Boolean values (true/false, yes/no, 1/0)',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
-            return [true, seed === 1];
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            return [true, n === 1];
         }
     },
     {
@@ -168,11 +168,16 @@ let VALUE_KINDS: ValueKind[] = [
         val_re: /^.*,.*$/,
         examples: ['apple,banana,orange', 'red,green,blue'],
         description: 'Comma-separated lists',
-        generate: (obj: any, pathKey: string[], m: Record<string, any>, seed: number) => {
+        generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
             return [true, `apple,banana,orange`];
         }
     }
 ];
+
+const VALUE_KINDS_MAP = VALUE_KINDS.reduce((acc, x) => {
+    acc[x.kind] = x;
+    return acc;
+}, {} as Record<string, ValueKind>);
 
 /**
  * Analyzes a string value to determine its semantic type/kind
@@ -239,4 +244,4 @@ export function splitCamelCase(s: string): string[] {
 }
 
 // Export the kind definitions for potential use elsewhere
-export { VALUE_KINDS };
+export { ValueKind, VALUE_KINDS, VALUE_KINDS_MAP };

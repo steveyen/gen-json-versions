@@ -2,12 +2,13 @@
 
 import { EmpDatabase } from '../parser/emp-parser';
 import { Phase, CodeBlock } from '../parser/phases-parser';
+import { ValueKind, VALUE_KINDS_MAP } from '../parser/value-kinds';
 
 export class DataGenerator {
     constructor(private phases: Phase[], private emps: EmpDatabase) {
     }
 
-    generatePhasesExampleObjs(numExamples?: number): any[] {
+    generatePhasesCollsObjs(numExamples?: number): any[] {
         if (!numExamples) {
             numExamples = 3;
         }
@@ -32,8 +33,8 @@ export class DataGenerator {
                     for (let i = 0; i < collExamplesArr.length; i++) {
                         const collExample = collExamplesArr[i];
 
-                        for (let i = 0; i < numExamples; i++) {
-                            let objExample = this.generatePhaseCollObj(phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample);
+                        for (let j = 0; j < numExamples; j++) {
+                            let objExample = this.generatePhaseCollObj(phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample, j);
 
                             outObjs.push(objExample);
                         }
@@ -53,7 +54,36 @@ export class DataGenerator {
     }
 
     private generatePhaseCollObj(phaseIndex: number, phase: Phase, jsonBlock: CodeBlock,
-        collName: string, collExamples: any[], collExampleIndexi: number, collExample: any): any {
-        return collExample;
+        collName: string, collExamples: any[], collExampleIndex: number, collExample: any,
+        exampleNum: number): any {
+        const collExampleMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
+
+        let outObj: Record<string, any> = {};
+
+        if (collExampleMetadata) {
+            for (const [fieldName, fieldMetadata] of Object.entries(collExampleMetadata)) {
+                const valueKinds = (fieldMetadata as any).valueKinds;
+
+                if (valueKinds && typeof valueKinds === 'object') {
+                    const valueKindsEntries = Object.entries(valueKinds);
+                    if (valueKindsEntries.length > 0) {
+                        const kind: string = valueKindsEntries[0][0];
+                        const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
+
+                        const pathKey = [fieldName]; // TODO: correct this.
+
+                        const okV: [boolean, any] | undefined = valueKind?.generate?.(outObj, pathKey, valueKind, exampleNum);
+                        if (okV) {
+                            const [ok, v] = okV;
+                            if (ok && v) {
+                                outObj[fieldName] = v;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return outObj;
     }
 }

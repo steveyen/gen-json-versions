@@ -125,6 +125,7 @@ class CLI {
 
     console.error('\n❌ Error occurred:');
     console.error(`   ${errorMessage}`);
+    console.error(`   ${error instanceof Error ? error.stack : ''}`);
 
     // Provide helpful suggestions based on error type
     if (errorMessage.includes('not found')) {
