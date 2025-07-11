@@ -124,7 +124,7 @@ let VALUE_KINDS: ValueKind[] = [
     },
     {
         kind: 'id',
-        key_re: /^id$/,
+        key_re: /^.*\.id$/,
         examples: ['emp-12345'],
         description: 'Primary key IDs based on key name',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
@@ -155,7 +155,7 @@ let VALUE_KINDS: ValueKind[] = [
         }
     },
     {
-        kind: 'latlon',
+        kind: 'lat-lon',
         val_re: /^-?\d+\.\d+,\s*-?\d+\.\d+$/,
         examples: ['40.7128, -74.0060', '51.5074, -0.1278'],
         description: 'Geographic coordinates (latitude, longitude)',
@@ -213,13 +213,13 @@ export function analyzeValueKind(obj: any, pathKey: string[], m: Record<string, 
 
     // Check each kind in priority order
     for (const x of valueKinds) {
-        const mv = x.val_re && x.val_re.exec(v)
-        if (mv) {
+        const mk = x.key_re && x.key_re.exec(pathKeyStr)
+        if (mk) {
             return x.kind;
         }
 
-        const mk = x.key_re && x.key_re.exec(pathKeyStr)
-        if (mk) {
+        const mv = x.val_re && x.val_re.exec(v)
+        if (mv) {
             return x.kind;
         }
     }
