@@ -128,7 +128,9 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['emp-12345'],
         description: 'Primary key IDs based on key name',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
-            const collName = 'emp';
+            const collName = pathKey[0];
+
+            console.log('hhh', obj, pathKey, m, n);
 
             return [true, `${collName}-${n}`];
         }
@@ -139,7 +141,9 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['emp-12345'],
         description: 'Foreign key IDs based on key name',
         generate: (obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
-            const collName = 'emp';
+            const collName = pathKey[0];
+
+            console.log('iii', obj, pathKey, m, n);
 
             return [true, `${collName}-${n}`];
         }
