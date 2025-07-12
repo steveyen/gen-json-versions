@@ -128,9 +128,13 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['emp-12345'],
         description: 'Primary key IDs based on key name',
         generate: (colls: any, obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
-            const collName = pathKey[0].replace(/s$/, '');
+            const collName = pathKey[0];
 
-            return [true, `${collName}-${n}`];
+            const collNameSingular = collName.replace(/s$/, '');
+
+            const i = (colls[collName] || []).length;
+
+            return [true, `${collNameSingular}-${String(i).padStart(5, '0')}`];
         }
     },
     {
