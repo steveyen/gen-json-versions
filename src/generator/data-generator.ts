@@ -13,12 +13,14 @@ export class DataGenerator {
             numExamples = 3;
         }
 
+        const outColls: Record<string, any> = {};
+
         const outPhases: any[] = [];
 
         for (let phaseIndex = 0; phaseIndex < this.phases.length; phaseIndex++) {
             const phase = this.phases[phaseIndex];
 
-            const outColls: Record<string, any> = {};
+            const outPhaseColls: Record<string, any> = {};
 
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, collExamples] of Object.entries(jsonBlock.colls)) {
@@ -26,7 +28,9 @@ export class DataGenerator {
                         continue; // TODO: add emps to the output.
                     }
 
-                    const outObjs = outColls[collName] || [];
+                    const outColl = outColls[collName] = outColls[collName] || [];
+
+                    const outPhaseColl = outPhaseColls[collName] = outPhaseColls[collName] || [];
 
                     const collExamplesArr = collExamples as any[];
 
@@ -34,26 +38,27 @@ export class DataGenerator {
                         const collExample = collExamplesArr[i];
 
                         for (let j = 0; j < numExamples; j++) {
-                            let objExample = this.generatePhaseCollObj(phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample, j);
+                            let objExample = this.generatePhaseCollObj(outColls, phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample, j);
 
-                            outObjs.push(objExample);
+                            outColl.push(objExample);
+
+                            outPhaseColl.push(objExample);
                         }
                     }
-
-                    outColls[collName] = outObjs;
                 }
             }
 
             outPhases.push({
                 version: phase.version,
-                colls: outColls
+                colls: outPhaseColls
             });
         }
 
         return outPhases;
     }
 
-    private generatePhaseCollObj(phaseIndex: number, phase: Phase, jsonBlock: CodeBlock,
+    private generatePhaseCollObj(outColls: Record<string, any>,
+        phaseIndex: number, phase: Phase, jsonBlock: CodeBlock,
         collName: string, collExamples: any[], collExampleIndex: number, collExample: any,
         exampleNum: number): any {
         const collExampleMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
@@ -75,7 +80,7 @@ export class DataGenerator {
                         // TODO: The pathKey should be the full path to the field
                         const pathKey = [collName, '[]', fieldName];
 
-                        const okV: [boolean, any] | undefined = valueKind?.generate?.(outObj, pathKey, collExampleMetadata, exampleNum);
+                        const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj, pathKey, collExampleMetadata, exampleNum);
                         if (okV) {
                             const [ok, v] = okV;
                             if (ok && v) {
