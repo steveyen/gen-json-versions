@@ -73,12 +73,11 @@ export class DataGenerator {
                 if (valueKinds && typeof valueKinds === 'object') {
                     const valueKindsEntries = Object.entries(valueKinds);
                     if (valueKindsEntries.length > 0) {
-                        const kind: string = valueKindsEntries[0][0];
+                        const kind: string = valueKindsEntries[0][0]; // Ex: 'id'.
+
                         const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
 
-                        console.log('ggg', collName, fieldName, kind, valueKind);
-
-                        // TODO: The pathKey should be the full path to the field
+                        // TODO: The pathKey should be the full path to the field?
                         const pathKey = [collName, '[]', fieldName];
 
                         const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj, pathKey, collExampleMetadata, exampleNum);
