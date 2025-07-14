@@ -147,7 +147,16 @@ let VALUE_KINDS: ValueKind[] = [
 
             const collName = parseCollNameFromFieldName(fieldName);
 
-            return [true, `${collName}-${n}`];
+            const collNamePlural = collName + 's';
+
+            const coll = colls[collNamePlural] || [];
+
+            let i = n % coll.length;
+            if (i >= coll.length) {
+                return [false, null];
+            }
+
+            return [true, `${collName}-${String(i).padStart(5, '0')}`];
         }
     },
     {
