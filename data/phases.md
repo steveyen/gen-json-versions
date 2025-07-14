@@ -20,7 +20,7 @@ and their assigned shift (e.g., Morning Bake, Afternoon Cashier, etc)."
 To start, we'll have multiple JSON objects, one JSON document per
 daily schedule. Each schedule object will specify the `date`
 and an array of `assignments`. Each `assignment` will
-link an `employeeName` to a `shift`.
+link an `empName` to a `shift`.
 
 #### Example JSON v1.0:
 
@@ -31,7 +31,7 @@ link an `employeeName` to a `shift`.
       "date": "2025-05-19",
       "assignments": [
         {
-          "employeeName": "Alice Wonderland",
+          "empName": "Alice Wonderland",
           "shift": "Morning Bake (6 AM - 2 PM)",
           "^shift": {
             "values": [
@@ -42,7 +42,7 @@ link an `employeeName` to a `shift`.
           }
         },
         {
-          "employeeName": "Bob The Baker",
+          "empName": "Bob The Baker",
           "shift": "Afternoon Cashier (12 PM - 8 PM)"
         }
       ]
@@ -52,11 +52,11 @@ link an `employeeName` to a `shift`.
       "date": "2025-05-20",
       "assignments": [
         {
-          "employeeName": "Alice Wonderland",
+          "empName": "Alice Wonderland",
           "shift": "Morning Bake (6 AM - 2 PM)"
         },
         {
-          "employeeName": "Charlie Chocolatier",
+          "empName": "Charlie Chocolatier",
           "shift": "Afternoon Cashier (12 PM - 8 PM)"
         }
       ]
@@ -87,7 +87,7 @@ perhaps a number or a short string like "emp-0001")
 and a `fullName`.
 
 - From now on, a schedule will refer to `empId`
-  instead of `employeeName`.
+  instead of `empName`.
 
 #### Example JSON v2.0:
 
@@ -113,7 +113,7 @@ and a `fullName`.
       "date": "2025-07-21",
       "assignments": [
         {
-          "empId": "emp-0001", // Changed from employeeName
+          "empId": "emp-0001", // Changed from empName
           "shift": "Morning Bake (6 AM - 2 PM)"
         }, {
           "empId": "emp-0002",
