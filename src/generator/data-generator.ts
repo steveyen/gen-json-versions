@@ -83,7 +83,7 @@ export class DataGenerator {
                         const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj, pathKey, collExampleMetadata, exampleNum);
                         if (okV) {
                             const [ok, v] = okV;
-                            if (ok && v) {
+                            if (ok) {
                                 outObj[fieldName] = v;
                             }
                         }
