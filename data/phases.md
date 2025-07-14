@@ -606,8 +606,9 @@ need to handle currency conversion rates that change over time."
       }
     }
   ],
-  "exchangeRates": [
+  "exrates": [
     {
+      "id": "exrate-0001",
       "fromCurrency": "CAD",
       "toCurrency": "USD",
       "rate": 0.75,
@@ -615,6 +616,7 @@ need to handle currency conversion rates that change over time."
       "endDate": "2025-03-31"
     },
     {
+      "id": "exrate-0002",
       "fromCurrency": "CAD",
       "toCurrency": "USD",
       "rate": 0.73,
