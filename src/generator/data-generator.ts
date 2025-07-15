@@ -93,7 +93,8 @@ export class DataGenerator {
 
                     const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
 
-                    const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj, pathKey, collExampleMetadata, exampleNum);
+                    const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj,
+                        pathKey, collExampleMetadata, exampleNum);
                     if (okV) {
                         const [ok, v] = okV;
                         if (ok) {
