@@ -64,34 +64,58 @@ export class DataGenerator {
         exampleNum: number): any {
         const collExampleMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
 
-        let outObj: Record<string, any> = {};
+        let outObjResult: Record<string, any> = {};
 
-        if (collExampleMetadata) {
-            for (const [fieldName, fieldMetadata] of Object.entries(collExampleMetadata)) {
-                const valueKinds = (fieldMetadata as any).valueKinds;
+        // Recursive.
+        const processField = (pathKey: string[], fieldName: string, fieldMetadata: any, outObj: Record<string, any>) => {
+            console.log("^^^", pathKey, fieldName, JSON.stringify(fieldMetadata, null, 1));
 
-                if (valueKinds && typeof valueKinds === 'object') {
-                    const valueKindsEntries = Object.entries(valueKinds);
-                    if (valueKindsEntries.length > 0) {
-                        const kind: string = valueKindsEntries[0][0]; // Ex: 'id'.
+            const valueKinds = fieldMetadata.valueKinds;
+            if (valueKinds &&
+                typeof valueKinds === 'object') {
+                const valueKindsEntries = Object.entries(valueKinds);
+                if (valueKindsEntries.length > 0) {
+                    // TODO: Use valueKindEntries better -- perhaps finding item with max entries?
+                    const kind: string = valueKindsEntries[0][0]; // Ex: 'id'.
 
-                        const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
+                    const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
 
-                        // TODO: The pathKey should be the full path to the field?
-                        const pathKey = [collName, '[]', fieldName];
-
-                        const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj, pathKey, collExampleMetadata, exampleNum);
-                        if (okV) {
-                            const [ok, v] = okV;
-                            if (ok) {
-                                outObj[fieldName] = v;
-                            }
+                    const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj, pathKey, collExampleMetadata, exampleNum);
+                    if (okV) {
+                        const [ok, v] = okV;
+                        if (ok) {
+                            outObj[fieldName] = v;
                         }
                     }
+                }
+
+                return;
+            }
+
+            const subFieldsMetadata = fieldMetadata['[]'];
+            if (subFieldsMetadata) {
+                outObj[fieldName] = [];
+
+                for (let i = 0; i < 2; i++) {
+                    const outObjSub = {};
+
+                    for (const [subFieldName, subFieldMetadata] of Object.entries(subFieldsMetadata)) {
+                        processField(pathKey.concat('[]', subFieldName), subFieldName, subFieldMetadata, outObjSub);
+                    }
+
+                    outObj[fieldName].push(outObjSub);
                 }
             }
         }
 
-        return outObj;
+        if (collExampleMetadata) {
+            for (const [fieldName, fieldMetadata] of Object.entries(collExampleMetadata)) {
+                const pathKey = [collName, '[]', fieldName];
+
+                processField(pathKey, fieldName, fieldMetadata, outObjResult);
+            }
+        }
+
+        return outObjResult;
     }
 }
