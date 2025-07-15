@@ -23,7 +23,8 @@ export class DataGenerator {
             const outPhaseColls: Record<string, any> = {};
 
             // Add some more emps from the emp database.
-            const empsToAdd = this.emps.emps.slice(0, Math.floor(this.emps.emps.length / this.phases.length));
+            const empsToAddNum = Math.floor(this.emps.emps.length / this.phases.length);
+            const empsToAdd = this.emps.emps.slice(empsToAddNum * phaseIndex, empsToAddNum * (phaseIndex + 1));
             for (const emp of empsToAdd) {
                 outColls.emps = outColls.emps || [];
                 outColls.emps.push(emp);
