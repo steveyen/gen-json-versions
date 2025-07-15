@@ -75,7 +75,7 @@ export class DataGenerator {
         phaseIndex: number, jsonBlock: CodeBlock,
         collName: string, collExamples: any[], collExampleIndex: number, collExample: any,
         exampleNum: number): any {
-        const collExampleMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
+        const fieldsMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
 
         let outObjResult: Record<string, any> = {};
 
@@ -94,7 +94,7 @@ export class DataGenerator {
                     const valueKind: ValueKind = VALUE_KINDS_MAP[kind];
 
                     const okV: [boolean, any] | undefined = valueKind?.generate?.(outColls, outObj,
-                        pathKey, collExampleMetadata, exampleNum);
+                        pathKey, fieldsMetadata, exampleNum);
                     if (okV) {
                         const [ok, v] = okV;
                         if (ok) {
@@ -122,8 +122,8 @@ export class DataGenerator {
             }
         }
 
-        if (collExampleMetadata) {
-            for (const [fieldName, fieldMetadata] of Object.entries(collExampleMetadata)) {
+        if (fieldsMetadata) {
+            for (const [fieldName, fieldMetadata] of Object.entries(fieldsMetadata)) {
                 const pathKey = [collName, '[]', fieldName];
 
                 processField(pathKey, fieldName, fieldMetadata, outObjResult);

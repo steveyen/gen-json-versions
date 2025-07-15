@@ -305,7 +305,7 @@ export class PhasesParser {
                             m.values.push(v);
                         }
 
-                        const valueKind = analyzeValueKind(obj, pathKey, m, v);
+                        const valueKind = analyzeValueKind(obj, pathKey, v);
                         if (valueKind) {
                             m.valueKinds ||= {}
                             m.valueKinds[valueKind] ||= 0;
