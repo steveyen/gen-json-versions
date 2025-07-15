@@ -38,7 +38,9 @@ export class DataGenerator {
                         const collExample = collExamplesArr[i];
 
                         for (let j = 0; j < numExamplesPerPhase; j++) {
-                            let objExample = this.generatePhaseCollObj(outColls, phaseIndex, phase, jsonBlock, collName, collExamplesArr, i, collExample,
+                            let objExample = this.generatePhaseCollObj(outColls,
+                                phaseIndex, phase, jsonBlock,
+                                collName, collExamplesArr, i, collExample,
                                 outColl.length);
 
                             outColl.push(objExample);

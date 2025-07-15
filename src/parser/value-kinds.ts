@@ -151,7 +151,7 @@ let VALUE_KINDS: ValueKind[] = [
 
             const coll = colls[collNamePlural] || [];
 
-            let i = n % coll.length;
+            let i = n % Math.max(1, coll.length);
             if (i >= coll.length) {
                 return [false, null];
             }
