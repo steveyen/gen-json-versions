@@ -208,7 +208,7 @@ let VALUE_KINDS: ValueKind[] = [
     }
 ];
 
-const VALUE_KINDS_MAP = VALUE_KINDS.reduce((acc, x) => {
+let VALUE_KINDS_MAP = VALUE_KINDS.reduce((acc, x) => {
     acc[x.kind] = x;
     return acc;
 }, {} as Record<string, ValueKind>);
