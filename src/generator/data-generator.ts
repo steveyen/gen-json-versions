@@ -50,7 +50,7 @@ export class DataGenerator {
 
                         for (let j = 0; j < numExamplesPerPhase; j++) {
                             let objExample = this.generatePhaseCollObj(outColls,
-                                phaseIndex, phase, jsonBlock,
+                                phaseIndex, jsonBlock,
                                 collName, collExamplesArr, i, collExample,
                                 outColl.length);
 
@@ -72,7 +72,7 @@ export class DataGenerator {
     }
 
     private generatePhaseCollObj(outColls: Record<string, any>,
-        phaseIndex: number, phase: Phase, jsonBlock: CodeBlock,
+        phaseIndex: number, jsonBlock: CodeBlock,
         collName: string, collExamples: any[], collExampleIndex: number, collExample: any,
         exampleNum: number): any {
         const collExampleMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
