@@ -76,7 +76,7 @@ class CLI {
       const phases = phasesResult.phases!;
 
       // Log loaded versions for sanity checking
-      console.log(`✅ Loading phases... done, loaded ${phases.length} phase(s):`);
+      console.log(`\n✅ Loading phases... done, loaded ${phases.length} phase(s):`);
 
       if (options.verbose) {
         phases.forEach((phase, index) => {
@@ -98,6 +98,8 @@ class CLI {
       }
 
       // Validate phases
+      console.log('\n📋 Validating phases...');
+
       const validationResult = PhasesParser.validatePhases(phases);
       if (validationResult.error) {
         throw new Error(`Validaing phases failed: ${validationResult.error}`);
