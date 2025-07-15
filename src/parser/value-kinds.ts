@@ -208,6 +208,7 @@ let VALUE_KINDS: ValueKind[] = [
     },
     {
         kind: 'string',
+        // NOTE: No val_re / key_re as a string is a default case.
         generate: (colls: any, obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
             const fieldName = pathKey[pathKey.length - 1];
             const fieldMetadata = m[fieldName];
