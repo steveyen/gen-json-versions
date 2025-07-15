@@ -2,8 +2,8 @@ interface ValueKind {
     kind: string;
     val_re?: RegExp;
     key_re?: RegExp;
-    examples: string[];
-    description: string;
+    examples?: string[];
+    description?: string;
     generate?: (colls: any, obj: any, pathKey: string[], m: Record<string, any>, n: number) => [boolean, any];
 }
 
@@ -204,6 +204,21 @@ let VALUE_KINDS: ValueKind[] = [
         description: 'Comma-separated lists',
         generate: (colls: any, obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
             return [true, `apple,banana,orange`];
+        }
+    },
+    {
+        kind: 'string',
+        generate: (colls: any, obj: any, pathKey: string[], m: Record<string, any>, n: number) => {
+            const fieldName = pathKey[pathKey.length - 1];
+            const fieldMetadata = m[fieldName];
+            if (fieldMetadata) {
+                const values = fieldMetadata.values;
+                if (values && Array.isArray(values) && values.length > 0) {
+                    return [true, values[n % values.length]];
+                }
+            }
+
+            return [false, null]; // TOOD: Allow NULL'able?
         }
     }
 ];
