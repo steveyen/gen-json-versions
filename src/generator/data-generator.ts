@@ -22,6 +22,16 @@ export class DataGenerator {
 
             const outPhaseColls: Record<string, any> = {};
 
+            // Add some more emps from the emp database.
+            const empsToAdd = this.emps.emps.slice(0, Math.floor(this.emps.emps.length / this.phases.length));
+            for (const emp of empsToAdd) {
+                outColls.emps = outColls.emps || [];
+                outColls.emps.push(emp);
+
+                outPhaseColls.emps = outPhaseColls.emps || [];
+                outPhaseColls.emps.push(emp);
+            }
+
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, collExamples] of Object.entries(jsonBlock.colls)) {
                     if (collName === 'emps') {
