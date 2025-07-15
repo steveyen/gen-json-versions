@@ -78,22 +78,24 @@ class CLI {
       // Log loaded versions for sanity checking
       console.log(`✅ Loading phases... done, loaded ${phases.length} phase(s):`);
 
-      phases.forEach((phase, index) => {
-        console.log(`\n ${index + 1}. (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
+      if (options.verbose) {
+        phases.forEach((phase, index) => {
+          console.log(`\n ${index + 1}. (${phase.version}) - ${phase.jsonBlocks.length} JSON block(s)`);
 
-        // Pretty-print JSON blocks if verbose mode is enabled
-        if (options.verbose) {
-          console.log(`\n    📄 JSON Blocks for version "${phase.version}":`);
+          // Pretty-print JSON blocks if verbose mode is enabled
+          if (options.verbose) {
+            console.log(`\n    📄 JSON Blocks for version "${phase.version}":`);
 
-          phase.jsonBlocks.forEach((block, blockIndex) => {
-            console.log(`\nJSON Block ${blockIndex + 1}:`);
-            console.log(JSON.stringify(block.colls, null, 1));
+            phase.jsonBlocks.forEach((block, blockIndex) => {
+              console.log(`\nJSON Block ${blockIndex + 1}:`);
+              console.log(JSON.stringify(block.colls, null, 1));
 
-            console.log(`\nmetadata JSON Block ${blockIndex + 1}:`);
-            console.log(JSON.stringify(block.collsMetadata, null, 1));
-          });
-        }
-      });
+              console.log(`\nmetadata JSON Block ${blockIndex + 1}:`);
+              console.log(JSON.stringify(block.collsMetadata, null, 1));
+            });
+          }
+        });
+      }
 
       // Validate phases
       const validationResult = PhasesParser.validatePhases(phases);
