@@ -23,11 +23,11 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['2023-12-25T14:30:00Z', '2023-12-25 14:30:00'],
         description: 'ISO datetime or datetime with space separator',
         generate: (params: ValueGenerate) => {
-            const { pathKey, fieldsMetadata, n } = params;
+            const { pathKey, fieldsMetadata, n, nSub } = params;
             const fieldName = pathKey[pathKey.length - 1];
             const fieldMetadata = fieldsMetadata[fieldName];
 
-            const d = dateTimeBump(valuesPickOne(fieldMetadata?.values, n), n);
+            const d = dateTimeBump(valuesPickOne(fieldMetadata?.values, n), n, nSub);
             if (d) {
                 return [true, d.toISOString()];
             }
@@ -41,11 +41,11 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['2023-12-25', '12/25/2023'],
         description: 'Date in YYYY-MM-DD or MM/DD/YYYY format',
         generate: (params: ValueGenerate) => {
-            const { pathKey, fieldsMetadata, n } = params;
+            const { pathKey, fieldsMetadata, n, nSub } = params;
             const fieldName = pathKey[pathKey.length - 1];
             const fieldMetadata = fieldsMetadata[fieldName];
 
-            const d = dateTimeBump(valuesPickOne(fieldMetadata?.values, n), n);
+            const d = dateTimeBump(valuesPickOne(fieldMetadata?.values, n), n, nSub);
             if (d) {
                 return [true, d.toISOString().slice(0, 10)];
             }
@@ -59,11 +59,11 @@ let VALUE_KINDS: ValueKind[] = [
         examples: ['14:30:00', '14:30'],
         description: 'Time in HH:MM:SS or HH:MM format',
         generate: (params: ValueGenerate) => {
-            const { pathKey, fieldsMetadata, n } = params;
+            const { pathKey, fieldsMetadata, n, nSub } = params;
             const fieldName = pathKey[pathKey.length - 1];
             const fieldMetadata = fieldsMetadata[fieldName];
 
-            const d = dateTimeBump(valuesPickOne(fieldMetadata?.values, n), n);
+            const d = dateTimeBump(valuesPickOne(fieldMetadata?.values, n), n, nSub);
             if (d) {
                 return [true, d.toISOString().slice(11, 16)];
             }
@@ -336,14 +336,14 @@ function valuesPickOne(values: any[], n: number): any | null {
     return null;
 }
 
-function dateTimeBump(d: Date | string, n: number): Date | null {
+function dateTimeBump(d: Date | string, n: number, nSub?: number): Date | null {
     if (typeof d === 'string') {
         d = new Date(d);
     }
 
     if (d && !isNaN(d.getTime())) {
         d.setDate(d.getDate() + n);
-        d.setMinutes(d.getMinutes() + n);
+        d.setMinutes(d.getMinutes() + (nSub || 0));
         return d;
     }
 
