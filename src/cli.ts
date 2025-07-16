@@ -129,10 +129,6 @@ class CLI {
       console.error('\n💡 Suggestions:');
       console.error('   - Check directory permissions');
       console.error('   - Ensure you have write access to the output directory');
-    } else if (errorMessage.includes('extension')) {
-      console.error('\n💡 Suggestions:');
-      console.error('   - Emp file should have .json extension');
-      console.error('   - Phases file should have .md or .markdown extension');
     }
 
     console.error(`\nFor help, run: ${this.program.name()} --help`);
