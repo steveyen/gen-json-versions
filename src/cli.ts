@@ -6,12 +6,10 @@ import { Command } from 'commander';
 
 import { name, version } from '../package.json';
 
-import { EmpParser } from './parser/emp-parser';
 import { PhasesParser } from './parser/phases-parser';
 import { DataGenerator } from './generator/data-generator';
 
 interface CLIOptions {
-  empsFile: string;
   phasesFile: string;
   outputDir: string;
   verbose?: boolean;
@@ -34,7 +32,6 @@ class CLI {
     this.program
       .command('generate')
       .description('generate JSON data for sample app versioning')
-      .requiredOption('-e, --emps-file <path>', 'path to emps JSON file')
       .requiredOption('-p, --phases-file <path>', 'path to phases markdown file')
       .requiredOption('-o, --output-dir <path>', 'output directory for generated files')
       .option('-v, --verbose', 'enable verbose debgging output')
@@ -49,21 +46,8 @@ class CLI {
       // Validate arguments
       this.validateArguments(options);
 
-      console.log(`Emps file: ${options.empsFile}`);
       console.log(`Phases file: ${options.phasesFile}`);
       console.log(`Output dir: ${options.outputDir}`);
-
-      // Load and validate emps
-      console.log('\n📋 Loading emps...');
-
-      const empsResult = EmpParser.parseEmpsFile(options.empsFile);
-      if (empsResult.error) {
-        throw new Error(`Failed to parse emps file: ${empsResult.error}`);
-      }
-
-      const emps = empsResult.result!;
-
-      console.log('\n✅ Loading emps... done');
 
       // Load and validate phases for early sanity checking
       console.log('\n📋 Loading phases...');
@@ -110,7 +94,7 @@ class CLI {
       console.log('\n📋 Data generation...');
 
       // Generate data
-      const dataGenerator = new DataGenerator(phases, emps);
+      const dataGenerator = new DataGenerator(phases);
 
       const data = dataGenerator.generatePhasesCollsObjs();
 
@@ -157,9 +141,6 @@ class CLI {
   }
 
   private validateArguments(options: CLIOptions): void {
-    // Validate emp file
-    this.validateFile('Emp', options.empsFile, '.json');
-
     // Validate phases file
     this.validateFile('Phases', options.phasesFile, '.md');
 

@@ -97,11 +97,13 @@ and a `fullName`.
       "id": "emp-0001",
       "fullName": "Alice Wonderland",
       "contactPhone": "555-1234" // Added for more complete employee info
-    }, {
+    },
+    {
       "id": "emp-0002",
       "fullName": "Bob The Baker",
       "contactPhone": "555-5678"
-    }, {
+    },
+    {
       "id": "emp-0003",
       "fullName": "Charlie Chocolatier",
       "contactPhone": "555-8765"
@@ -147,6 +149,11 @@ e.g., "shift-ms001"), a `name` (e.g., "Morning Baker"),
 ```json {
   "emps": [
     // ... (as in v2.0)
+    {
+      "id": "emp-0004",
+      "fullName": "Diana Dishwasher",
+      "contactNumber": "555-1122"
+    }
   ],
   "definedShifts": [
     {
@@ -224,12 +231,20 @@ roles are suitable for that shift."
       "^roles": {
         "values": ["Baker", "Cake Decorator", "Lead Baker", "Cashier", "Barista", "Utility"]
       }
-    }, {
+    },
+    {
       "id": "emp-0002",
       "fullName": "Bob The Baker",
       "contactPhone": "555-5678",
       "roles": ["Baker"] // New field
-    }, {
+    },
+    {
+      "id": "emp-0003",
+      "fullName": "Charlie Chocolatier",
+      "contactNumber": "555-8765",
+      "roles": ["Baker", "Cake Decorator"] // New field
+    },
+    {
       "id": "emp-0004", // New employee
       "fullName": "Diana Dishwasher",
       "contactPhone": "555-1122",
@@ -306,7 +321,19 @@ scheduling someone when they are unavailable."
           "status": "Approved"
         }
       ]
-    } // ...
+    },
+    {
+      "id": "emp-0005",
+      "fullName": "Emma Espresso",
+      "contactNumber": "555-3344",
+      "roles": ["Barista", "Cashier"]
+    },
+    {
+      "id": "emp-0006",
+      "fullName": "Frank Flour",
+      "contactNumber": "555-5566",
+      "roles": ["Baker"]
+    }
   ],
   "definedShifts": [
     // ... (as in v3.0)
@@ -341,6 +368,18 @@ at specific locs."
 
 ```json {
   "emps": [
+    {
+      "id": "emp-0007",
+      "fullName": "Grace Glaze",
+      "contactNumber": "555-7788",
+      "roles": ["Cake Decorator"]
+    },
+    {
+      "id": "emp-0008",
+      "fullName": "Henry Honey",
+      "contactNumber": "555-9900",
+      "roles": ["Baker", "Lead Baker"]
+    }
     // ... (as in v3.1)
   ],
   "locs": [ // New top-level entity
@@ -413,7 +452,22 @@ for the assignment)."
 
 ```json {
   // ... emp, loc, definedShifts as in v4.0
-
+  "emps": [
+    {
+      "id": "emp-0009",
+      "fullName": "Iris Icing",
+      "contactNumber": "555-2233",
+      "shift": "Afternoon",
+      "roles": ["Cake Decorator"]
+    },
+    {
+      "id": "emp-0010",
+      "fullName": "Jack Jam",
+      "contactNumber": "555-4455",
+      "shift": "Morning",
+      "roles": ["Baker"]
+    }
+  ],
   "scheds": [
     {
       "id": "sched-000005",
@@ -496,6 +550,18 @@ should warn me if a schedule exceeds the budget."
           "effectiveDate": "2025-01-01"
         }
       ]
+    },
+    {
+      "id": "emp-0011",
+      "fullName": "Kate Knead",
+      "contactNumber": "555-6677",
+      "roles": ["Baker", "Lead Baker"]
+    },
+    {
+      "id": "emp-0012",
+      "fullName": "Liam Lattice",
+      "contactNumber": "555-8899",
+      "roles": ["Cake Decorator"]
     }
   ],
   "locs": [
@@ -561,6 +627,29 @@ different rates based on experience level or performance."
           "name": "Cake Decorator",
           "maxHourlyRate": 28.75, // Renamed from hourlyRate
           "effectiveDate": "2025-01-01"
+        }
+      ]
+    },
+    {
+      "id": "emp-0013",
+      "fullName": "Mia Mixer",
+      "contactNumber": "555-0011",
+      "roles": [
+        {
+          "name": "Baker"
+        }
+      ]
+    },
+    {
+      "id": "emp-0014",
+      "fullName": "Noah Nuts",
+      "contactNumber": "555-2233",
+      "roles": [
+        {
+          "name": "Baker"
+        },
+        {
+          "name": "Cake Decorator"
         }
       ]
     }

@@ -1,11 +1,10 @@
 // Core data generation engine will be implemented here.
 
-import { EmpDatabase } from '../parser/emp-parser';
 import { Phase, CodeBlock } from '../parser/phases-parser';
 import { ValueKind, VALUE_KINDS_MAP } from '../parser/value-kinds';
 
 export class DataGenerator {
-    constructor(private phases: Phase[], private emps: EmpDatabase) {
+    constructor(private phases: Phase[]) {
     }
 
     generatePhasesCollsObjs(numExamplesPerPhase?: number): any[] {
@@ -22,23 +21,8 @@ export class DataGenerator {
 
             const outPhaseColls: Record<string, any> = {};
 
-            // Add some more emps from the emp database.
-            const empsToAddNum = Math.floor(this.emps.emps.length / this.phases.length);
-            const empsToAdd = this.emps.emps.slice(empsToAddNum * phaseIndex, empsToAddNum * (phaseIndex + 1));
-            for (const emp of empsToAdd) {
-                outColls.emps = outColls.emps || [];
-                outColls.emps.push(emp);
-
-                outPhaseColls.emps = outPhaseColls.emps || [];
-                outPhaseColls.emps.push(emp);
-            }
-
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, collExamples] of Object.entries(jsonBlock.colls)) {
-                    if (collName === 'emps') {
-                        continue; // TODO: add emps to the output.
-                    }
-
                     const outColl = outColls[collName] = outColls[collName] || [];
 
                     const outPhaseColl = outPhaseColls[collName] = outPhaseColls[collName] || [];
