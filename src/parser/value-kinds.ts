@@ -4,6 +4,7 @@ interface ValueGenerate {
     pathKey: string[];
     fieldsMetadata: Record<string, any>;
     n: number;
+    nSub: number;
 }
 
 interface ValueKind {

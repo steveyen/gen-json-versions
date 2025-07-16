@@ -79,6 +79,8 @@ export class DataGenerator {
 
         let outObjResult: Record<string, any> = {};
 
+        let nSub = 0;
+
         // Recursive.
         const processField = (pathKey: string[], fieldName: string, fieldMetadata: any, outObj: Record<string, any>) => {
             console.log("^^^", pathKey, fieldName, JSON.stringify(fieldMetadata, null, 1));
@@ -98,7 +100,8 @@ export class DataGenerator {
                         obj: outObj,
                         pathKey,
                         fieldsMetadata,
-                        n: exampleNum
+                        n: exampleNum,
+                        nSub,
                     });
                     if (okV) {
                         const [ok, v] = okV;
@@ -106,6 +109,8 @@ export class DataGenerator {
                             outObj[fieldName] = v;
                         }
                     }
+
+                    nSub += 1;
                 }
 
                 return;
