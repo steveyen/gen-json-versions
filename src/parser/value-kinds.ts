@@ -245,13 +245,13 @@ let VALUE_KINDS: ValueKind[] = [
         kind: 'string',
         // NOTE: No val_re / key_re as a string is a common default case.
         generate: (params: ValueGenerate) => {
-            const { pathKey, fieldsMetadata, n } = params;
+            const { pathKey, fieldsMetadata, n, nSub } = params;
             const fieldName = pathKey[pathKey.length - 1];
             const fieldMetadata = fieldsMetadata[fieldName];
             if (fieldMetadata) {
                 const values = fieldMetadata.values;
                 if (values && Array.isArray(values) && values.length > 0) {
-                    return [true, values[n % values.length]];
+                    return [true, values[(n + nSub) % values.length]];
                 }
             }
 
