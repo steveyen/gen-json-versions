@@ -98,11 +98,11 @@ class CLI {
 
       const data = dataGenerator.generatePhasesCollsObjs();
 
-      console.log(JSON.stringify(data, null, 1));
-
       console.log('\n✅ Data generation... done');
 
-      // Save data to output directory
+      console.log(JSON.stringify(data, null, 1));
+
+      // TODO:Save data to output directory
     } catch (error) {
       this.handleError(error);
     }
