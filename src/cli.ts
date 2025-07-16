@@ -102,7 +102,7 @@ class CLI {
 
       console.log(JSON.stringify(data, null, 1));
 
-      // TODO:Save data to output directory
+      // TODO: Save data to output directory
     } catch (error) {
       this.handleError(error);
     }
