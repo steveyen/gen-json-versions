@@ -248,11 +248,10 @@ let VALUE_KINDS: ValueKind[] = [
             const { pathKey, fieldsMetadata, n, nSub } = params;
             const fieldName = pathKey[pathKey.length - 1];
             const fieldMetadata = fieldsMetadata[fieldName];
-            if (fieldMetadata) {
-                const values = fieldMetadata.values;
-                if (values && Array.isArray(values) && values.length > 0) {
-                    return [true, values[(n + nSub) % values.length]];
-                }
+
+            const v = valuesPickOne(fieldMetadata?.values, n + nSub);
+            if (v) {
+                return [true, v];
             }
 
             return [false, null]; // TOOD: Allow NULL'able?
@@ -330,7 +329,7 @@ export function splitCamelCase(s: string): string[] {
 }
 
 function valuesPickOne(values: any[], n: number): any | null {
-    if (values) {
+    if (values && Array.isArray(values) && values.length > 0) {
         return values[n % values.length];
     }
 
