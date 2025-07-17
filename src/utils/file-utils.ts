@@ -176,7 +176,7 @@ export class FileUtils {
       }
 
       fs.writeFileSync(filePath, content, 'utf-8');
-      return { };
+      return {};
     } catch (error) {
       return {
         error: `Failed to write file: ${error instanceof Error ? error.message : String(error)}`
