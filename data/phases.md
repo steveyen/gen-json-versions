@@ -109,6 +109,10 @@ and a `fullName`.
       "contactPhone": "555-8765"
     }
   ],
+  "^emps": {
+    // Metadata about the emps collection.
+    "actual": true // Means the records are actual data, not exemplars or templates.
+  },
   "scheds": [
     {
       "id": "sched-000003",

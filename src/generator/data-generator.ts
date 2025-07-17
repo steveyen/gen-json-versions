@@ -57,7 +57,8 @@ export class DataGenerator {
 
     private generatePhaseCollObj(outColls: Record<string, any>,
         phaseIndex: number, jsonBlock: CodeBlock,
-        collName: string, collExamples: any[], collExampleIndex: number, collExample: any,
+        collName: string,
+        collExamples: any[], collExampleIndex: number, collExample: any,
         exampleNum: number): any {
         const fieldsMetadata: any = jsonBlock.collsMetadata?.[collName]?.["[]"];
 
