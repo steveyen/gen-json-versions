@@ -164,7 +164,7 @@ let VALUE_KINDS: ValueKind[] = [
 
             const i = (colls[collName] || []).length;
 
-            return [true, `${collNameSingular}-${String(i).padStart(5, '0')}`];
+            return [true, `${collNameSingular}-${String(i + 1).padStart(4, '0')}`];
         }
     },
     {
@@ -187,7 +187,7 @@ let VALUE_KINDS: ValueKind[] = [
                 return [false, null];
             }
 
-            return [true, `${collName}-${String(i).padStart(5, '0')}`];
+            return [true, `${collName}-${String(i + 1).padStart(4, '0')}`];
         }
     },
     {
