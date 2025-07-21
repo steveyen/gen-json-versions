@@ -23,6 +23,23 @@ export class DataGenerator {
 
             for (const jsonBlock of phase.jsonBlocks) {
                 for (const [collName, collExamples] of Object.entries(jsonBlock.colls)) {
+                    const collMetadata = jsonBlock.collsMetadata?.[collName];
+
+                    let collIsActual = false;
+
+                    // Scan the phases in reverse to see if the coll represents actual data.
+                    for (let phaseIndexScan = phaseIndex; !collIsActual && phaseIndexScan > 0; phaseIndexScan--) {
+                        for (let jsonBlockScan of this.phases[phaseIndexScan].jsonBlocks) {
+                            const collMetadataScan = jsonBlockScan.collsMetadata?.[collName];
+                            if (collMetadataScan) {
+                                const actual = collMetadataScan['actual'];
+                                if (actual) {
+                                    collIsActual = true;
+                                }
+                            }
+                        }
+                    }
+
                     const outColl = outColls[collName] = outColls[collName] || [];
 
                     const outPhaseColl = outPhaseColls[collName] = outPhaseColls[collName] || [];
@@ -31,6 +48,14 @@ export class DataGenerator {
 
                     for (let i = 0; i < collExamplesArr.length; i++) {
                         const collExample = collExamplesArr[i];
+
+                        if (collIsActual) {
+                            outColl.push(collExample);
+
+                            outPhaseColl.push(collExample);
+
+                            continue;
+                        }
 
                         for (let j = 0; j < numExamplesPerPhase; j++) {
                             let objExample = this.generatePhaseCollObj(outColls,

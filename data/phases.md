@@ -111,7 +111,7 @@ and a `fullName`.
   ],
   "^emps": {
     // Metadata about the emps collection.
-    "actual": true // Means the records are actual data, not exemplars or templates.
+    "actual": true // Means the records are actual data, not field-level templates.
   },
   "scheds": [
     {
