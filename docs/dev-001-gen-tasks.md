@@ -22,8 +22,10 @@
 
 ### Notes
 
-- Unit tests should typically be placed alongside the code files they are testing (e.g., `MyComponent.tsx` and `MyComponent.test.tsx` in the same directory).
-- Use `npx jest [optional/path/to/test/file]` to run tests. Running without a path executes all tests found by the Jest configuration.
+- Unit tests should typically be placed alongside the code files they are
+  testing (e.g., `MyComponent.tsx` and `MyComponent.test.tsx` in the same directory).
+- Use `npx jest [optional/path/to/test/file]` to run tests. Running without
+  a path executes all tests found by the Jest configuration.
 
 ## Tasks
 

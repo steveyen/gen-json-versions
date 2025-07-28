@@ -2,9 +2,15 @@
 
 ## Introduction/Overview
 
-The JSON Data Generator CLI Tool is a command-line utility that generates realistic sample JSON data files based on business evolution phases described in markdown documentation. The tool takes employee data and phase descriptions as input, then produces separate JSON files for each phase that reflect the schema evolution and business growth described in the narrative.
+The JSON Data Generator CLI Tool is a command-line utility that generates
+realistic sample JSON data files based on business evolution phases described
+in markdown documentation. The tool takes employee data and phase descriptions as input,
+then produces separate JSON files for each phase that reflect the schema evolution and
+business growth described in the narrative.
 
-This tool solves the problem of creating realistic, consistent sample datasets for testing and development purposes, particularly useful when working with applications that have evolving data schemas over time.
+This tool solves the problem of creating realistic, consistent sample datasets
+for testing and development purposes, particularly useful when working with
+applications that have evolving data schemas over time.
 
 ## Goals
 
